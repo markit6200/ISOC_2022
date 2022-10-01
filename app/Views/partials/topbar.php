@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="/" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                        <img src="/assets/images/logo-sm.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-dark.png" alt="" height="20">
+                        <img src="/assets/images/logo-dark.png" alt="" height="20">
                     </span>
                 </a>
 
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="assets/images/logo-sm.png" alt="" height="22">
+                        <img src="/assets/images/logo-sm.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="assets/images/logo-light.png" alt="" height="20">
+                        <img src="/assets/images/logo-light.png" alt="" height="20">
                     </span>
                 </a>
             </div>
@@ -67,22 +67,22 @@
                         $lang = $session->get('lang');
                         switch($lang){
                             case 'en':
-                               echo '<img src="assets/images/flags/us.jpg" alt="Header Language" height="16">';
+                               echo '<img src="/assets/images/flags/us.jpg" alt="Header Language" height="16">';
                                 break;
                             case 'es':
-                               echo '<img src="assets/images/flags/spain.jpg" alt="Header Language" height="16">';
+                               echo '<img src="/assets/images/flags/spain.jpg" alt="Header Language" height="16">';
                                 break;
                             case 'de':
-                               echo '<img src="assets/images/flags/germany.jpg" alt="Header Language" height="16">';
+                               echo '<img src="/assets/images/flags/germany.jpg" alt="Header Language" height="16">';
                                 break;
                             case 'it':
-                               echo '<img src="assets/images/flags/italy.jpg" alt="Header Language" height="16">';
+                               echo '<img src="/assets/images/flags/italy.jpg" alt="Header Language" height="16">';
                                 break;
                             case 'ru':
-                               echo '<img src="assets/images/flags/russia.jpg" alt="Header Language" height="16">';
+                               echo '<img src="/assets/images/flags/russia.jpg" alt="Header Language" height="16">';
                                 break;
                             default:
-                                echo '<img src="assets/images/flags/us.jpg" alt="Header Language" height="16">';
+                                echo '<img src="/assets/images/flags/us.jpg" alt="Header Language" height="16">';
                         }
                     ?>
                 </button>
@@ -90,35 +90,35 @@
                     <!-- item-->
                     <?php if($lang !== 'en'):  ?>
                     <a href="<?= base_url('lang/en'); ?>" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">English</span>
+                        <img src="/assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">English</span>
                     </a>
                     <?php endif ?>
 
                     <!-- item-->
                     <?php if($lang !== 'es'):  ?>
                     <a href="<?= base_url('lang/es'); ?>" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Spanish</span>
+                        <img src="/assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Spanish</span>
                     </a>
                     <?php endif ?>
 
                     <!-- item-->
                     <?php if($lang !== 'de'):  ?>
                     <a href="<?= base_url('lang/de'); ?>" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">German</span>
+                        <img src="/assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">German</span>
                     </a>
                     <?php endif ?>
 
                     <!-- item-->
                     <?php if($lang !== 'it'):  ?>
                     <a href="<?= base_url('lang/it'); ?>" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Italian</span>
+                        <img src="/assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Italian</span>
                     </a>
                     <?php endif ?>
 
                     <!-- item-->
                     <?php if($lang !== 'ru'):  ?>
                     <a href="<?= base_url('lang/ru'); ?>" class="dropdown-item notify-item">
-                        <img src="assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Russian</span>
+                        <img src="/assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Russian</span>
                     </a>
                     <?php endif ?>
                 </div>
@@ -134,19 +134,19 @@
                         <div class="row g-0">
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="assets/images/brands/github.png" alt="Github">
+                                    <img src="/assets/images/brands/github.png" alt="Github">
                                     <span>GitHub</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="assets/images/brands/bitbucket.png" alt="bitbucket">
+                                    <img src="/assets/images/brands/bitbucket.png" alt="bitbucket">
                                     <span>Bitbucket</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="assets/images/brands/dribbble.png" alt="dribbble">
+                                    <img src="/assets/images/brands/dribbble.png" alt="dribbble">
                                     <span>Dribbble</span>
                                 </a>
                             </div>
@@ -155,19 +155,19 @@
                         <div class="row g-0">
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="assets/images/brands/dropbox.png" alt="dropbox">
+                                    <img src="/assets/images/brands/dropbox.png" alt="dropbox">
                                     <span>Dropbox</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="assets/images/brands/mail_chimp.png" alt="mail_chimp">
+                                    <img src="/assets/images/brands/mail_chimp.png" alt="mail_chimp">
                                     <span>Mail Chimp</span>
                                 </a>
                             </div>
                             <div class="col">
                                 <a class="dropdown-icon-item" href="#">
-                                    <img src="assets/images/brands/slack.png" alt="slack">
+                                    <img src="/assets/images/brands/slack.png" alt="slack">
                                     <span>Slack</span>
                                 </a>
                             </div>
@@ -219,7 +219,7 @@
                         </a>
                         <a href="" class="text-reset notification-item">
                             <div class="d-flex align-items-start">
-                                <img src="assets/images/users/avatar-3.jpg"
+                                <img src="/assets/images/users/avatar-3.jpg"
                                     class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                 <div class="flex-grow-1">
                                     <h6 class="mt-0 mb-1">James Lemire</h6>
@@ -249,7 +249,7 @@
 
                         <a href="" class="text-reset notification-item">
                             <div class="d-flex align-items-start">
-                                <img src="assets/images/users/avatar-4.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
+                                <img src="/assets/images/users/avatar-4.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                 <div class="flex-grow-1">
                                     <h6 class="mt-0 mb-1">Salena Layfield</h6>
                                     <div class="font-size-12 text-muted">
@@ -271,7 +271,7 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-4.jpg"
+                    <img class="rounded-circle header-profile-user" src="/assets/images/users/avatar-4.jpg"
                         alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">Marcus</span>
                     <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>

@@ -1,11 +1,245 @@
 <?php namespace App\Controllers;
 
-class ComponentController extends BaseController
+class Example extends BaseController
 {
 	public function index()
 	{
-		//index method
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
+			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
+		];
+		return view('example', $data);
 	}
+
+	public function show_layouts_horizontal(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Horizontal']),
+			'page_title' => view('partials/page-title', ['title' => 'Horizontal', 'pagetitle' => 'Layouts'])
+		];
+		return view('example/layouts-horizontal', $data);
+	}
+
+	public function show_layouts_vertical(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Vertical Layout']),
+			'page_title' => view('partials/page-title', ['title' => 'Vertical', 'pagetitle' => 'Layouts'])
+		];
+		return view('example/layouts-vertical', $data);
+	}
+
+	public function show_layouts_dark_sidebar(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Dark Sidebar']),
+			'page_title' => view('partials/page-title', ['title' => 'Dark Sidebar', 'pagetitle' => 'Vertical'])
+		];
+		return view('example/layouts-dark-sidebar', $data);
+	}
+
+	public function show_layouts_hori_topbar_dark(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Dark Topbar']),
+			'page_title' => view('partials/page-title', ['title' => 'Dark Topbar', 'pagetitle' => 'Horizontal'])
+		];
+		return view('example/layouts-hori-topbar-dark', $data);
+	}
+
+	public function show_layouts_hori_boxed_width(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Boxed Width']),
+			'page_title' => view('partials/page-title', ['title' => 'Boxed Width', 'pagetitle' => 'Horizontal'])
+		];
+		return view('example/layouts-hori-boxed-width', $data);
+	}
+
+	public function show_layouts_hori_preloader(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Preloader']),
+			'page_title' => view('partials/page-title', ['title' => 'Preloader', 'pagetitle' => 'Horizontal'])
+		];
+		return view('example/layouts-hori-preloader', $data);
+	}
+
+	public function show_layouts_compact_sidebar(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Compact Sidebar']),
+			'page_title' => view('partials/page-title', ['title' => 'Compact Sidebar', 'pagetitle' => 'Vertical'])
+		];
+		return view('example/layouts-compact-sidebar', $data);
+	}
+
+	public function show_layouts_icon_sidebar(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Icon Sidebar']),
+			'page_title' => view('partials/page-title', ['title' => 'Icon Sidebar', 'pagetitle' => 'Vertical'])
+		];
+		return view('example/layouts-icon-sidebar', $data);
+	}
+
+	public function show_layouts_boxed(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Boxed Width']),
+			'page_title' => view('partials/page-title', ['title' => 'Boxed Width', 'pagetitle' => 'Vertical'])
+		];
+		return view('example/layouts-boxed', $data);
+	}
+
+	public function show_layouts_preloader(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Preloader']),
+			'page_title' => view('partials/page-title', ['title' => 'Preloader', 'pagetitle' => 'Vertical'])
+		];
+		return view('example/layouts-preloader', $data);
+	}
+
+	public function show_layouts_colored_sidebar(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Colored Sidebar']),
+			'page_title' => view('partials/page-title', ['title' => 'Colored Sidebar', 'pagetitle' => 'Vertical'])
+		];
+		return view('example/layouts-colored-sidebar', $data);
+	}
+
+	/* App  */
+	
+	public function show_calendar(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Calendar']),
+			'page_title' => view('partials/page-title', ['title' => 'Calendar', 'pagetitle' => 'Apps'])
+		];
+		return view('example/calendar', $data);
+	}
+
+	public function show_chat(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Chat']),
+			'page_title' => view('partials/page-title', ['title' => 'Chat', 'pagetitle' => 'Apps'])
+		];
+		return view('example/chat', $data);
+	}
+
+	public function show_ecommerce_products(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Products']),
+			'page_title' => view('partials/page-title', ['title' => 'Products', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-products', $data);
+	}
+
+	public function show_ecommerce_product_detail(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Product Detail']),
+			'page_title' => view('partials/page-title', ['title' => 'Product Detail', 'pagetitle' => 'Products'])
+		];
+		return view('example/ecommerce-product-detail', $data);
+	}
+
+	public function show_ecommerce_orders(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Orders']),
+			'page_title' => view('partials/page-title', ['title' => 'Orders', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-orders', $data);
+	}
+
+	public function show_ecommerce_customers(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Customers']),
+			'page_title' => view('partials/page-title', ['title' => 'Customers', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-customers', $data);
+	}
+
+	public function show_ecommerce_cart(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Cart']),
+			'page_title' => view('partials/page-title', ['title' => 'Cart', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-cart', $data);
+	}
+
+	public function show_ecommerce_checkout(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Checkout']),
+			'page_title' => view('partials/page-title', ['title' => 'Checkout', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-checkout', $data);
+	}
+
+	public function show_ecommerce_shops(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Shops']),
+			'page_title' => view('partials/page-title', ['title' => 'Shops', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-shops', $data);
+	}
+
+	public function show_ecommerce_add_product(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Add Product']),
+			'page_title' => view('partials/page-title', ['title' => 'Add Product', 'pagetitle' => 'Ecommerce'])
+		];
+		return view('example/ecommerce-add-product', $data);
+	}
+
+	public function show_email_inbox(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Inbox']),
+			'page_title' => view('partials/page-title', ['title' => 'Inbox', 'pagetitle' => 'Email'])
+		];
+		return view('example/email-inbox', $data);
+	}
+
+	public function show_email_read(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Read Email']),
+			'page_title' => view('partials/page-title', ['title' => 'Read Email', 'pagetitle' => 'Email'])
+		];
+		return view('example/email-read', $data);
+	}
+
+	public function show_invoices_list(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Invoice List']),
+			'page_title' => view('partials/page-title', ['title' => 'Invoice List', 'pagetitle' => 'Invoices'])
+		];
+		return view('example/invoices-list', $data);
+	}
+
+	public function show_invoices_detail(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Invoice Detail']),
+			'page_title' => view('partials/page-title', ['title' => 'Invoice Detail', 'pagetitle' => 'Invoices'])
+		];
+		return view('example/invoices-detail', $data);
+	}
+
+	public function show_contacts_grid(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'User Grid']),
+			'page_title' => view('partials/page-title', ['title' => 'User Grid', 'pagetitle' => 'Contacts'])
+		];
+		return view('example/contacts-grid', $data);
+	}
+
+	public function show_contacts_list(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'User List']),
+			'page_title' => view('partials/page-title', ['title' => 'User List', 'pagetitle' => 'Contacts'])
+		];
+		return view('example/contacts-list', $data);
+	}
+
+	public function show_contacts_profile(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Profile']),
+			'page_title' => view('partials/page-title', ['title' => 'Profile', 'pagetitle' => 'Contacts'])
+		];
+		return view('example/contacts-profile', $data);
+	}
+
+	/* End App */
+
+	/* Component */
 
 	public function show_ui_alerts(){
 		$data = [
@@ -399,6 +633,98 @@ class ComponentController extends BaseController
 		return view('example/maps-leaflet', $data);
 	}
 
-	//--------------------------------------------------------------------
+	/* End component */
+
+	/* Page */
+
+	public function show_auth_login(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Login'])
+		];
+		return view('example/auth-login', $data);
+	}
+
+	public function show_auth_register(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Register'])
+		];
+		return view('example/auth-register', $data);
+	}
+
+	public function show_auth_recoverpw(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Recover Password'])
+		];
+		return view('example/auth-recoverpw', $data);
+	}
+
+	public function show_auth_lock_screen(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Lock screen'])
+		];
+		return view('example/auth-lock-screen', $data);
+	}
+
+	public function show_pages_starter(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Starter Page']),
+			'page_title' => view('partials/page-title', ['title' => 'Starter Page', 'pagetitle' => 'Utility'])
+		];
+		return view('example/pages-starter', $data);
+	}
+
+	public function show_pages_maintenance(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Maintenance'])
+		];
+		return view('example/pages-maintenance', $data);
+	}
+
+	public function show_pages_comingsoon(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Coming Soon'])
+		];
+		return view('example/pages-comingsoon', $data);
+	}
+
+	public function show_pages_timeline(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Timeline']),
+			'page_title' => view('partials/page-title', ['title' => 'Timeline', 'pagetitle' => 'Utility'])
+		];
+		return view('example/pages-timeline', $data);
+	}
+
+	public function show_pages_faqs(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'FAQS']),
+			'page_title' => view('partials/page-title', ['title' => 'FAQS', 'pagetitle' => 'Utility'])
+		];
+		return view('example/pages-faqs', $data);
+	}
+
+	public function show_pages_pricing(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Pricing']),
+			'page_title' => view('partials/page-title', ['title' => 'Pricing', 'pagetitle' => 'Utility'])
+		];
+		return view('example/pages-pricing', $data);
+	}
+
+	public function show_pages_404(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Error 404'])
+		];
+		return view('example/pages-404', $data);
+	}
+
+	public function show_pages_500(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'Error 500'])
+		];
+		return view('example/pages-500', $data);
+	}
+
+	/* End Page */
 
 }

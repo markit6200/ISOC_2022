@@ -1,3 +1,3 @@
-<?= $this->include('partials/topbar') ?>
+<?php $this->include('partials/topbar') ?>
 
 <?= $this->include('partials/sidebar') ?>
