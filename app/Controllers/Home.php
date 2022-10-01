@@ -6,9 +6,9 @@ class Home extends BaseController
 	{
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible'])
+			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
 		];
-		return view('index', $data);
+		return view('test', $data);
 	}
 
 	public function show_layouts_horizontal(){
