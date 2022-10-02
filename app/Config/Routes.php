@@ -38,6 +38,7 @@ $routes->get('/example', 'Example::index');
 
 // Main
 $routes->get('/structure-assistant-rate', 'StructureByAssistRateController::index');
+$routes->get('/structure-assistant-rate/form', 'StructureByAssistRateController::form');
 
 
 //Layout page routing

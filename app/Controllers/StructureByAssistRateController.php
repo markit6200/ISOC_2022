@@ -19,6 +19,7 @@ class StructureByAssistRateController extends BaseController
 		// echo "<pre>";
 		// print_r($test);
 		// die();
+		
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
@@ -42,7 +43,7 @@ class StructureByAssistRateController extends BaseController
 	{
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
+			'page_title' => view('partials/page-title', ['title' => 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.', 'pagetitle' => 'Minible']),
 		];
 		return view('structureByAsRate/form', $data);
 	}
