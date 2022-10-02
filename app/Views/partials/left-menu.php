@@ -5,10 +5,10 @@
     <div class="navbar-brand-box">
         <a href="/" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="assets/images/logo-sm.png" alt="" height="22">
+                <img src="<?php echo base_url() ?>assets/images/logo-sm.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="assets/images/logo-dark.png" alt="" height="20">
+                <img src="<?php echo base_url() ?>assets/images/logo-dark.png" alt="" height="20">
                 
             </span>
         </a>
@@ -25,7 +25,7 @@
         <div>
         
             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-4.jpg" alt="Header Avatar">
+                <img class="rounded-circle header-profile-user" src="<?php echo base_url() ?>/assets/images/users/avatar-4.jpg" alt="Header Avatar">
                 <span class="d-none d-xl-inline-block ms-1 fw-medium font-size-15">Marcus</span>
                 <i class="uil-angle-down d-none d-xl-inline-block font-size-15"></i>
             </button>
@@ -52,25 +52,25 @@
                 <li class="menu-title"><i class="fas fa-layer-group"></i> ระบบหลัก</li>
 
                 <li>
-                    <a href="calendar" class="waves-effect">
+                    <a href="/structure-assistant-rate/" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.</span>
                     </a>
                 </li>
                 <li>
-                    <a href="calendar" class="waves-effect">
+                    <a href="#" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.</span>
                     </a>
                 </li>
                 <li>
-                    <a href="calendar" class="waves-effect">
+                    <a href="#" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
                     </a>
                 </li>
                 <li>
-                    <a href="calendar" class="waves-effect">
+                    <a href="#" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ข้อมูลกำลังพล</span>
                     </a>
@@ -84,10 +84,10 @@
                         <span>การออกคำสั่ง</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="auth-login">ออกคำสั่งปฏิบัติหน้าที่</a></li>
-                        <li><a href="auth-register">ออกคำสั่งพ้นจากหน้าที่</a></li>
-                        <li><a href="auth-recoverpw">ออกคำสั่งปฏิบัติ/พ้นหน้าที่</a></li>
-                        <li><a href="auth-lock-screen">แก้ไขคำสั่ง</a></li>
+                        <li><a href="#">ออกคำสั่งปฏิบัติหน้าที่</a></li>
+                        <li><a href="#">ออกคำสั่งพ้นจากหน้าที่</a></li>
+                        <li><a href="#">ออกคำสั่งปฏิบัติ/พ้นหน้าที่</a></li>
+                        <li><a href="#">แก้ไขคำสั่ง</a></li>
                     </ul>
                 </li>
 
@@ -97,8 +97,8 @@
                         <span>หนังสือรับรองเวลาราชการทวีคูณ</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="pages-starter">หนังสือรับรองวันทวีคูณ</a></li>
-                        <li><a href="pages-maintenance">อัพโหลดสำเนาหนังสือรับรองฯ</a></li>
+                        <li><a href="#">หนังสือรับรองวันทวีคูณ</a></li>
+                        <li><a href="#">อัพโหลดสำเนาหนังสือรับรองฯ</a></li>
                     </ul>
                 </li>
 
@@ -108,8 +108,8 @@
                         <span>สำเนาหนังสือรับรองเวลาราชการทวีคูณ</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="pages-starter">หนังสือรับรองวันทวีคูณ</a></li>
-                        <li><a href="pages-maintenance">อัพโหลดสำเนาหนังสือรับรองฯ</a></li>
+                        <li><a href="#">หนังสือรับรองวันทวีคูณ</a></li>
+                        <li><a href="#">อัพโหลดสำเนาหนังสือรับรองฯ</a></li>
                     </ul>
                 </li>
 
@@ -119,10 +119,10 @@
                         <span>ข้อมูลข้าราชการพลเรือน ลูกจ้างชั่วคราว พนักงานราชการ</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="pages-starter">ระบบทำเนียบรายชื่อข้าราชการพลเรือน/ลูกจ้างชั่วคราว/พนักงานราชการ</a></li>
-                        <li><a href="pages-maintenance">ข้อมูลข้าราชการพลเรือน</a></li>
-                        <li><a href="pages-maintenance">ข้อมูลลูกจ้างชั่วคราว</a></li>
-                        <li><a href="pages-maintenance">ข้อมูลพนักงานราชการ</a></li>
+                        <li><a href="#">ระบบทำเนียบรายชื่อข้าราชการพลเรือน/ลูกจ้างชั่วคราว/พนักงานราชการ</a></li>
+                        <li><a href="#">ข้อมูลข้าราชการพลเรือน</a></li>
+                        <li><a href="#">ข้อมูลลูกจ้างชั่วคราว</a></li>
+                        <li><a href="#">ข้อมูลพนักงานราชการ</a></li>
                     </ul>
                 </li>
 
@@ -135,10 +135,10 @@
                 <li ><a href="javascript: void(0);" class="waves-effect">บันทึกการทำบัตรผ่าน (สขว.กอ.รมน.)</a></li>
 
                 <li class="menu-title"><i class="fas fa-layer-group"></i> บริหารจัดการระบบ</li>
-                <li><a href="form-elements" class="waves-effect">กำหนดสิทธิเข้าใช้งานระบบ</a></li>
-                <li><a href="form-validation" class="waves-effect">บัญชีอัตราเงินเดือน</a></li>
-                <li><a href="form-advanced" class="waves-effect">จัดการข้อมูลพื้นฐาน</a></li>
-                <li><a href="form-editors" class="waves-effect">คู่มือการใช้งาน</a></li>
+                <li><a href="#" class="waves-effect">กำหนดสิทธิเข้าใช้งานระบบ</a></li>
+                <li><a href="#" class="waves-effect">บัญชีอัตราเงินเดือน</a></li>
+                <li><a href="#" class="waves-effect">จัดการข้อมูลพื้นฐาน</a></li>
+                <li><a href="#" class="waves-effect">คู่มือการใช้งาน</a></li>
             </ul>
         </div>
         <!-- Sidebar -->
