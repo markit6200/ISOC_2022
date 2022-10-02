@@ -41,10 +41,12 @@
 		<?= $this->include('partials/vendor-scripts') ?>
 
         <!-- apexcharts -->
-        <script src="<?php echo base_url() ?>/assets/libs/apexcharts/apexcharts.min.js"></script>
+        <!-- <script src="<?php echo base_url() ?>/assets/libs/apexcharts/apexcharts.min.js"></script>
 
-        <script src="<?php echo base_url() ?>/assets/js/pages/dashboard.init.js"></script>
-
+        <script src="<?php echo base_url() ?>/assets/js/pages/dashboard.init.js"></script> -->
+        <script>
+            var baseUrl = '<?php echo base_url() ?>';
+        </script>
         <script src="<?php echo base_url() ?>/assets/js/app.js"></script>
 
     </body>
