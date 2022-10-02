@@ -52,7 +52,7 @@
                 <li class="menu-title"><i class="fas fa-layer-group"></i> ระบบหลัก</li>
 
                 <li>
-                    <a href="/structure-assistant-rate/" class="waves-effect">
+                    <a href="<?php echo base_url('StructureByAssistRate') ?>" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.</span>
                     </a>
