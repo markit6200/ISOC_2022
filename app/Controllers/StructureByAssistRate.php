@@ -2,7 +2,7 @@
 
 use App\Models\UsersModel;
 
-class StructureByAssistRateController extends BaseController
+class StructureByAssistRate extends BaseController
 {
 	public function index()
 	{
