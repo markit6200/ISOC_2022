@@ -62,7 +62,7 @@
 
                                                     <a style="    float: right;
                                             margin-top: -22px;
-                                            margin-right: -7px;" href="<?php echo base_url('structure-assistant-rate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
+                                            margin-right: -7px;" href="<?php echo base_url('StructureByAssistRate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
 
 
                                                         <i class="mdi mdi-plus-circle-outline"></i>&nbsp;เพิ่มตำแหน่ง
@@ -79,7 +79,7 @@
 
                                                     <a style="    float: right;
                                             margin-top: -22px;
-                                            margin-right: -7px;" href="<?php echo base_url('structure-assistant-rate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
+                                            margin-right: -7px;" href="<?php echo base_url('StructureByAssistRate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
 
 
                                                         <i class="mdi mdi-plus-circle-outline"></i>&nbsp;เพิ่มตำแหน่ง
@@ -242,7 +242,7 @@
 
                                                     <a style="    float: right;
                                             margin-top: -22px;
-                                            margin-right: -7px;" href="<?php echo base_url('structure-assistant-rate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
+                                            margin-right: -7px;" href="<?php echo base_url('StructureByAssistRate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
 
 
                                                         <i class="mdi mdi-plus-circle-outline"></i>&nbsp;เพิ่มตำแหน่ง
@@ -258,7 +258,7 @@
 
                                                     <a style="    float: right;
                                             margin-top: -22px;
-                                            margin-right: -7px;" href="<?php echo base_url('structure-assistant-rate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
+                                            margin-right: -7px;" href="<?php echo base_url('StructureByAssistRate/form') ?>" data-controller="button" data-turbo="true" class="btn  btn-default" type="submit" form="post-form" formaction="https://demo.orchid.software/example-fields/buttonClickProcessing">
 
 
                                                         <i class="mdi mdi-plus-circle-outline"></i>&nbsp;เพิ่มตำแหน่ง

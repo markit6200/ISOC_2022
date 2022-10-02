@@ -8,7 +8,7 @@
 
                 <span class="h2"><?php echo $title; ?></span>
                 <div class="float-end">
-                    <a href="<?php echo base_url('structure-assistant-rate') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
+                    <a href="<?php echo base_url('StructureByAssistRate') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
                     <button class="btn btn-default"><i class="fas fa-save"></i> บันทึก</button>
                 </div>
             </div>
