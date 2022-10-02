@@ -176,28 +176,28 @@ File: Main Js File
 
 
 
-    function initSettings() {
-        if (window.sessionStorage) {
-            var alreadyVisited = sessionStorage.getItem("is_visited");
-            if (!alreadyVisited) {
-                sessionStorage.setItem("is_visited", "light-mode-switch");
-            } else {
-                $(".right-bar input:checkbox").prop('checked', false);
-                $("#" + alreadyVisited).prop('checked', true);
-                updateThemeSetting(alreadyVisited);
-            }
-        }
-        $("#light-mode-switch, #dark-mode-switch, #rtl-mode-switch, #dark-rtl-mode-switch").on("change", function (e) {
-            updateThemeSetting(e.target.id);
-        });
+    // function initSettings() {
+    //     if (window.sessionStorage) {
+    //         var alreadyVisited = sessionStorage.getItem("is_visited");
+    //         if (!alreadyVisited) {
+    //             sessionStorage.setItem("is_visited", "light-mode-switch");
+    //         } else {
+    //             $(".right-bar input:checkbox").prop('checked', false);
+    //             $("#" + alreadyVisited).prop('checked', true);
+    //             updateThemeSetting(alreadyVisited);
+    //         }
+    //     }
+    //     $("#light-mode-switch, #dark-mode-switch, #rtl-mode-switch, #dark-rtl-mode-switch").on("change", function (e) {
+    //         updateThemeSetting(e.target.id);
+    //     });
 
-        // show password input value
-        $("#password-addon").on('click', function () {
-            if ($(this).siblings('input').length > 0) {
-                $(this).siblings('input').attr('type') == "password" ? $(this).siblings('input').attr('type', 'input') : $(this).siblings('input').attr('type', 'password');
-            }
-        })
-    }
+    //     // show password input value
+    //     $("#password-addon").on('click', function () {
+    //         if ($(this).siblings('input').length > 0) {
+    //             $(this).siblings('input').attr('type') == "password" ? $(this).siblings('input').attr('type', 'input') : $(this).siblings('input').attr('type', 'password');
+    //         }
+    //     })
+    // }
 
     function updateThemeSetting(id) {
         if ($("#light-mode-switch").prop("checked") == true && id === "light-mode-switch") {
