@@ -6,10 +6,10 @@ class StructureByAssistRate extends BaseController
 {
 	public function index()
 	{
-		$db = db_connect('tests');
-		echo "<pre>";
-		print_r($db);
-		die();
+		// $db = db_connect('tests');
+		// echo "<pre>";
+		// print_r($db);
+		// die();
 		// // $db = \Config\Database::connect();
 		// $db = db_connect();
 		// $query   = $db->query('SELECT * FROM users');
