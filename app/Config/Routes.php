@@ -16,7 +16,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('StructureByAssistRateController');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -30,7 +30,7 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'StructureByAssistRateController::index');
 
 $routes->get('/lang/{locale}', 'Language::index');
 // example
@@ -38,6 +38,7 @@ $routes->get('/example', 'Example::index');
 
 // Main
 $routes->get('/structure-assistant-rate', 'StructureByAssistRateController::index');
+$routes->get('/structure-assistant-rate/form', 'StructureByAssistRateController::form');
 
 
 //Layout page routing
