@@ -39,7 +39,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <?php 
+                                        echo $table_content;
+                                    ?>
+                                    <!-- <tr>
                                         <td colspan="9" style="padding-bottom: 0;padding-left:0 !important;padding-right: 0 !important;">
                                             <div class="w3-code notranslate htmlHigh ms-0 bar-1">
                                                 กอ.รมน.ภาค 4 สน.
@@ -407,7 +410,7 @@
 
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> -->
 
                                 </tbody>
                             </table>
