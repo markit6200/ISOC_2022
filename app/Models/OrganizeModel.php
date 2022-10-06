@@ -48,17 +48,17 @@ class OrganizeModel extends Model
 			foreach( $result as $key => $value ){
 				$number = $number+1;
 				$positionTxt = $position[$value->positionID];
-				$positionGroupTxt = $position[$value->positionID];
-				$positionCivilianTxt = $position[$value->positionCivilianID];
-				$positionCivilianGroupTxt = $position[$value->positionID];
-				$rankTxt = $rank[$value->positionID];
+				$positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
+				$positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
+				$positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
+				$rankTxt = !empty($value->rankID)?$rank[$value->rankID]:'-';
 				$positionNumberTxt = $value->positionNumber;
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$number.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>';
-				$html .= '	<td>บริหาร</td>';
-				$html .= '	<td><button class="btn btn-primary btn-rounded">-- --</button></td>';
-				$html .= '	<td>สูง</td>';
+				$html .= '	<td>'.$positionGroupTxt.'</td>';
+				$html .= '	<td><button class="btn btn-primary btn-rounded">'.$positionCivilianTxt.'</button></td>';
+				$html .= '	<td>'.$positionCivilianGroupTxt.'</td>';
 				$html .= '	<td>';
 				$html .= '		<div class="dhx_demo-active">'.$rankTxt.'</div>';
 				$html .= '	</td>';
@@ -114,7 +114,7 @@ class OrganizeModel extends Model
 					$html .= '		<div class="ms-0 d-inline">';
 					$html .= '<a class="btn btn-default" data-bs-toggle="collapse"
 					href=".'.$cls.'" aria-expanded="false" aria-controls="'.$cls.'">
-					'.str_repeat('&nbsp;&nbsp;',$root).$icon.'&nbsp;&nbsp;'.$value->org_id.' '.$name.'
+					'.str_repeat('&nbsp;&nbsp;',$root).$icon.'&nbsp;&nbsp;'.$name.'
 				</a>';
 					// $html .= ' 			<span>'.$name.'</span>';
 					$html .= '			<div class="float-end">';
