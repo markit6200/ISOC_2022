@@ -63,9 +63,6 @@ class StructureByAssistRate extends BaseController
 		if($id != ''){
 			$save_data = $this->DataPositionMapOrganizeModel->find($id);
 		}
-		// echo "<pre>";
-		// print_r($save_data);
-		// die();
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.', 'pagetitle' => 'Minible']),
@@ -82,13 +79,14 @@ class StructureByAssistRate extends BaseController
 
 	public function save()
     {
-		// echo "<pre>";
-		// print_r($this->request->getVar());
-		// die();
         $params = [
 			'positionID' => $this->request->getVar('position'),
+			'positionGroupID' => $this->request->getVar('positionGroup'),
+			'positionType' => $this->request->getVar('positionType'),
 			'positionCivilianID' => $this->request->getVar('positionCivilian'),
+			'positionCivilianGroupID' => $this->request->getVar('positionCivilianGroup'),
 			'rankID' => $this->request->getVar('positionRank'),
+			'rankIDTo' => $this->request->getVar('positionRankTo'),
 			'org_id' => $this->request->getVar('org_id'),
 			'positionNumber' => $this->request->getVar('positionNumber'),
 			'ordering' => '1',
@@ -104,8 +102,51 @@ class StructureByAssistRate extends BaseController
         } else {
             // $this->getBrands();
             $this->data['errors'] = $this->DataPositionMapOrganizeModel->errors();
-            return view('structureByAsRate/form/1', $this->data);
+            return view('structureByAsRate/form/'.$this->request->getVar('org_id'), $this->data);
         }
     }
+
+	public function update($id)
+    {
+		$params = [
+			'positionMapID' => $this->request->getVar('id'),
+			'positionID' => $this->request->getVar('position'),
+			'positionGroupID' => $this->request->getVar('positionGroup'),
+			'positionType' => $this->request->getVar('positionType'),
+			'positionCivilianID' => $this->request->getVar('positionCivilian'),
+			'positionCivilianGroupID' => $this->request->getVar('positionCivilianGroup'),
+			'rankID' => $this->request->getVar('positionRank'),
+			'rankIDTo' => $this->request->getVar('positionRankTo'),
+			'org_id' => $this->request->getVar('org_id'),
+			'positionNumber' => $this->request->getVar('positionNumber'),
+			'ordering' => '1',
+			'activeStatus' => '1',
+        ];
+
+		if ($this->DataPositionMapOrganizeModel->save($params)) {
+			// $this->session->setFlashdata('success', 'Brand has been updated!');
+			return redirect()->to('StructureByAssistRate');
+		} else {
+			// $this->data['errors'] = $this->DataPositionMapOrganizeModel->errors();
+			return view('structureByAsRate/form/'.$this->request->getVar('org_id').'/'.$this->request->getVar('id'), $this->data);
+		}
+    }
+
+    // public function delete($id)
+    // {
+    //     $brand = $this->DataPositionMapOrganizeModel->find($id);
+	// 	if (!$brand) {
+	// 		$this->session->setFlashdata('errors', 'Invalid brand');
+	// 		return redirect()->to('/admin/brands');
+	// 	}
+
+	// 	if ($this->DataPositionMapOrganizeModel->delete($brand->id)) {
+	// 		$this->session->setFlashdata('success', 'The brand has been deleted');
+	// 		return redirect()->to('/admin/brands');
+	// 	} else {
+	// 		$this->session->setFlashdata('errors', 'Could not delete the brand');
+	// 		return redirect()->to('/admin/brands');
+	// 	}
+    // }
 
 }

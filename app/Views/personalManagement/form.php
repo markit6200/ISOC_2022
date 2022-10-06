@@ -1,10 +1,8 @@
-<?php 
-    $action = isset($save_data['positionMapID'])?base_url('StructureByAssistRate/update/'.$save_data['positionMapID']):base_url('StructureByAssistRate/save');
-    $prefix = isset($save_data['positionMapID'])?'แก้ไข':'';
-?>
 <?= $this->extend('theme/admin') ?>
 <?= $this->section('content') ?>
-
+<?php 
+    $action = $save_data['positionMapID']?base_url('StructureByAssistRate/save'):base_url('StructureByAssistRate/update/'.$save_data['positionMapID']);
+?>
 <form  class="needs-validation" novalidate action="<?php echo $action ?>" method="POST" id="strForm">
     <input type="hidden" name="id" value="<?php echo isset($save_data['positionMapID'])?$save_data['positionMapID']:'' ?>"/>
     <input type="hidden" name="org_id" value="<?php echo $org_id ?>"/>
@@ -13,7 +11,7 @@
             <div class="card">
                 <div class="card-body d-inline">
 
-                    <span class="h2"><?php echo $prefix.$title; ?></span>
+                    <span class="h2"><?php echo $title; ?></span>
                     <div class="float-end">
                         <a href="<?php echo base_url('StructureByAssistRate') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
                         <button class="btn btn-default" type="submit"><i class="fas fa-save"></i> บันทึก</button>
@@ -36,12 +34,8 @@
                                         <option value="">---- เลือกตำแหน่ง ----</option>
                                         <?php if (isset($position))
                                             foreach ($position as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['positionID'])){
-                                                    $sel = $save_data['positionID'] == $value->id? 'selected':'';
-                                                }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->position_name ?></option>
+                                                <option value="<?php echo $value->id ?>"><?php echo $value->position_name ?></option>
                                             <?php 
                                             }
                                         ?>
@@ -53,40 +47,14 @@
                                 
                             </div>
                             <div class="mb-3 row">
-                                <label for="" class="col-12 col-md-3 form-label">ประเภท</label>
-                                <div class="col-12 col-md-6">
-                                    <select class="form-select" name="positionType" id="positionType" >
-                                        <option value="">---- เลือกประเภท ----</option>
-                                        <?php if (isset($positionType))
-                                            foreach ($positionType as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['positionType'])){
-                                                    $sel = $save_data['positionType'] == $value->id? 'selected':'';
-                                                }
-                                            ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->position_group_name ?></option>
-                                            <?php 
-                                            }
-                                        ?>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        กรุณาเลือกตำแหน่งประเภท
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ตำแหน่งประเภท</label>
                                 <div class="col-12 col-md-6">
                                     <select class="form-select" name="positionGroup" id="positionGroup" required>
                                         <option value="">---- เลือกตำแหน่งประเภท ----</option>
                                         <?php if (isset($positionGroup))
                                             foreach ($positionGroup as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['positionGroupID'])){
-                                                    $sel = $save_data['positionGroupID'] == $value->id? 'selected':'';
-                                                }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->position_group_name ?></option>
+                                                <option value="<?php echo $value->id ?>"><?php echo $value->position_group_name ?></option>
                                             <?php 
                                             }
                                         ?>
@@ -103,12 +71,8 @@
                                         <option value="">---- เลือกชื่อตำแหน่งในสายงานพลเรือน ----</option>
                                         <?php if (isset($positionCivilian))
                                             foreach ($positionCivilian as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['positionCivilianID'])){
-                                                    $sel = $save_data['positionCivilianID'] == $value->id? 'selected':'';
-                                                }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->position_civilian_name ?></option>
+                                                <option value="<?php echo $value->id ?>"><?php echo $value->position_civilian_name ?></option>
                                             <?php 
                                             }
                                         ?>
@@ -125,12 +89,8 @@
                                         <option value="">---- เลือกระดับพลเรือนหรือเทียบเท่า ----</option>
                                         <?php if (isset($positionCivilianGroup))
                                             foreach ($positionCivilianGroup as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['positionCivilianGroupID'])){
-                                                    $sel = $save_data['positionCivilianGroupID'] == $value->id? 'selected':'';
-                                                }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->position_civilian_group_name ?></option>
+                                                <option value="<?php echo $value->id ?>"><?php echo $value->position_civilian_group_name ?></option>
                                             <?php 
                                             }
                                         ?>
@@ -142,17 +102,13 @@
                             </div>
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ชั้นยศ</label>
-                                <div class="col-12 col-md-3">
+                                <div class="col-12 col-md-6">
                                     <select class="form-select" name="positionRank" id="positionRank" required>
                                         <option value="">---- เลือกชั้นยศ ----</option>
                                         <?php if (isset($positionRank))
                                             foreach ($positionRank as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['rankID'])){
-                                                    $sel = $save_data['rankID'] == $value->id? 'selected':'';
-                                                }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->rank_name ?></option>
+                                                <option value="<?php echo $value->id ?>"><?php echo $value->rank_name ?></option>
                                             <?php 
                                             }
                                         ?>
@@ -161,27 +117,11 @@
                                         กรุณาเลือกชั้นยศ
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-3">
-                                    <select class="form-select" name="positionRankTo" id="positionRankTo" >
-                                        <option value="">---- เลือกชั้นยศ ----</option>
-                                        <?php if (isset($positionRank))
-                                            foreach ($positionRank as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['rankIDTo'])){
-                                                    $sel = $save_data['rankIDTo'] == $value->id? 'selected':'';
-                                                }
-                                            ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->rank_name ?></option>
-                                            <?php 
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ตำแหน่งเลขที่</label>
                                 <div class="col-12 col-md-6">
-                                    <input type="text" class="form-control" name="positionNumber" required value="<?php echo isset($save_data['positionNumber'])?$save_data['positionNumber']:''; ?>"/>
+                                    <input type="text" class="form-control" name="positionNumber" required value=""/>
                                     <div class="invalid-feedback">
                                         กรุณาระบุตำแหน่งเลขที่
                                     </div>
