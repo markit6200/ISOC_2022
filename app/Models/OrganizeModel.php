@@ -15,6 +15,7 @@ class OrganizeModel extends Model
 		
 		// $this->load->model('GeneralModel');
 		$this->generalModel = new GeneralModel();
+		$this->num = 0;
 	}
 
 	// private function getPosition()
@@ -30,7 +31,7 @@ class OrganizeModel extends Model
 	// 	return $positionArray;
 	// }
 
-	public function getOrganizeDetail($org_id,$number)
+	public function getOrganizeDetail($org_id)
 	{
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize');
@@ -46,7 +47,7 @@ class OrganizeModel extends Model
 		
 		if(count($result)>0){
 			foreach( $result as $key => $value ){
-				$number = $number+1;
+				$this->num++;
 				$positionTxt = $position[$value->positionID];
 				$positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
 				$positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
@@ -54,7 +55,7 @@ class OrganizeModel extends Model
 				$rankTxt = !empty($value->rankID)?$rank[$value->rankID]:'-';
 				$positionNumberTxt = $value->positionNumber;
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show"> ';
-				$html .= '	<td class="text-center" style="width:6rem;">'.$number.'</td>';
+				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>';
 				$html .= '	<td>'.$positionGroupTxt.'</td>';
 				$html .= '	<td><button class="btn btn-primary btn-rounded">'.$positionCivilianTxt.'</button></td>';
@@ -86,14 +87,10 @@ class OrganizeModel extends Model
 				$html .= '</tr>';
 			}
 		}
-		$data = [
-			'html' => $html,
-			'number' => $number
-		];
-		return $data;
+		return $html;
 	}
 
-    public function loopTreeListSub($org_id,$org_profile_id,$html,$root,$number){
+    public function loopTreeListSub($org_id,$org_profile_id,$html,$root){
         
 		$this->select('*');
 		$this->where('org_profile_id',$org_profile_id);
@@ -105,9 +102,9 @@ class OrganizeModel extends Model
 				foreach( $data as $key => $value ){
 					
 					$name = $value->org_name;
-					$detail = $this->getOrganizeDetail($value->org_id,$number);
+					$detail = $this->getOrganizeDetail($value->org_id);
 					$hasParent = $this->hasParent($value->org_id,$org_profile_id);
-					$icon = (($number != $detail['number']))?'<i class="fas fa-angle-down"></i>':'';
+					$icon = ($detail != '')?'<i class="fas fa-angle-down"></i>':'';
 					$cls = 'collapseExample'.$value->org_id;
 					$html .= '<tr>';
 					$html .= '	<td colspan="9" >';
@@ -125,9 +122,8 @@ class OrganizeModel extends Model
 					$html .= '		</div>';
 					$html .= '	</td>';
 					$html .= '</tr>';
-					$html .= $detail['html'];
-					$number = $detail['number'];
-					$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',$root,$number);
+					$html .=  $detail;
+					$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',$root);
 				}
 		}
 		return $html;
@@ -168,7 +164,7 @@ class OrganizeModel extends Model
 			$html .= '		</div>';
 			$html .= '	</td>';
 			$html .= '</tr>';
-			$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',1,0);
+			$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',1);
 		}
 
 		return $html;
