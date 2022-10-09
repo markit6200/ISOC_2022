@@ -1,6 +1,7 @@
 <?= $this->extend('theme/admin') ?>
 <?= $this->section('content') ?>
 <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
 
 <div class="row">
     <div class="col-12">
@@ -87,63 +88,6 @@
             border-radius: 28px;
             padding: 4px 12px;
         }
-    .line_bar{
-        padding-bottom: 0;padding-left:0 !important;padding-right: 0 !important;
-    }
-    .bar-1{
-        border-left: 4px solid #0048B3 !important;background-color: white;
-    }
-    .bar-2{
-        border-left: 4px solid #38CB89 !important;background-color: white;
-    }
-
-    .bar-2 .btn {
-        padding: 0px 0px;
-    }
-
-    .line_bar-2{
-        padding-bottom: 0;padding-left:0 !important;padding-right: 0 !important;
-    }
-
-    .bar-3{
-        border-left: 4px solid #FFA600 !important;background-color: white;
-    }
-
-    .line_bar-3{
-        padding-top: 4px !important;padding-bottom: 4px !important;padding-left:0px !important;padding-right: 0px !important;
-    }
-
-    .bar-4{
-        border-left: 4px solid #f46a6a !important;background-color: white;
-    }
-
-    .line_bar-4{
-        padding-top: 4px !important;padding-bottom: 4px !important;padding-left:0px !important;padding-right: 0px !important;
-    }
-
-    .bar-5{
-        border-left: 4px solid #6f42c1 !important;background-color: white;
-    }
-
-    .line_bar-5{
-        padding-top: 4px !important;padding-bottom: 4px !important;padding-left:0px !important;padding-right: 0px !important;
-    }
-
-    .bar-6{
-        border-left: 4px solid #c4e67f !important;background-color: white;
-    }
-
-    .line_bar-6{
-        padding-top: 4px !important;padding-bottom: 4px !important;padding-left:0px !important;padding-right: 0px !important;
-    }
-
-    .bar-7{
-        border-left: 4px solid #e83e8c !important;background-color: white;
-    }
-
-    .line_bar-7{
-        padding-top: 4px !important;padding-bottom: 4px !important;padding-left:0px !important;padding-right: 0px !important;
-    }
     
     </style>
 
