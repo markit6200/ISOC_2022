@@ -18,18 +18,14 @@ class OrganizeModel extends Model
 		$this->num = 0;
 	}
 
-	// private function getPosition()
-	// {
-	// 	$position = $this->generalModel->getPosition();
-	// 	echo "<pre>";
-	// 	print_r($position);
-	// 	die();
-	// 	$positionArray = array();
-	// 	foreach ($position as $key => $value) {
-	// 		$positionArray[$value->id] = $value->position_name;
-	// 	}
-	// 	return $positionArray;
-	// }
+	public function getOrg($id)
+	{
+		$this->select('*');
+		$this->where('org_id',$id);
+		$data = $this->get()->getRow();
+
+		return $data;
+	}
 
 	public function getOrganizeDetail($org_id)
 	{
@@ -39,29 +35,32 @@ class OrganizeModel extends Model
 		$result = $builder->get()->getResult();
 		$html = '';
 		$position = $this->generalModel->getPositionList();
+		$personalType = $this->generalModel->getPersonalType();
 		$positionGroup = $this->generalModel->getPositionGroupList();
 		$positionCivilian = $this->generalModel->getPositionCivilianList();
 		$positionCivilianGroup = $this->generalModel->getPositionCivilianGroupList();
 		$rank = $this->generalModel->getPositionRankList();
 		
-		
 		if(count($result)>0){
 			foreach( $result as $key => $value ){
 				$this->num++;
 				$positionTxt = $position[$value->positionID];
+				$personalTypeTxt = $personalType[$value->positionType];
 				$positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
 				$positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
 				$positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
 				$rankTxt = !empty($value->rankID)?$rank[$value->rankID]:'-';
+				$rankTxt .= !empty($value->rankIDTo)?' - '.$rank[$value->rankIDTo]:'';
 				$positionNumberTxt = $value->positionNumber;
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>';
+				$html .= '	<td>'.$personalTypeTxt.'</td>';
 				$html .= '	<td>'.$positionGroupTxt.'</td>';
-				$html .= '	<td><button class="btn btn-primary btn-rounded">'.$positionCivilianTxt.'</button></td>';
+				$html .= '	<td><span class="btn btn-primary btn-rounded">'.$positionCivilianTxt.'</span></td>';
 				$html .= '	<td>'.$positionCivilianGroupTxt.'</td>';
 				$html .= '	<td>';
-				$html .= '		<div class="dhx_demo-active">'.$rankTxt.'</div>';
+				$html .= '		<div class="dhx_demo-active"><span class="btn btn-outline-success btn-rounded">'.$rankTxt.'</span></div>';
 				$html .= '	</td>';
 
 				$html .= '	<td>'.$positionNumberTxt.'</td>';
@@ -74,7 +73,7 @@ class OrganizeModel extends Model
 				$html .= '				<a href="'.base_url('StructureByAssistRate/form/'.$value->org_id.'/'.$value->positionMapID).'" class="btn  btn-warning">';
 				$html .= '					<i class="mdi mdi-pencil"></i>&nbsp;แก้ไข';
 				$html .= '				</a>';
-				$html .= '				<button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn  btn-danger">&nbsp;';
+				$html .= '				<button onclick="confirmDelete(\''.$value->positionMapID.'\')" class="btn  btn-danger">&nbsp;';
 
 
 				$html .= '					<i class="mdi mdi-close-circle-outline"></i>&nbsp;ลบ';
@@ -107,13 +106,9 @@ class OrganizeModel extends Model
 					$icon = ($detail != '')?'<i class="fas fa-angle-down"></i>':'';
 					$cls = 'collapseExample'.$value->org_id;
 					$html .= '<tr>';
-					$html .= '	<td colspan="9" >';
+					$html .= '	<td colspan="10" class="hl-l-bar-'.$root.'">';
 					$html .= '		<div class="ms-0 d-inline">';
-					$html .= '<a class="btn btn-default" data-bs-toggle="collapse"
-					href=".'.$cls.'" aria-expanded="false" aria-controls="'.$cls.'">
-					'.str_repeat('&nbsp;&nbsp;',$root).$icon.'&nbsp;&nbsp;'.$name.'
-				</a>';
-					// $html .= ' 			<span>'.$name.'</span>';
+					$html .= '<a class="btn btn-default" data-bs-toggle="collapse" href=".'.$cls.'" aria-expanded="false" aria-controls="'.$cls.'">'.str_repeat('&nbsp;&nbsp;',$root).$icon.'&nbsp;&nbsp;'.$name.'</a>';
 					$html .= '			<div class="float-end">';
 					$html .= "				<a class=\"btn btn-default\" href=\"".base_url('StructureByAssistRate/form/'.$value->org_id)."\">";
 					$html .= "					<i class=\"mdi mdi-plus-circle-outline\"></i>&nbsp;เพิ่มตำแหน่ง";
@@ -153,7 +148,7 @@ class OrganizeModel extends Model
 		foreach( $data as $key => $value ){
 			$name = $value->org_name;
 			$html .= '<tr>';
-			$html .= '	<td colspan="9" >';
+			$html .= '	<td colspan="10" class="hl-l-bar-1">';
 			$html .= '		<div class="ms-0 d-inline">';
 			$html .= ' 			<span>'.$name.'</span>';
 			$html .= '			<div class="float-end">';

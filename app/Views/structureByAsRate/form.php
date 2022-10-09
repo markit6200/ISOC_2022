@@ -28,6 +28,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-md-12">
+                            <div class="mb-3 row">
+                                <label for="" class="col-12 col-md-3 form-label">หน่วยงาน</label>
+                                <div class="col-12 col-md-6">
+                                    <input type="text" class="form-control disabled" disabled name="" value="<?php echo $org_name;?>">
+                                </div>
+                            </div>
                         
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ชื่อตำแหน่งใน กอ.รมน./ชื่อตำแหน่งในการบริหาร</label>
@@ -50,27 +56,26 @@
                                         กรุณาเลือกตำแหน่ง
                                     </div>
                                 </div>
-                                
                             </div>
                             <div class="mb-3 row">
-                                <label for="" class="col-12 col-md-3 form-label">ประเภท</label>
+                                <label for="" class="col-12 col-md-3 form-label">ประเภทกำลังพล</label>
                                 <div class="col-12 col-md-6">
                                     <select class="form-select" name="positionType" id="positionType" >
-                                        <option value="">---- เลือกประเภท ----</option>
+                                        <option value="">---- เลือกประเภทกำลังพล ----</option>
                                         <?php if (isset($positionType))
                                             foreach ($positionType as $key => $value) {
                                                 $sel = '';
                                                 if(isset($save_data['positionType'])){
-                                                    $sel = $save_data['positionType'] == $value->id? 'selected':'';
+                                                    $sel = $save_data['positionType'] == $key? 'selected':'';
                                                 }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->position_group_name ?></option>
+                                                <option value="<?php echo $key ?>" <?php echo $sel ?>><?php echo $value ?></option>
                                             <?php 
                                             }
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">
-                                        กรุณาเลือกตำแหน่งประเภท
+                                        กรุณาเลือกตำแหน่งประเภทกำลังพล
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +148,7 @@
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ชั้นยศ</label>
                                 <div class="col-12 col-md-3">
-                                    <select class="form-select" name="positionRank" id="positionRank" required>
+                                    <select class="form-select" name="positionRank" id="positionRank" required onchange="selectRank(this.value)">
                                         <option value="">---- เลือกชั้นยศ ----</option>
                                         <?php if (isset($positionRank))
                                             foreach ($positionRank as $key => $value) {
@@ -162,20 +167,22 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3">
-                                    <select class="form-select" name="positionRankTo" id="positionRankTo" >
-                                        <option value="">---- เลือกชั้นยศ ----</option>
-                                        <?php if (isset($positionRank))
-                                            foreach ($positionRank as $key => $value) {
-                                                $sel = '';
-                                                if(isset($save_data['rankIDTo'])){
-                                                    $sel = $save_data['rankIDTo'] == $value->id? 'selected':'';
+                                    <div class="selectRankTo">
+                                        <select class="form-select" name="positionRankTo" id="positionRankTo" disabled >
+                                            <option value="">---- เลือกชั้นยศ ----</option>
+                                            <?php if (isset($positionRank))
+                                                foreach ($positionRank as $key => $value) {
+                                                    $sel = '';
+                                                    if(isset($save_data['rankIDTo'])){
+                                                        $sel = $save_data['rankIDTo'] == $value->id? 'selected':'';
+                                                    }
+                                                ?>
+                                                    <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->rank_name ?></option>
+                                                <?php 
                                                 }
                                             ?>
-                                                <option value="<?php echo $value->id ?>" <?php echo $sel ?>><?php echo $value->rank_name ?></option>
-                                            <?php 
-                                            }
-                                        ?>
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -199,6 +206,24 @@
     <script src="<?php echo base_url() ?>/assets/libs/parsleyjs/parsley.min.js"></script>
     <script src="<?php echo base_url() ?>/assets/js/pages/form-validation.init.js"></script>
     <script>
+        function selectRank(id){
+            if (id != ''){
+                $('.selectRankTo').html('<div class="spinner-border text-secondary m-1" role="status"><span class="sr-only">Loading...</span> </div>');
+                $.ajax({
+                    url: "<?php echo base_url('StructureByAssistRate/ajaxGetRank/') ?>/"+id,
+                    type: 'get',
+                    contentType: false,
+                    processData: false,
+                    success: function( result ) {
+                        if(result != 'fail'){
+                            $('.selectRankTo').html(result)
+                        }
+                    }
+                });
+            } else {
+                $('.selectRankTo').html('');
+            }
+        }
         $(document).ready(function(){
             // $('#strForm').submit(function(e) {
 

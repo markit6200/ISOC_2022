@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="waves-effect">
+                    <a href="PersonalManagement" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ข้อมูลกำลังพล</span>
                     </a>

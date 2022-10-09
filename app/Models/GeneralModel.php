@@ -10,6 +10,12 @@ class GeneralModel extends Model
     {
         $this->db = \Config\Database::connect('master'); 
     }
+    private $personalType = ['1'=>'พตท','2'=>'พ'];
+
+    public function getPersonalType()
+    {
+        return $this->personalType;
+    }
 
     public function getPosition()
     {
@@ -116,6 +122,18 @@ class GeneralModel extends Model
         }
 
         return $data;
+    }
+
+    public function getPositionRankTo($id)
+    {
+        $builder = $this->db->table('STDPositionRank');
+        $builder->select('rankID as id, rankName as rank_name');
+        $where = "(rankID = '".$id."' OR rankID='".($id-1)."') AND ativeStatus='1'";
+        $builder->where($where);
+        $builder->orderBy('ordering','ASC');
+        return $builder->get()->getResult();
+
+		
     }
 
 }

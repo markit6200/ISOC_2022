@@ -9,28 +9,15 @@ class StructureByAssistRate extends BaseController
 	public function __construct()
     {
 		$this->DataPositionMapOrganizeModel = new DataPositionMapOrganizeModel();
+		$this->OrganizeModel = new OrganizeModel();
+		$this->GeneralModel = new GeneralModel();
         // $this->data['currentAdminMenu'] = 'catalogue';
         // $this->data['currentAdminSubMenu'] = 'brand';
     }
 
 	public function index()
 	{
-		// $db = db_connect('tests');
-		// echo "<pre>";
-		// print_r($db);
-		// die();
-		// // $db = \Config\Database::connect();
-		// $db = db_connect();
-		// $query   = $db->query('SELECT * FROM users');
-		// $results = $query->getResult();
-		// echo "<pre>";
-		// print_r($results);
-		// die();
-	// echo 'Total Results: ' . count($results);
-		// $user = new UsersModel();
-		$org = new OrganizeModel();
-		$tree = $org->getTreeList(1,0,'');
-		
+		$tree = $this->OrganizeModel->getTreeList(1,0,'');
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
@@ -59,7 +46,10 @@ class StructureByAssistRate extends BaseController
 		$positionCivilian = $general_data->getPositionCivilian();
 		$positionCivilianGroup = $general_data->getPositionCivilianGroup();
 		$positionRank = $general_data->getPositionRank();
+		$positionType = $general_data->getPersonalType();
+		$org = $this->OrganizeModel->getOrg($org_id);
 		$save_data = array();
+		$org_name = isset($org->org_name)?$org->org_name:'';
 		if($id != ''){
 			$save_data = $this->DataPositionMapOrganizeModel->find($id);
 		}
@@ -71,8 +61,11 @@ class StructureByAssistRate extends BaseController
 			'positionCivilian' => $positionCivilian,
 			'positionCivilianGroup' => $positionCivilianGroup,
 			'positionRank' => $positionRank,
-			'org_id'=>$org_id,
-			'save_data'=>$save_data
+			'positionRankTo' => $positionRank,
+			'positionType' => $positionType,
+			'org_id' => $org_id,
+			'save_data' => $save_data,
+			'org_name' => $org_name
 		];
 		return view('structureByAsRate/form', $data);
 	}
@@ -132,21 +125,28 @@ class StructureByAssistRate extends BaseController
 		}
     }
 
-    // public function delete($id)
-    // {
-    //     $brand = $this->DataPositionMapOrganizeModel->find($id);
-	// 	if (!$brand) {
-	// 		$this->session->setFlashdata('errors', 'Invalid brand');
-	// 		return redirect()->to('/admin/brands');
-	// 	}
+    public function delete($id)
+    {
+        $orginize = $this->DataPositionMapOrganizeModel->find($id);
+		if (!$orginize) {
+			$this->session->setFlashdata('errors', 'Invalid brand');
+			return redirect()->to('StructureByAssistRate');
+		}
 
-	// 	if ($this->DataPositionMapOrganizeModel->delete($brand->id)) {
-	// 		$this->session->setFlashdata('success', 'The brand has been deleted');
-	// 		return redirect()->to('/admin/brands');
-	// 	} else {
-	// 		$this->session->setFlashdata('errors', 'Could not delete the brand');
-	// 		return redirect()->to('/admin/brands');
-	// 	}
-    // }
+		if ($this->DataPositionMapOrganizeModel->delete($orginize['positionMapID'])) {
+			$this->session->setFlashdata('success', 'The brand has been deleted');
+			return redirect()->to('StructureByAssistRate');
+		} else {
+			$this->session->setFlashdata('errors', 'Could not delete the brand');
+			return redirect()->to('StructureByAssistRate');
+		}
+    }
 
+	public function ajaxGetRank($id)
+	{
+		$positionRank = $this->GeneralModel->getPositionRankTo($id);
+		$data['positionRank'] = $positionRank;
+
+		return view('structureByAsRate/ajaxRankTo', $data);
+	}
 }

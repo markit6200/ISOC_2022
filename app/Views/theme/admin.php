@@ -3,7 +3,7 @@
     <head>
 
         <?= $title_meta ?>
-
+        <?php echo $this->renderSection('cssTopContent') ?>
 		<?= $this->include('partials/head-css') ?>
 
     </head>

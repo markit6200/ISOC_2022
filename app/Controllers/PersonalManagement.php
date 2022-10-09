@@ -4,11 +4,15 @@ use App\Models\UsersModel;
 use App\Models\OrganizeModel;
 use App\Models\GeneralModel;
 use App\Models\DataPositionMapOrganizeModel;
+use App\Models\PersonalForceModel;
 class PersonalManagement extends BaseController
 {
+	protected $perPage = 100;
+
 	public function __construct()
     {
 		$this->DataPositionMapOrganizeModel = new DataPositionMapOrganizeModel();
+		$this->PersonalForceModel = new PersonalForceModel();
     }
 
 	public function index()
@@ -17,8 +21,12 @@ class PersonalManagement extends BaseController
 			'title_meta' => view('partials/title-meta', ['title' => 'ข้อมูลกำลังพล']),
 			'page_title' => view('partials/page-title', ['title' => 'ข้อมูลกำลังพล', 'pagetitle' => 'Minible']),
 		];
+
 		$data['title'] = 'ข้อมูลกำลังพล';
+		$personalData = $this->PersonalForceModel->select("*");
+		$data['personalData'] = $personalData->paginate($this->perPage, 'bootstrap');
 		
+		$data['pager'] = $this->PersonalForceModel->pager;
 		return view('personalManagement/index', $data);
 	}
 
@@ -31,7 +39,7 @@ class PersonalManagement extends BaseController
 		return view('personalManagement/view', $data);
 	}
 
-	public function form($org_id,$id='')
+	public function form($id='')
 	{
 		$general_data = new GeneralModel();
 		$position = $general_data->getPosition();
@@ -43,9 +51,6 @@ class PersonalManagement extends BaseController
 		if($id != ''){
 			$save_data = $this->DataPositionMapOrganizeModel->find($id);
 		}
-		// echo "<pre>";
-		// print_r($save_data);
-		// die();
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.', 'pagetitle' => 'Minible']),
@@ -54,7 +59,6 @@ class PersonalManagement extends BaseController
 			'positionCivilian' => $positionCivilian,
 			'positionCivilianGroup' => $positionCivilianGroup,
 			'positionRank' => $positionRank,
-			'org_id'=>$org_id,
 			'save_data'=>$save_data
 		];
 		return view('personalManagement/form', $data);
