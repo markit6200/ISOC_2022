@@ -26,8 +26,8 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <input type="text" class="form-control" id="positionID" name="positionID">
-                    <input type="text" class="form-control" id="typeForce" name="typeForce">
+                    <input type="hidden" class="form-control" id="positionID" name="positionID">
+                    <input type="hidden" class="form-control" id="typeForce" name="typeForce">
                     <table id="myTable" class="table  table-bordered">
                         <thead>
                             <tr>
