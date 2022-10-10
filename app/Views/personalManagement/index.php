@@ -44,14 +44,16 @@
                                 <tbody>
                                     <?php 
                                         if (isset($personalData)):
-                                            $i=1;
+                                            $i=1+(($currentPage-1) * $perPage);
                                             foreach ($personalData as $key => $value): 
-                                                $rank = '';
+                                                $preName = isset($prefix[$value['codePrefix']])?$prefix[$value['codePrefix']].' ':'';
                                                 $fname = $value['firstName'];
                                                 $lname = $value['lastName'];
-                                                $fullname = $rank.$fname.' '.$lname;
-                                                $positionCiviliain = '';
-                                                $position = $value['isocPosition'];
+                                                $fullname = $preName.$fname.' '.$lname;
+                                                $positionCiviliain = isset($positionCivilianList[$value['positionCivilianID']])?$positionCivilianList[$value['positionCivilianID']]:'';
+                                                $positionCiviliain .= isset($positionCivilianGroupList[$value['positionCivilianGroupID']])?" ".$positionCivilianGroupList[$value['positionCivilianGroupID']]:'';
+                                                $position = isset($positionList[$value['positionID']])?$positionList[$value['positionID']]:'';
+                                                $position .= isset($positionGroupList[$value['positionGroupID']])?" ".$positionGroupList[$value['positionGroupID']]:'';;
                                     ?>
                                                 <tr>
                                                     <td class="text-center" style="width:6rem;"><?php echo $i++; ?></td>
@@ -62,9 +64,9 @@
                                                     <td class="text-center">
                                                         <div class="col-auto pe-md-0 ">
                                                             <div class="form-group mb-0">
-                                                                <button class="btn  btn-warning">
+                                                                <a href="<?php echo base_url('PersonalManagement/form/'.$value['fid']) ?>" class="btn  btn-warning  text-dark">
                                                                     <i class="mdi mdi-pencil"></i>&nbsp;แก้ไข
-                                                                </button>
+                                                                </a>
                                                                 <button data-bs-toggle="modal" data-bs-target="#myModal" class="btn  btn-danger">&nbsp;
                                                                     <i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น
                                                                 </button>
@@ -84,6 +86,12 @@
             </div>
             <div class="card-footer clearfix">
                 <div class="row">
+                    <div class="col-4">
+                        <div class="btn-group pagination justify-content-start" role="group" aria-label="pager counts">
+                            &nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-light"><?= 'หน้าที่ '.$currentPage.' จาก '.$totalPages; ?></button>
+                        </div>
+                    </div>
                     <div class="col-8">
                         <?php echo $pager->links('bootstrap', 'bootstrap_pagination') ?>
                     </div>
@@ -93,25 +101,7 @@
     </div>
 </div>
 
-<!-- sample modal content -->
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">จำหน่ายข้อมูล</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>ท่านต้องการจำหน่ายข้อมูล ตำแหน่งงและสังกัด หรือไม่?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">ปิด</button>
-                <button type="button" class="btn btn-danger waves-effect waves-light">ลบ</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<?= $this->include('personalManagement/modal') ?>
 <?= $this->endSection() ?>
 <?= $this->section('jsContent')?>
 <script src="<?php echo base_url() ?>/assets/libs/sweetalert2/sweetalert2.min.js"></script>

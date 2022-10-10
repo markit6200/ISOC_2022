@@ -12,6 +12,32 @@ class GeneralModel extends Model
     }
     private $personalType = ['1'=>'พตท','2'=>'พ'];
 
+    public function getPrefix()
+    {
+        $builder = $this->db->table('DSLPrefix');
+        $builder->select('codePrefix as id, titlePrefix');
+        $builder->where('active','1');
+        $builder->orderBy('codePrefix','ASC');
+        $data = array();
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->titlePrefix;
+        }
+        return $data;
+    }
+
+    public function getHRType()
+    {
+        $builder = $this->db->table('STDHumanResourceType');
+        $builder->select('hrTypeID as id, hrShortName as hr_type_name');
+        $builder->orderBy('hrTypeID','ASC');
+        $data = array();
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->hr_type_name;
+        }
+        return $data;
+    }
+    
+
     public function getPersonalType()
     {
         $builder = $this->db->table('STDPersonalType');
