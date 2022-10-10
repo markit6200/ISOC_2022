@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <input type="hidden" class="form-control" id="positionID" name="positionID">
+                    <input type="hidden" class="form-control" id="positionMapID" name="positionMapID">
                     <input type="hidden" class="form-control" id="typeForce" name="typeForce">
                     <table id="myTable" class="table  table-bordered">
                         <thead>
@@ -53,8 +53,8 @@
                                 echo '<tr>
                                     <td class="text-center" rowspan="">'.$runno.'</td>
                                     <td class="text-center" rowspan="">'.$value->cardID.' </td>
-                                    <td class="text-left" rowspan="">'.$value->firstName.' '.$value->lastName.'</td>
-                                    <td class="text-center">'.$value->isocPosition.'</td>
+                                    <td class="text-left" rowspan="">'.$value->codePrefixTxt.$value->firstName.' '.$value->lastName.'</td>
+                                    <td class="text-center">'.$value->personalPosition.'</td>
                                     <td class="text-center">
                                         <div class="col-auto pe-md-0">
                                             <div class="form-group mb-0">
@@ -81,13 +81,13 @@
 
 <script>
 function addPalace(fId) {
-    var positionID = $('#positionID').val();
+    var positionMapID = $('#positionMapID').val();
     var typeForce = $('#typeForce').val();
-    // alert(positionID);
+    // alert(positionMapID);
     $.ajax({
         url:  "PalaceByAssist/savePalace",
         method: "post",
-        data: {fId: fId,positionID:positionID,typeForce:typeForce},
+        data: {fId: fId,positionMapID:positionMapID,typeForce:typeForce},
         dataType: "text",
         success: function (data) {
             console.log(data);

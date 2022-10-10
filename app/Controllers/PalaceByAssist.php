@@ -62,7 +62,7 @@ class PalaceByAssist extends BaseController
 			'fId' => $_POST['fId'],
 			'typeForce' => $_POST['typeForce'], //ประเภทกำลังพล 1=กอ.รมน.,2=สง.ปรมน.ทบ., สน.ปรมน.จว.
 			'statusPackingRate' => '1', //สถานะ 0=ว่าง,1=บรรจุอัตรา,2=พ้น
-			'positionID' => $_POST['positionID'],
+			'positionMapID' => $_POST['positionMapID'],
 			'datePackingRate' => date("Y-m-d H:i:s"),
 			'createDate' => date("Y-m-d H:i:s")
         ];

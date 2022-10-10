@@ -13,23 +13,9 @@ class OrganizeForcesModel extends Model
 		parent::__construct();
 	
 		
-		// $this->load->model('GeneralModel');
 		$this->generalModel = new GeneralModel();
 		$this->num = 0;
 	}
-
-	// private function getPosition()
-	// {
-	// 	$position = $this->generalModel->getPosition();
-	// 	echo "<pre>";
-	// 	print_r($position);
-	// 	die();
-	// 	$positionArray = array();
-	// 	foreach ($position as $key => $value) {
-	// 		$positionArray[$value->id] = $value->position_name;
-	// 	}
-	// 	return $positionArray;
-	// }
 
 	public function getOrganizeDetail($org_id)
 	{
@@ -37,11 +23,11 @@ class OrganizeForcesModel extends Model
 
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition');
-		$builder->join("DataPersonalForcesMap AS t2","t1.positionID = t2.positionID AND t2.statusPackingRate != '2' AND t2.typeForce = '{$typeForce}'","left");
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.statusPackingRate != '2' AND t2.typeForce = '{$typeForce}'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
 		$builder->where('t1.org_id',$org_id);
-		$builder->orderBy("t1.org_id ASC,t2.positionID ASC");
+		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();
 		$html = '';
 		$position = $this->generalModel->getPositionList();
@@ -50,6 +36,7 @@ class OrganizeForcesModel extends Model
 		$positionCivilianGroup = $this->generalModel->getPositionCivilianGroupList();
 		$rank = $this->generalModel->getPositionRankList();
 		$rankShort = $this->generalModel->getPositionRankShortList();
+		$codePrefixShort = $this->generalModel->getcodePrefixShort();
 		
 		if(count($result)>0){
 			foreach( $result as $key => $value ){
@@ -61,28 +48,33 @@ class OrganizeForcesModel extends Model
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
 				$positionNumberTxt = $value->positionNumber;
 				$fullName = $value->firstName.' '.$value->lastName;
+				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'-- --';
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>'; //ชื่อตำแหน่งใน กอ.รมน./>ชื่อตำแหน่งในการบริหาร
 				$html .= '	<td><div class="dhx_demo-active">'.$rankTxt.'</div></td>'; //ชั้นยศ
 				$html .= '	<td>'.$positionNumberTxt.'</td>'; //ตำแหน่งเลขที่
-				$html .= '	<td>'.$rankTxt.'</td>';//ยศ
-				$html .= '	<td>';
 
 				if($value->mId != ''){
+					$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';
+					$html .= '	<td>'.$codePrefixTxt.'</td>';//ยศ
+					$html .= '	<td>';
 					$html .= $fullName;
+					$html .= '	</td>';//ชื่อ-สกุล
+					$html .= '	<td>'.$personalPositionCivilianTxt.'</td>';//ตำแหน่งและสังกัดปกติ
 				}else{
+					$html .= '	<td></td>';//ยศ
+					$html .= '	<td>';
 					$html .= '		<div class="dhx_demo-danger">-- ว่าง --</div>';
+					$html .= '	</td>';//ชื่อ-สกุล
+					$html .= '	<td></td>';//ตำแหน่งและสังกัดปกติ
 				}
-
-				$html .= '	</td>';//ชื่อ-สกุล
-				$html .= '	<td>'.$value->isocPosition.'</td>';//ตำแหน่งและสังกัดปกติ
 				$html .= '	<td style="width: 13rem;text-align:center;">';
 
 				if($value->mId != ''){
 					$html .= '			<div class="col-auto pe-md-0">';
 					$html .= '				<div class="form-group mb-0">';
-					$html .= '					<button class="btn  btn-danger w-xs btn_distribute" data-bs-toggle="modal" data-bs-target="#distributeModal" onclick="checkDistribute(\''.$value->mId.'\',\''.$rankTxt.'\',\''.$fullName.'\',\''.$value->isocPosition.'\',\''.$typeForce.'\')">';
+					$html .= '					<button class="btn  btn-danger w-xs btn_distribute" data-bs-toggle="modal" data-bs-target="#distributeModal" onclick="checkDistribute(\''.$value->mId.'\',\''.$rankTxt.'\',\''.$fullName.'\',\''.$personalPositionCivilianTxt.'\',\''.$typeForce.'\')">';
 					$html .= '						<i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น';
 					$html .= '					</button>';
 					$html .= '				</div>';
@@ -90,7 +82,7 @@ class OrganizeForcesModel extends Model
 				}else{
 					$html .= '			<div class="col-auto pe-md-0">';
 					$html .= '				<div class="form-group mb-0">';
-					$html .= '					<button class="btn  btn-primary w-md btn_search" data-bs-toggle="modal" data-bs-target="#searchModal" onclick="checkSearch('.$value->positionID.','.$typeForce.')">';
+					$html .= '					<button class="btn  btn-primary w-md btn_search" data-bs-toggle="modal" data-bs-target="#searchModal" onclick="checkSearch('.$value->positionMapID.','.$typeForce.')">';
 					$html .= '						<i class="mdi mdi-plus-circle-outline"></i>&nbsp;บรรจุอัตรา';
 					$html .= '					</button>';
 					$html .= '				</div>';

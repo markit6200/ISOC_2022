@@ -133,4 +133,19 @@ class GeneralModel extends Model
         return $data;
     }
 
+    public function getcodePrefixShort()
+    {
+        $builder = $this->db->table('DSLPrefix');
+        $builder->select('codePrefix, shortPrefix');
+        $builder->where('active','1');
+        $builder->orderBy('codePrefix','ASC');
+        $data = array();
+
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->codePrefix] = $value->shortPrefix;
+        }
+
+        return $data;
+    }
+
 }

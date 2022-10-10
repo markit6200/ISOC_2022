@@ -127,15 +127,15 @@
 <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script src="assets/libs/jquery/jquery.min.js"></script>
 <script>
-function checkDistribute(mId,rankTxt,fullName,isocPosition,typeForce){
-    var textConfirm = rankTxt+' '+fullName+' ตำแหน่งและสังกัดปกติ '+isocPosition+' หรือไม่?';
+function checkDistribute(mId,rankTxt,fullName,Position,typeForce){
+    var textConfirm = rankTxt+' '+fullName+' ตำแหน่งและสังกัดปกติ '+Position+' หรือไม่?';
     $("#distributeModal").find('.modal-body #mId').val(mId);
     $("#distributeModal").find('.modal-body #typeForceM').val(typeForce);
     $("#distributeModal").find('.modal-body #textConfirm').html(textConfirm);
 }
 
-function checkSearch(positionID,typeForce){
-    $("#searchModal").find('.modal-body #positionID').val(positionID);
+function checkSearch(positionMapID,typeForce){
+    $("#searchModal").find('.modal-body #positionMapID').val(positionMapID);
     $("#searchModal").find('.modal-body #typeForce').val(typeForce);
 }
 </script>

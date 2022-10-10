@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body" style="padding:22px;">
                 <input type="hidden" class="form-control" id="mId" name="mId">
-                <input type="text" class="form-control" id="typeForceM" name="typeForce">
+                <input type="hidden" class="form-control" id="typeForceM" name="typeForce">
                 ท่านต้องการจำหน่ายข้อมูล 
                 <span id="textConfirm"></sapn>
             </div>
