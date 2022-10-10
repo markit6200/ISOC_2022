@@ -38,7 +38,7 @@
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ชื่อตำแหน่งใน กอ.รมน./ชื่อตำแหน่งในการบริหาร</label>
                                 <div class="col-12 col-md-6">
-                                    <select class="form-select" required name="position" id="position">
+                                    <select class="form-select select2" required name="position" id="position">
                                         <option value="">---- เลือกตำแหน่ง ----</option>
                                         <?php if (isset($position))
                                             foreach ($position as $key => $value) {
@@ -148,7 +148,7 @@
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ชั้นยศ</label>
                                 <div class="col-12 col-md-3">
-                                    <select class="form-select" name="positionRank" id="positionRank" required onchange="selectRank(this.value)">
+                                    <select class="form-select" name="positionRank" id="positionRank"  onchange="selectRank(this.value)">
                                         <option value="">---- เลือกชั้นยศ ----</option>
                                         <?php if (isset($positionRank))
                                             foreach ($positionRank as $key => $value) {
@@ -188,7 +188,7 @@
                             <div class="mb-3 row">
                                 <label for="" class="col-12 col-md-3 form-label">ตำแหน่งเลขที่</label>
                                 <div class="col-12 col-md-6">
-                                    <input type="text" class="form-control" name="positionNumber" required value="<?php echo isset($save_data['positionNumber'])?$save_data['positionNumber']:''; ?>"/>
+                                    <input type="text" class="form-control" name="positionNumber"  value="<?php echo isset($save_data['positionNumber'])?$save_data['positionNumber']:''; ?>"/>
                                     <div class="invalid-feedback">
                                         กรุณาระบุตำแหน่งเลขที่
                                     </div>
@@ -202,9 +202,13 @@
 </form>
 
 <?= $this->endSection() ?>
+<?= $this->section('cssTopContent') ?>
+<link href="<?php echo base_url() ?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
 <?= $this->section('jsContent') ?>
     <script src="<?php echo base_url() ?>/assets/libs/parsleyjs/parsley.min.js"></script>
     <script src="<?php echo base_url() ?>/assets/js/pages/form-validation.init.js"></script>
+    <script src="<?php echo base_url() ?>/assets/libs/select2/js/select2.min.js"></script>
     <script>
         function selectRank(id){
             if (id != ''){
@@ -225,6 +229,7 @@
             }
         }
         $(document).ready(function(){
+            $(".select2").select2();
             // $('#strForm').submit(function(e) {
 
             //     e.preventDefault();

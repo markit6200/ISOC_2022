@@ -14,7 +14,14 @@ class GeneralModel extends Model
 
     public function getPersonalType()
     {
-        return $this->personalType;
+        $builder = $this->db->table('STDPersonalType');
+        $builder->select('personalTypeID as id, personalTypeName as position_name');
+        $builder->where('activeStatus','1');
+        $data = array();
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->position_name;
+        }
+        return $data;
     }
 
     public function getPosition()
