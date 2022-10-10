@@ -134,11 +134,19 @@ class GeneralModel extends Model
     public function getPositionRankTo($id)
     {
         $builder = $this->db->table('STDPositionRank');
-        $builder->select('rankID as id, rankName as rank_name');
-        $where = "(rankID = '".$id."' OR rankID='".($id-1)."') AND ativeStatus='1'";
-        $builder->where($where);
-        $builder->orderBy('ordering','ASC');
-        return $builder->get()->getResult();
+        $builder->select('rankID as id, rankName as rank_name, ordering');
+        $builder->where('rankID',$id);
+        $builder->where('ativeStatus',1);
+        $result = $builder->get()->getResultArray();
+        if(isset($result[0]['ordering'])){
+            $rank = $this->db->table('STDPositionRank');
+            $rank->select('rankID as id, rankName as rank_name');
+            $rank->where('ordering <=',$result[0]['ordering']);
+            $rank->where('ativeStatus',1);
+            $rank->orderBy('ordering','DESC');
+            return $rank->get()->getResult();
+        }
+        return ;
 
 		
     }
