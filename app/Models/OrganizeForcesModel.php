@@ -23,8 +23,9 @@ class OrganizeForcesModel extends Model
 
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID');
-		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.statusPackingRate != '2' AND t2.typeForce = '{$typeForce}'","left");
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '{$typeForce}'","left");
+		// $builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.statusPackingRate != '2' AND t2.typeForce = '{$typeForce}'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
 		$builder->where('t1.org_id',$org_id);
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
@@ -50,8 +51,8 @@ class OrganizeForcesModel extends Model
 				$fullName = $value->firstName.' '.$value->lastName;
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
 
-				$bg_yellow = ($value->mId != '')?"background: yellow;":"";
-				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;'.$bg_yellow.'"> ';
+				$css_bg = ($value->statusPackingRate == '1')?"background: yellow;":(($value->statusPackingRate == '2')?"background: #f46a6a;":"");
+				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;'.$css_bg.'"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>'; //ชื่อตำแหน่งใน กอ.รมน./>ชื่อตำแหน่งในการบริหาร
 				$html .= '	<td><div class="dhx_demo-active">'.$rankTxt.'</div></td>'; //ชั้นยศ
@@ -74,13 +75,15 @@ class OrganizeForcesModel extends Model
 				$html .= '	<td style="width: 13rem;text-align:center;">';
 
 				if($value->mId != ''){
-					$html .= '			<div class="col-auto pe-md-0">';
-					$html .= '				<div class="form-group mb-0">';
-					$html .= '					<button class="btn  btn-danger w-xs btn_distribute" data-bs-toggle="modal" data-bs-target="#distributeModal" onclick="checkDistribute(\''.$value->mId.'\',\''.$rankTxt.'\',\''.$fullName.'\',\''.$personalPositionCivilianTxt.'\',\''.$typeForce.'\')">';
-					$html .= '						<i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น';
-					$html .= '					</button>';
-					$html .= '				</div>';
-					$html .= '			</div>';
+					if($value->statusPackingRate == '1'){
+						$html .= '			<div class="col-auto pe-md-0">';
+						$html .= '				<div class="form-group mb-0">';
+						$html .= '					<button class="btn  btn-danger w-xs btn_distribute" data-bs-toggle="modal" data-bs-target="#distributeModal" onclick="checkDistribute(\''.$value->mId.'\',\''.$rankTxt.'\',\''.$fullName.'\',\''.$personalPositionCivilianTxt.'\',\''.$typeForce.'\')">';
+						$html .= '						<i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น';
+						$html .= '					</button>';
+						$html .= '				</div>';
+						$html .= '			</div>';
+					}
 				}else{
 					$html .= '			<div class="col-auto pe-md-0">';
 					$html .= '				<div class="form-group mb-0">';
