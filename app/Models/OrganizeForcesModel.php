@@ -49,7 +49,9 @@ class OrganizeForcesModel extends Model
 				$positionNumberTxt = $value->positionNumber;
 				$fullName = $value->firstName.' '.$value->lastName;
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
-				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;"> ';
+
+				$bg_yellow = ($value->mId != '')?"background: yellow;":"";
+				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;'.$bg_yellow.'"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>'; //ชื่อตำแหน่งใน กอ.รมน./>ชื่อตำแหน่งในการบริหาร
 				$html .= '	<td><div class="dhx_demo-active">'.$rankTxt.'</div></td>'; //ชั้นยศ
