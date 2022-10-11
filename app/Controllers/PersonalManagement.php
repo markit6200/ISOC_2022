@@ -18,6 +18,7 @@ class PersonalManagement extends BaseController
 
 	public function index()
 	{
+		helper('general');
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'ข้อมูลกำลังพล']),
 			'page_title' => view('partials/page-title', ['title' => 'ข้อมูลกำลังพล', 'pagetitle' => 'Minible']),
@@ -31,6 +32,7 @@ class PersonalManagement extends BaseController
 
 		$data['title'] = 'ข้อมูลกำลังพล';
 		$personalData = $this->PersonalForceModel->select("*");
+		$personalData->join('DataPersonalForcesMap','DataPersonalForcesMap.fId = DataPersonalForces.fid','left');
 		if ($txtSearch = $this->request->getGet('search')){
 			$where = "cardID LIKE '%{$txtSearch}%' OR firstName LIKE '%{$txtSearch}%' OR lastName LIKE '%{$txtSearch}%'";
 		$personalData->where($where);
