@@ -177,4 +177,34 @@ class GeneralModel extends Model
 		
     }
 
+    public function getPositionRankShortList()
+    {
+        $builder = $this->db->table('STDPositionRank');
+        $builder->select('rankID as id, randShortName as rank_name');
+        $builder->where('ativeStatus','1');
+        $builder->orderBy('ordering','ASC');
+        $data = array();
+
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->rank_name;
+        }
+
+        return $data;
+    }
+
+    public function getcodePrefixShort()
+    {
+        $builder = $this->db->table('DSLPrefix');
+        $builder->select('codePrefix, shortPrefix');
+        $builder->where('active','1');
+        $builder->orderBy('codePrefix','ASC');
+        $data = array();
+
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->codePrefix] = $value->shortPrefix;
+        }
+
+        return $data;
+    }
+
 }

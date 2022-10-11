@@ -58,13 +58,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="waves-effect">
+                    <a href="<?php echo base_url('PalaceByAssist?typeForce=1') ?>" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="waves-effect">
+                    <a href="<?php echo base_url('PalaceByAssist?typeForce=2') ?>" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
                     </a>
