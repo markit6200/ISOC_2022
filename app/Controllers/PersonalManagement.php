@@ -142,19 +142,19 @@ class PersonalManagement extends BaseController
 
 	public function delete($id)
     {
-        // $orginize = $this->PersonalForceModel->find($id);
-		// if (!$orginize) {
-		// 	$this->session->setFlashdata('errors', 'Invalid brand');
-		// 	return redirect()->to('StructureByAssistRate');
-		// }
+        $personal = $this->PersonalForceModel->find($id);
+		if (!$personal) {
+			$this->session->setFlashdata('errors', 'Invalid brand');
+			return redirect()->to('PersonalManagement');
+		}
 
-		// if ($this->PersonalForceModel->delete($orginize['positionMapID'])) {
-		// 	$this->session->setFlashdata('success', 'The brand has been deleted');
-		// 	return redirect()->to('StructureByAssistRate');
-		// } else {
-		// 	$this->session->setFlashdata('errors', 'Could not delete the brand');
-		// 	return redirect()->to('StructureByAssistRate');
-		// }
+		if ($this->PersonalForceModel->delete($personal['fid'])) {
+			$this->session->setFlashdata('success', 'The brand has been deleted');
+			return redirect()->to('PersonalManagement');
+		} else {
+			$this->session->setFlashdata('errors', 'Could not delete the brand');
+			return redirect()->to('PersonalManagement');
+		}
     }
 
 	public function updateStatus($id,$status)

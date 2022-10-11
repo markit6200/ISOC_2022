@@ -73,7 +73,7 @@
                                                                 <a href="<?php echo base_url('PersonalManagement/form/'.$value['fid']) ?>" class="btn  btn-warning  text-dark">
                                                                     <i class="mdi mdi-pencil"></i>&nbsp;แก้ไข
                                                                 </a>
-                                                                <button data-bs-toggle="modal" data-bs-target="#myModal" class="btn  btn-danger">&nbsp;
+                                                                <button data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModal('<?php echo $value['fid'] ?>','<?php echo $fullname ?>','<?php echo $positionCiviliain ?> ')" class="btn  btn-danger">&nbsp;
                                                                     <i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น
                                                                 </button>
                                                             </div>
@@ -111,6 +111,16 @@
 <?= $this->section('jsContent')?>
 <script src="<?php echo base_url() ?>/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 <script>
+    function showModal(id,name,position){
+        var textConfirm = 'ท่านต้องการจำหน่ายข้อมูล'+name+' ตำแหน่งและสังกัดปกติ '+position+' หรือไม่?';
+        $("#myModal").find('.modal-body #fid').val(id);
+        $("#myModal").find('.modal-body #textConfirm').html(textConfirm);
+    }
+
+    function removePersonal(){
+        var id = $("#myModal").find('.modal-body #fid').val();
+        location.href = '<?php echo base_url("PersonalManagement/delete"); ?>/'+id;
+    }
     function confirmDelete(id){
         Swal.fire({
             title: "ท่านต้องการลบข้อมูลใช่หรือไม่?",
