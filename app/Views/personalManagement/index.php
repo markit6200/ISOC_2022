@@ -52,8 +52,14 @@
                                                 $fullname = $preName.$fname.' '.$lname;
                                                 $positionCiviliain = isset($positionCivilianList[$value['positionCivilianID']])?$positionCivilianList[$value['positionCivilianID']]:'';
                                                 $positionCiviliain .= isset($positionCivilianGroupList[$value['positionCivilianGroupID']])?" ".$positionCivilianGroupList[$value['positionCivilianGroupID']]:'';
-                                                $position = isset($positionList[$value['positionID']])?$positionList[$value['positionID']]:'';
-                                                $position .= isset($positionGroupList[$value['positionGroupID']])?" ".$positionGroupList[$value['positionGroupID']]:'';;
+                                                if ($value['statusPackingRate'] == 2) {
+                                                    $position = '<span class="btn btn-outline-danger btn-rounded btn-sm">พ้นหน้าที่เมื่อ '.dayThai($value['dateOffPackingRate']).'</span>';
+                                                } else if ($value['statusPackingRate'] == 3) {
+                                                    $position = isset($positionList[$value['positionID']])?$positionList[$value['positionID']]:'';
+                                                    $position .= isset($positionGroupList[$value['positionGroupID']])?" ".$positionGroupList[$value['positionGroupID']]:'';;
+                                                } else {
+                                                    $position = '<span class="btn btn-outline-success btn-rounded btn-sm">รอบรรจุ</span>';
+                                                }
                                     ?>
                                                 <tr>
                                                     <td class="text-center" style="width:6rem;"><?php echo $i++; ?></td>
@@ -87,9 +93,8 @@
             <div class="card-footer clearfix">
                 <div class="row">
                     <div class="col-4">
-                        <div class="btn-group pagination justify-content-start" role="group" aria-label="pager counts">
-                            &nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-light"><?= 'หน้าที่ '.$currentPage.' จาก '.$totalPages; ?></button>
+                        <div class="pagination justify-content-start" role="group" aria-label="pager counts">
+                            <span class=""><?= 'หน้าที่ '.$currentPage.' จาก '.$totalPages; ?></span>
                         </div>
                     </div>
                     <div class="col-8">
