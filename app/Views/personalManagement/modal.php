@@ -8,11 +8,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>ท่านต้องการจำหน่ายข้อมูล ตำแหน่งงและสังกัด หรือไม่?</p>
+                <input type="hidden" class="form-control" id="fid" name="fid">
+                <span id="textConfirm"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">ปิด</button>
-                <button type="button" class="btn btn-danger waves-effect waves-light">ลบ</button>
+                <button type="button" onclick="removePersonal()" class="btn btn-danger waves-effect waves-light">ลบ</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
