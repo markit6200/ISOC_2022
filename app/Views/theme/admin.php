@@ -3,7 +3,7 @@
     <head>
 
         <?= $title_meta ?>
-
+        <?php echo $this->renderSection('cssTopContent') ?>
 		<?= $this->include('partials/head-css') ?>
 
     </head>
@@ -47,6 +47,7 @@
         <script>
             var baseUrl = '<?php echo base_url() ?>';
         </script>
+        <?php echo $this->renderSection('jsContent') ?>
         <script src="<?php echo base_url() ?>/assets/js/app.js?t=<?php echo date('YmdHis') ?>"></script>
 
     </body>

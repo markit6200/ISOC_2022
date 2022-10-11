@@ -10,6 +10,45 @@ class GeneralModel extends Model
     {
         $this->db = \Config\Database::connect('master'); 
     }
+    private $personalType = ['1'=>'พตท','2'=>'พ'];
+
+    public function getPrefix()
+    {
+        $builder = $this->db->table('DSLPrefix');
+        $builder->select('codePrefix as id, titlePrefix');
+        $builder->where('active','1');
+        $builder->orderBy('codePrefix','ASC');
+        $data = array();
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->titlePrefix;
+        }
+        return $data;
+    }
+
+    public function getHRType()
+    {
+        $builder = $this->db->table('STDHumanResourceType');
+        $builder->select('hrTypeID as id, hrShortName as hr_type_name');
+        $builder->orderBy('hrTypeID','ASC');
+        $data = array();
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->hr_type_name;
+        }
+        return $data;
+    }
+    
+
+    public function getPersonalType()
+    {
+        $builder = $this->db->table('STDPersonalType');
+        $builder->select('personalTypeID as id, personalTypeName as position_name');
+        $builder->where('activeStatus','1');
+        $data = array();
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->id] = $value->position_name;
+        }
+        return $data;
+    }
 
     public function getPosition()
     {
@@ -116,6 +155,26 @@ class GeneralModel extends Model
         }
 
         return $data;
+    }
+
+    public function getPositionRankTo($id)
+    {
+        $builder = $this->db->table('STDPositionRank');
+        $builder->select('rankID as id, rankName as rank_name, ordering');
+        $builder->where('rankID',$id);
+        $builder->where('ativeStatus',1);
+        $result = $builder->get()->getResultArray();
+        if(isset($result[0]['ordering'])){
+            $rank = $this->db->table('STDPositionRank');
+            $rank->select('rankID as id, rankName as rank_name');
+            $rank->where('ordering <=',$result[0]['ordering']);
+            $rank->where('ativeStatus',1);
+            $rank->orderBy('ordering','DESC');
+            return $rank->get()->getResult();
+        }
+        return ;
+
+		
     }
 
     public function getPositionRankShortList()

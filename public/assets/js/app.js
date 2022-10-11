@@ -246,7 +246,7 @@ File: Main Js File
         initRightSidebar();
         initDropdownMenu();
         initComponents();
-        initSettings();
+        // initSettings();
         initPreloader();
         Waves.init();
     }
