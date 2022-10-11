@@ -73,8 +73,8 @@ class PersonalManagement extends BaseController
 			$save_data = $this->PersonalForceModel->find($id);
 		}
 		$data = [
-			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-			'page_title' => view('partials/page-title', ['title' => 'ข้อมูลกำลังพล', 'pagetitle' => 'Minible']),
+			'title_meta' => view('partials/title-meta', ['title' => 'ข้อมูลกำลังพล']),
+			'page_title' => view('partials/page-title', ['title' => 'ข้อมูลกำลังพล', 'pagetitle' => 'ข้อมูลกำลังพล']),
 			'position' => $position,
 			'positionGroup' => $positionGroup,
 			'positionCivilian' => $positionCivilian,
