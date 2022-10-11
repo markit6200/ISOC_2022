@@ -46,7 +46,7 @@
                                         if (isset($personalData)):
                                             $i=1+(($currentPage-1) * $perPage);
                                             foreach ($personalData as $key => $value): 
-                                                $preName = isset($prefix[$value['codePrefix']])?$prefix[$value['codePrefix']].' ':'';
+                                                $preName = isset($prefix[$value['codePrefix']])?$prefix[$value['codePrefix']]:'';
                                                 $fname = $value['firstName'];
                                                 $lname = $value['lastName'];
                                                 $fullname = $preName.$fname.' '.$lname;
