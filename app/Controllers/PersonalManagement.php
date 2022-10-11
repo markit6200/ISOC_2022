@@ -74,7 +74,7 @@ class PersonalManagement extends BaseController
 		}
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-			'page_title' => view('partials/page-title', ['title' => 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.', 'pagetitle' => 'Minible']),
+			'page_title' => view('partials/page-title', ['title' => 'ข้อมูลกำลังพล', 'pagetitle' => 'Minible']),
 			'position' => $position,
 			'positionGroup' => $positionGroup,
 			'positionCivilian' => $positionCivilian,
