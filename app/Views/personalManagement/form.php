@@ -36,7 +36,7 @@
                         <div class="mb-3 row">
                             <label for="" class="col-12 col-md-3 form-label">คำนำหน้าชื่อ/ยศ</label>
                             <div class="col-12 col-md-6">
-                                <select class="form-select" name="codePrefix" id="codePrefix" >
+                                <select class="form-select select2" name="codePrefix" id="codePrefix" >
                                     <option value="">---- คำนำหน้าชื่อ/ยศ ----</option>
                                     <?php if (isset($codePrefix))
                                         foreach ($codePrefix as $key => $value) {
@@ -99,7 +99,7 @@
                         <div class="mb-3 row">
                             <label for="" class="col-12 col-md-3 form-label">ตำแหน่งและสายงานในสังกัดปกติ</label>
                             <div class="col-12 col-md-3">
-                                <select class="form-select" name="positionCivilian" id="positionCivilian" >
+                                <select class="form-select select2" name="positionCivilian" id="positionCivilian" >
                                     <option value="">---- เลือกตำแหน่งในสายงานปกติ ----</option>
                                     <?php if (isset($positionCivilian))
                                         foreach ($positionCivilian as $key => $value) {
@@ -186,21 +186,16 @@
 </form>
 
 <?= $this->endSection() ?>
+<?= $this->section('cssTopContent') ?>
+<link href="<?php echo base_url() ?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
 <?= $this->section('jsContent') ?>
     <script src="<?php echo base_url() ?>/assets/libs/parsleyjs/parsley.min.js"></script>
     <script src="<?php echo base_url() ?>/assets/js/pages/form-validation.init.js"></script>
+    <script src="<?php echo base_url() ?>/assets/libs/select2/js/select2.min.js"></script>
     <script>
         $(document).ready(function(){
-            // $('#strForm').submit(function(e) {
-
-            //     e.preventDefault();
-            // })
-            // $('form').on('submit', function(e){
-            //     // validation code here
-            //     // if(!valid) {
-            //     e.preventDefault();
-            //     // }
-            // });
+            $(".select2").select2();
         })
     </script>
         
