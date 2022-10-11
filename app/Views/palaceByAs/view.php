@@ -14,9 +14,9 @@
                                 <div class="">
                                     <!-- <form> -->
                                         <div class="input-group">
-                                            <input type="text" class="form-control" title="คำค้น เลขประจำตัวประชาชนมชื่อ-สกุล,ตำแหน่ง"  placeholder="ป้อนคำที่ต้องการค้นหา" >
+                                            <input type="text" class="form-control" name="search" id="search" title="คำค้น เลขประจำตัวประชาชนมชื่อ-สกุล,ตำแหน่ง"  placeholder="ป้อนคำที่ต้องการค้นหา" >
                                             <div class="input-group-append">
-                                                <button type="buttom" class="btn btn-success">ค้นหา</button>
+                                                <button type="buttom" class="btn btn-success" onclick="search();">ค้นหา</button>
                                             </div>
                                         </div>
                                     <!-- </form> -->
@@ -44,33 +44,13 @@
                             </tr>
 
                         </thead>
-                        <tbody>
-                        <?php 
-                            $runno = 0;
-                            foreach($personal AS $value){
-                                $runno++;
-                                $fId = $value->fid;
-                                echo '<tr>
-                                    <td class="text-center" rowspan="">'.$runno.'</td>
-                                    <td class="text-center" rowspan="">'.$value->cardID.' </td>
-                                    <td class="text-left" rowspan="">'.$value->codePrefixTxt.$value->firstName.' '.$value->lastName.'</td>
-                                    <td class="text-center">'.$value->personalPosition.'</td>
-                                    <td class="text-center">
-                                        <div class="col-auto pe-md-0">
-                                            <div class="form-group mb-0">
-                                                <button class="btn btn-primary" onclick="addPalace('.$fId.')">
-                                                    <x-orchid-icon path="fa.plus" />&nbsp;เพิ่ม
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>';
-                            } 
-
-                        ?>
+                        <tbody id="load_data">
+                        
                         </tbody>
                     </table>
                 </div>
+
+                <div id="loadPage"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
@@ -79,7 +59,12 @@
     </div>
 </div>
 
+<script src="assets/libs/jquery/jquery.min.js"></script>
 <script>
+$( document ).ready(function() {
+    search();
+});
+
 function addPalace(fId) {
     var positionMapID = $('#positionMapID').val();
     var typeForce = $('#typeForce').val();
@@ -111,4 +96,19 @@ function addPalace(fId) {
         }
     });
 }
+
+function search() {
+    var search = $('#search').val();
+    $.ajax({
+        url:  "PalaceByAssist/searchPersonal",
+        method: "post",
+        data: {search: search},
+        dataType: "text",
+        success: function (data) {
+            // console.log(data);
+            $("#load_data").html(data);
+        }
+    });
+}
+
 </script>
