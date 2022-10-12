@@ -145,7 +145,7 @@ class GeneralModel extends Model
     public function getPositionRankList()
     {
         $builder = $this->db->table('STDPositionRank');
-        $builder->select('rankID as id, rankName as rank_name');
+        $builder->select('rankID as id, randShortName as rank_name');
         $builder->where('ativeStatus','1');
         $builder->orderBy('ordering','ASC');
         $data = array();
