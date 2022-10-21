@@ -64,12 +64,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url('PalaceByAssist?typeForce=2') ?>" class="waves-effect">
-                        <i class="uil-calender"></i>
-                        <span>ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
-                    </a>
-                </li>
-                <li>
                     <a href="PersonalManagement" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ข้อมูลกำลังพล</span>
@@ -77,6 +71,32 @@
                 </li>
 
                 <li class="menu-title">ระบบย่อย</li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="uil-calender"></i>
+                        <span>ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="<?php echo base_url('StructureByAssistRate') ?>" class="waves-effect">
+                                <i class="uil-calender"></i>
+                                <span>ระบบโครงสร้างตามอัตราช่วยราชการ สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url('PalaceByAssist?typeForce=2') ?>" class="waves-effect">
+                                <i class="uil-calender"></i>
+                                <span>ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="PersonalManagement" class="waves-effect">
+                                <i class="uil-calender"></i>
+                                <span>ข้อมูลกำลังพล</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">

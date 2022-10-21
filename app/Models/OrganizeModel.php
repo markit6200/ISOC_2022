@@ -94,6 +94,7 @@ class OrganizeModel extends Model
 		$this->select('*');
 		$this->where('org_profile_id',$org_profile_id);
 		$this->where('org_parent',$org_id);
+		$this->where('profileType',1);
 		$this->orderBy('order_no','ASC');
 		$root+=1;
 		$data = $this->get()->getResult();
@@ -141,6 +142,7 @@ class OrganizeModel extends Model
 		$this->select('*');
 		$this->where('org_profile_id',$org_profile_id);
 		$this->where('org_parent',$org_id);
+		$this->where('profileType',1);
 		// $this->from('tree');
 		$this->orderBy('order_no','ASC');
 		$data = $this->get()->getResult();

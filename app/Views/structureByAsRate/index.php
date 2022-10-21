@@ -26,9 +26,9 @@
                                         <th scope="col" class="text-dark fw-bold text-center" style="width:15rem;">
                                             ชื่อตำแหน่งใน กอ.รมน./<br>ชื่อตำแหน่งในการบริหาร</th>
                                         <th scope="col" class="text-dark fw-bold text-center" style="width:6rem;">
-                                            ประเภทกำลังพล</th>
+                                            เหล่า</th>
                                         <th scope="col" class="text-dark fw-bold text-center" style="width:9rem;">
-                                            ตำแหน่งประเภท</th>
+                                            ประเภท</th>
                                         <th scope="col" class="text-dark fw-bold text-center" style="width:11rem;">
                                             ชื่อตำแหน่งใน<br>สายงานพลเรือน</th>
                                         <th scope="col" class="text-dark fw-bold text-center" style="width:7rem;">

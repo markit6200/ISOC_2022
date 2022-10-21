@@ -58,10 +58,10 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="" class="col-12 col-md-3 form-label">ประเภทกำลังพล</label>
+                                <label for="" class="col-12 col-md-3 form-label">เหล่า</label>
                                 <div class="col-12 col-md-6">
                                     <select class="form-select" name="positionType" id="positionType" >
-                                        <option value="">---- เลือกประเภทกำลังพล ----</option>
+                                        <option value="">---- เลือกเหล่า ----</option>
                                         <?php if (isset($positionType))
                                             foreach ($positionType as $key => $value) {
                                                 $sel = '';
@@ -75,15 +75,15 @@
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">
-                                        กรุณาเลือกตำแหน่งประเภทกำลังพล
+                                        กรุณาเลือกเหล่า
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="" class="col-12 col-md-3 form-label">ตำแหน่งประเภท</label>
+                                <label for="" class="col-12 col-md-3 form-label">ประเภท</label>
                                 <div class="col-12 col-md-6">
                                     <select class="form-select" name="positionGroup" id="positionGroup" required>
-                                        <option value="">---- เลือกตำแหน่งประเภท ----</option>
+                                        <option value="">---- เลือกประเภท ----</option>
                                         <?php if (isset($positionGroup))
                                             foreach ($positionGroup as $key => $value) {
                                                 $sel = '';
@@ -97,7 +97,7 @@
                                         ?>
                                     </select>
                                     <div class="invalid-feedback">
-                                        กรุณาเลือกตำแหน่งประเภท
+                                        กรุณาเลือกประเภท
                                     </div>
                                 </div>
                             </div>
