@@ -64,7 +64,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="PersonalManagement" class="waves-effect">
+                    <a href="<?php echo base_url('PersonalManagement') ?>" class="waves-effect">
                         <i class="uil-calender"></i>
                         <span>ข้อมูลกำลังพล</span>
                     </a>
@@ -78,19 +78,19 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="<?php echo base_url('StructureByAssistRate') ?>" class="waves-effect">
+                            <a href="<?php echo base_url('StructureByAssistRatePRMN') ?>" class="waves-effect">
                                 <i class="uil-calender"></i>
                                 <span>ระบบโครงสร้างตามอัตราช่วยราชการ สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url('PalaceByAssist?typeForce=2') ?>" class="waves-effect">
+                            <a href="<?php echo base_url('PalaceByAssistPRMN') ?>" class="waves-effect">
                                 <i class="uil-calender"></i>
                                 <span>ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.</span>
                             </a>
                         </li>
                         <li>
-                            <a href="PersonalManagement" class="waves-effect">
+                            <a href="<?php echo base_url('PersonalManagementPRMN') ?>" class="waves-effect">
                                 <i class="uil-calender"></i>
                                 <span>ข้อมูลกำลังพล</span>
                             </a>
