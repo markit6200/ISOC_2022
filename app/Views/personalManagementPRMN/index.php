@@ -14,7 +14,7 @@
                                 <button type="submit" class="btn btn-success">ค้นหา</button>
                             </div>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="<?php echo base_url('PersonalManagement/form') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มข้อมูล</a>
+                            <a href="<?php echo base_url('PersonalManagementPRMN/form') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มข้อมูล</a>
                         </div>
                     </form>
                 </div>
@@ -70,7 +70,7 @@
                                                     <td class="text-center">
                                                         <div class="col-auto pe-md-0 ">
                                                             <div class="form-group mb-0">
-                                                                <a href="<?php echo base_url('PersonalManagement/form/'.$value['fid']) ?>" class="btn  btn-warning  text-dark">
+                                                                <a href="<?php echo base_url('PersonalManagementPRMN/form/'.$value['fid']) ?>" class="btn  btn-warning  text-dark">
                                                                     <i class="mdi mdi-pencil"></i>&nbsp;แก้ไข
                                                                 </a>
                                                                 <button data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModal('<?php echo $value['fid'] ?>','<?php echo $fullname ?>','<?php echo $positionCiviliain ?> ')" class="btn  btn-danger">&nbsp;
@@ -119,22 +119,7 @@
 
     function removePersonal(){
         var id = $("#myModal").find('.modal-body #fid').val();
-        location.href = '<?php echo base_url("PersonalManagement/delete"); ?>/'+id;
-    }
-    function confirmDelete(id){
-        Swal.fire({
-            title: "ท่านต้องการลบข้อมูลใช่หรือไม่?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#f46a6a",
-            cancelButtonText: "ยกเลิก",
-            confirmButtonText: "ลบข้อมูล",
-            reverseButtons: true
-            }).then(function (result) {
-            if (result.value) {
-                location.href = '<?php echo base_url("StructureByAssistRate/delete"); ?>/'+id;
-            }
-        });
+        location.href = '<?php echo base_url("PersonalManagementPRMN/delete"); ?>/'+id;
     }
 </script>
 

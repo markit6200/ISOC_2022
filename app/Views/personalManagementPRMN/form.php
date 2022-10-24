@@ -1,7 +1,7 @@
 <?= $this->extend('theme/admin') ?>
 <?= $this->section('content') ?>
 <?php 
-    $action = isset($save_data['fid'])?base_url('PersonalManagement/update/'.$save_data['fid']):base_url('PersonalManagement/save');
+    $action = isset($save_data['fid'])?base_url('PersonalManagementPRMN/update/'.$save_data['fid']):base_url('PersonalManagementPRMN/save');
 ?>
 <form  class="needs-validation" novalidate action="<?php echo $action ?>" method="POST" id="strForm">
     <input type="hidden" name="id" value="<?php echo isset($save_data['fid'])?$save_data['fid']:'' ?>"/>
@@ -11,7 +11,7 @@
                 <div class="card-body d-inline">
                     <span class="h2"><?php echo $title; ?></span>
                     <div class="float-end">
-                        <a href="<?php echo base_url('PersonalManagement') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
+                        <a href="<?php echo base_url('PersonalManagementPRMN') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
                         <button class="btn btn-default" type="submit"><i class="fas fa-save"></i> บันทึก</button>
                     </div>
                 </div>
@@ -95,7 +95,6 @@
                                 </div>
                             </div>
                         </div>
-                    
                         <div class="mb-3 row">
                             <label for="" class="col-12 col-md-3 form-label">ตำแหน่งและสายงานในสังกัดปกติ</label>
                             <div class="col-12 col-md-3">
@@ -137,47 +136,6 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="mb-3 row">-->
-<!--                            <label for="" class="col-12 col-md-3 form-label">ตำแหน่งและสายงานในสังกัด กอ.รมน.</label>-->
-<!--                            <div class="col-12 col-md-3">-->
-<!--                                <select class="form-select select2"  name="position" id="position">-->
-<!--                                    <option value="">---- เลือกตำแหน่งใน กอ.รมน.----</option>-->
-<!--                                    --><?php //if (isset($position))
-//                                        foreach ($position as $key => $value) {
-//                                            $sel = '';
-//                                            if(isset($save_data['positionID'])){
-//                                                $sel = $save_data['positionID'] == $value->id? 'selected':'';
-//                                            }
-//                                        ?>
-<!--                                            <option value="--><?php //echo $value->id ?><!--" --><?php //echo $sel ?><!--<?php //echo $value->position_name ?></option>-->
-<!--                                        --><?php //
-//                                        }
-//                                    ?>
-<!--                                </select>-->
-<!--                                <div class="invalid-feedback">-->
-<!--                                    กรุณาเลือกตำแหน่งใน กอ.รมน.-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-12 col-md-3">-->
-<!--                                <select class="form-select" name="positionGroup" id="positionGroup" >-->
-<!--                                    <option value="">---- เลือกสายงานใน กอ.รมน. ----</option>-->
-<!--                                    --><?php //if (isset($positionGroup))
-//                                        foreach ($positionGroup as $key => $value) {
-//                                            $sel = '';
-//                                            if(isset($save_data['positionGroupID'])){
-//                                                $sel = $save_data['positionGroupID'] == $value->id? 'selected':'';
-//                                            }
-//                                        ?>
-<!--                                            <option value="--><?php //echo $value->id ?><!--" --><?php //echo $sel ?><!--<?php //echo $value->position_group_name ?></option>-->
-<!--                                        --><?php //
-//                                        }
-//                                    ?>
-<!--                                </select>-->
-<!--                                <div class="invalid-feedback">-->
-<!--                                    กรุณาเลือกสายงานใน กอ.รมน.-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </div>
                 </div>
             </div>

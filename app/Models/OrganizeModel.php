@@ -27,7 +27,7 @@ class OrganizeModel extends Model
 		return $data;
 	}
 
-	public function getOrganizeDetail($org_id)
+	public function getOrganizeDetail($org_id,$type)
 	{
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize');
@@ -52,6 +52,7 @@ class OrganizeModel extends Model
 				$rankTxt = !empty($value->rankID)?$rank[$value->rankID]:'-';
 				$rankTxt .= !empty($value->rankIDTo)?' - '.$rank[$value->rankIDTo]:'';
 				$positionNumberTxt = $value->positionNumber;
+				$link = $type == 1 ? base_url('StructureByAssistRate/form/'.$value->org_id.'/'.$value->positionMapID) : base_url('StructureByAssistRatePRMN/form/'.$value->org_id.'/'.$value->positionMapID);
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>';
@@ -70,7 +71,7 @@ class OrganizeModel extends Model
 				$html .= '			<div class="form-group mb-0">';
 
 
-				$html .= '				<a href="'.base_url('StructureByAssistRate/form/'.$value->org_id.'/'.$value->positionMapID).'" class="btn  btn-warning">';
+				$html .= '				<a href="'.$link.'" class="btn  btn-warning">';
 				$html .= '					<i class="mdi mdi-pencil"></i>&nbsp;แก้ไข';
 				$html .= '				</a>';
 				$html .= '				<button onclick="confirmDelete(\''.$value->positionMapID.'\')" class="btn  btn-danger">&nbsp;';
@@ -89,11 +90,12 @@ class OrganizeModel extends Model
 		return $html;
 	}
 
-    public function loopTreeListSub($org_id,$org_profile_id,$html,$root){
+    public function loopTreeListSub($org_id,$org_profile_id,$html,$root,$type){
         
 		$this->select('*');
 		$this->where('org_profile_id',$org_profile_id);
 		$this->where('org_parent',$org_id);
+		$this->where('profileType',$type);
 		$this->orderBy('order_no','ASC');
 		$root+=1;
 		$data = $this->get()->getResult();
@@ -101,16 +103,17 @@ class OrganizeModel extends Model
 				foreach( $data as $key => $value ){
 					
 					$name = $value->org_name;
-					$detail = $this->getOrganizeDetail($value->org_id);
+					$detail = $this->getOrganizeDetail($value->org_id,$type);
 					$hasParent = $this->hasParent($value->org_id,$org_profile_id);
 					$icon = ($detail != '')?'<i class="fas fa-angle-down"></i>':'';
+					$link = $type == 1 ? base_url('StructureByAssistRate/form/'.$value->org_id) : base_url('StructureByAssistRatePRMN/form/'.$value->org_id);
 					$cls = 'collapseExample'.$value->org_id;
 					$html .= '<tr>';
 					$html .= '	<td colspan="10" class="hl-l-bar-'.$root.'">';
 					$html .= '		<div class="ms-0 d-inline">';
 					$html .= '<a class="btn btn-default" data-bs-toggle="collapse" href=".'.$cls.'" aria-expanded="false" aria-controls="'.$cls.'">'.str_repeat('&nbsp;&nbsp;',$root).$icon.'&nbsp;&nbsp;'.$name.'</a>';
 					$html .= '			<div class="float-end">';
-					$html .= "				<a class=\"btn btn-default\" href=\"".base_url('StructureByAssistRate/form/'.$value->org_id)."\">";
+					$html .= "				<a class=\"btn btn-default\" href=\"".$link."\">";
 					$html .= "					<i class=\"mdi mdi-plus-circle-outline\"></i>&nbsp;เพิ่มตำแหน่ง";
 					$html .= '				</a>';
 					$html .= '			</div>';
@@ -118,7 +121,7 @@ class OrganizeModel extends Model
 					$html .= '	</td>';
 					$html .= '</tr>';
 					$html .=  $detail;
-					$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',$root);
+					$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',$root,$type);
 				}
 		}
 		return $html;
@@ -136,30 +139,32 @@ class OrganizeModel extends Model
 		  } 
 	}
 
-	public function getTreeList($org_profile_id,$org_id,$html)
+	public function getTreeList($org_profile_id,$org_id,$html,$type=1)
 	{
 		$this->select('*');
 		$this->where('org_profile_id',$org_profile_id);
 		$this->where('org_parent',$org_id);
+		$this->where('profileType',$type);
 		// $this->from('tree');
 		$this->orderBy('order_no','ASC');
 		$data = $this->get()->getResult();
 
 		foreach( $data as $key => $value ){
 			$name = $value->org_name;
+			$link = $type == 1 ? base_url('StructureByAssistRate/form/'.$value->org_id) : base_url('StructureByAssistRatePRMN/form/'.$value->org_id);
 			$html .= '<tr>';
 			$html .= '	<td colspan="10" class="hl-l-bar-1">';
 			$html .= '		<div class="ms-0 d-inline">';
 			$html .= ' 			<span>'.$name.'</span>';
 			$html .= '			<div class="float-end">';
-			$html .= "				<a class=\"btn btn-default\" href=\"".base_url('StructureByAssistRate/form/'.$value->org_id)."\">";
+			$html .= "				<a class=\"btn btn-default\" href=\"".$link."\">";
 			$html .= "					<i class=\"mdi mdi-plus-circle-outline\"></i>&nbsp;เพิ่มตำแหน่ง";
 			$html .= '				</a>';
 			$html .= '			</div>';
 			$html .= '		</div>';
 			$html .= '	</td>';
 			$html .= '</tr>';
-			$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',1);
+			$html .= $this->loopTreeListSub($value->org_id,$org_profile_id,'',1,$type);
 		}
 
 		return $html;

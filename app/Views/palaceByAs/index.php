@@ -120,6 +120,7 @@
                                 <tr>
                                     <th scope="col" style="width: 25rem;" class="text-dark fw-bold text-center">ลำดับ</th>
                                     <th scope="col" class="text-dark fw-bold text-center" style="width: 152rem;">ชื่อตำแหน่งใน กอ.รมน./<br>ชื่อตำแหน่งในการบริหาร</th>
+                                    <th scope="col" class="text-dark fw-bold text-center">ประเภทกำลังพล</th>
                                     <th scope="col" class="text-dark fw-bold text-center">ชั้นยศ</th>
                                     <th scope="col" class="text-dark fw-bold text-center" style="width: 30rem;">ตำแหน่ง<br>เลขที่</th>
                                     <th scope="col" class="text-dark fw-bold " style="width: 16rem;">ยศ</th>

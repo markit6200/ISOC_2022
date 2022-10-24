@@ -29,6 +29,7 @@ class GeneralModel extends Model
     {
         $builder = $this->db->table('STDHumanResourceType');
         $builder->select('hrTypeID as id, hrShortName as hr_type_name');
+        $builder->where('activeStatus','1');
         $builder->orderBy('hrTypeID','ASC');
         $data = array();
         foreach ($builder->get()->getResult() as $key => $value) {
@@ -43,6 +44,7 @@ class GeneralModel extends Model
         $builder = $this->db->table('STDPersonalType');
         $builder->select('personalTypeID as id, personalTypeName as position_name');
         $builder->where('activeStatus','1');
+        $builder->orderBy('ordering','ASC');
         $data = array();
         foreach ($builder->get()->getResult() as $key => $value) {
             $data[$value->id] = $value->position_name;
@@ -74,6 +76,7 @@ class GeneralModel extends Model
     public function getPositionGroup()
     {
         $builder = $this->db->table('STDPositionGroup');
+        $builder->where('activeStatus','1');
         $builder->select('positionGroupID as id, positionGroupName as position_group_name');
         return $builder->get()->getResult();
     }
@@ -81,6 +84,7 @@ class GeneralModel extends Model
     public function getPositionGroupList()
     {
         $builder = $this->db->table('STDPositionGroup');
+        $builder->where('activeStatus','1');
         $builder->select('positionGroupID as id, positionGroupName as position_group_name');
         $data = array();
 
@@ -145,7 +149,7 @@ class GeneralModel extends Model
     public function getPositionRankList()
     {
         $builder = $this->db->table('STDPositionRank');
-        $builder->select('rankID as id, rankName as rank_name');
+        $builder->select('rankID as id, randShortName as rank_name');
         $builder->where('ativeStatus','1');
         $builder->orderBy('ordering','ASC');
         $data = array();

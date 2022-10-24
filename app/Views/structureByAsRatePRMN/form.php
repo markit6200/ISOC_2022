@@ -1,5 +1,5 @@
 <?php 
-    $action = isset($save_data['positionMapID'])?base_url('StructureByAssistRate/update/'.$save_data['positionMapID']):base_url('StructureByAssistRate/save');
+    $action = isset($save_data['positionMapID'])?base_url('StructureByAssistRatePRMN/update/'.$save_data['positionMapID']):base_url('StructureByAssistRatePRMN/save');
     $prefix = isset($save_data['positionMapID'])?'แก้ไข':'';
 ?>
 <?= $this->extend('theme/admin') ?>
@@ -15,7 +15,7 @@
 
                     <span class="h2"><?php echo $prefix.$title; ?></span>
                     <div class="float-end">
-                        <a href="<?php echo base_url('StructureByAssistRate') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
+                        <a href="<?php echo base_url('StructureByAssistRatePRMN') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
                         <button class="btn btn-default" type="submit"><i class="fas fa-save"></i> บันทึก</button>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
             if (id != ''){
                 $('.selectRankTo').html('<div class="spinner-border text-secondary m-1" role="status"><span class="sr-only">Loading...</span> </div>');
                 $.ajax({
-                    url: "<?php echo base_url('StructureByAssistRate/ajaxGetRank/') ?>/"+id,
+                    url: "<?php echo base_url('StructureByAssistRatePRMN/ajaxGetRank/') ?>/"+id,
                     type: 'get',
                     contentType: false,
                     processData: false,

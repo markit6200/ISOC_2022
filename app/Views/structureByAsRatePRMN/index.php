@@ -73,7 +73,7 @@
             reverseButtons: true
             }).then(function (result) {
             if (result.value) {
-                location.href = '<?php echo base_url("StructureByAssistRate/delete"); ?>/'+id;
+                location.href = '<?php echo base_url("StructureByAssistRatePRMN/delete"); ?>/'+id;
             }
         });
     }

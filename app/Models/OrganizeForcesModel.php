@@ -32,6 +32,7 @@ class OrganizeForcesModel extends Model
 		// echo $db->getLastQuery(); exit;
 		$html = '';
 		$position = $this->generalModel->getPositionList();
+        $personalType = $this->generalModel->getPersonalType();
 		$positionGroup = $this->generalModel->getPositionGroupList();
 		$positionCivilian = $this->generalModel->getPositionCivilianList();
 		$positionCivilianGroup = $this->generalModel->getPositionCivilianGroupList();
@@ -43,10 +44,12 @@ class OrganizeForcesModel extends Model
 			foreach( $result as $key => $value ){
 				$this->num++;
 				$positionTxt = $position[$value->positionID];
+                $personalTypeTxt = $personalType[$value->positionType];
 				$positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
 				$positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
 				$positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
+				$rankToTxt = !empty($value->rankIDTo)?' - '.$rankShort[$value->rankIDTo]:'';
 				$positionNumberTxt = $value->positionNumber;
 				$fullName = $value->firstName.' '.$value->lastName;
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
@@ -57,8 +60,9 @@ class OrganizeForcesModel extends Model
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;'.$css_bg.'"> ';
 				$html .= '	<td class="text-center" style="width:6rem;">'.$this->num.'</td>';
 				$html .= '	<td scope="row"> '.$positionTxt.'</td>'; //ชื่อตำแหน่งใน กอ.รมน./>ชื่อตำแหน่งในการบริหาร
-				$html .= '	<td><div class="dhx_demo-active">'.$rankTxt.'</div></td>'; //ชั้นยศ
-				$html .= '	<td>'.$positionNumberTxt.'</td>'; //ตำแหน่งเลขที่
+                $html .= '	<td>'.$personalTypeTxt.'</td>';
+				$html .= '	<td><div class="dhx_demo-active">'.$rankTxt.$rankToTxt.'</div></td>'; //ชั้นยศ
+				$html .= '	<td class="text-center">'.$positionNumberTxt.'</td>'; //ตำแหน่งเลขที่
 
 				if($value->mId != ''){
 					$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';

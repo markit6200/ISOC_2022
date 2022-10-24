@@ -5,7 +5,7 @@ use App\Models\OrganizeModel;
 use App\Models\GeneralModel;
 use App\Models\DataPositionMapOrganizeModel;
 use App\Models\PersonalForceModel;
-class PersonalManagement extends BaseController
+class PersonalManagementPRMN extends BaseController
 {
 	protected $perPage = 100;
 
@@ -33,6 +33,7 @@ class PersonalManagement extends BaseController
 		$data['title'] = 'ข้อมูลกำลังพล';
 		$personalData = $this->PersonalForceModel->select("*");
 		$personalData->join('DataPersonalForcesMap','DataPersonalForcesMap.fId = DataPersonalForces.fid','left');
+		$personalData->where('profileType',2);
 		if ($txtSearch = $this->request->getGet('search')){
 			$where = "cardID LIKE '%{$txtSearch}%' OR firstName LIKE '%{$txtSearch}%' OR lastName LIKE '%{$txtSearch}%'";
 		$personalData->where($where);
@@ -48,7 +49,7 @@ class PersonalManagement extends BaseController
 		$data['currentPage'] =$this->PersonalForceModel->pager->getCurrentPage('bootstrap'); // The current page number
         $data['totalPages']  = $this->PersonalForceModel->pager->getPageCount('bootstrap');   // The total page count
 		$data['perPage'] = $this->perPage;
-		return view('personalManagement/index', $data);
+		return view('personalManagementPRMN/index', $data);
 	}
 
 	public function view()
@@ -57,7 +58,7 @@ class PersonalManagement extends BaseController
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
 		];
-		return view('personalManagement/view', $data);
+		return view('personalManagementPRMN/view', $data);
 	}
 
 	public function form($id='')
@@ -86,7 +87,7 @@ class PersonalManagement extends BaseController
 			'codePrefix' => $codePrefix,
 			'hrType' => $hrType,
 		];
-		return view('personalManagement/form', $data);
+		return view('personalManagementPRMN/form', $data);
 	}
 
 	public function save()
@@ -101,16 +102,16 @@ class PersonalManagement extends BaseController
 			'positionGroupID' => $this->request->getVar('positionGroup'),
 			'positionCivilianID' => $this->request->getVar('positionCivilian'),
 			'positionCivilianGroupID' => $this->request->getVar('positionCivilianGroup'),
+			'profileType' => '2',
         ];
 		
-
         if ($this->PersonalForceModel->save($params)) {
             // $this->session->setFlashdata('success', 'Brand has been saved.');
-            return redirect()->to('PersonalManagement');
+            return redirect()->to('PersonalManagementPRMN');
         } else {
             // $this->getBrands();
             $this->data['errors'] = $this->PersonalForceModel->errors();
-            return view('personalManagement/form', $this->data);
+            return view('personalManagementPRMN/form', $this->data);
         }
     }
 
@@ -127,16 +128,17 @@ class PersonalManagement extends BaseController
 			'positionGroupID' => $this->request->getVar('positionGroup'),
 			'positionCivilianID' => $this->request->getVar('positionCivilian'),
 			'positionCivilianGroupID' => $this->request->getVar('positionCivilianGroup'),
+			'profileType' => '2',
         ];
 		
 
         if ($this->PersonalForceModel->save($params)) {
             // $this->session->setFlashdata('success', 'Brand has been saved.');
-            return redirect()->to('PersonalManagement');
+            return redirect()->to('PersonalManagementPRMN');
         } else {
             // $this->getBrands();
             $this->data['errors'] = $this->PersonalForceModel->errors();
-            return view('personalManagement/form/'.$id, $this->data);
+            return view('personalManagementPRMN/form/'.$id, $this->data);
         }
     }
 
@@ -144,16 +146,16 @@ class PersonalManagement extends BaseController
     {
         $personal = $this->PersonalForceModel->find($id);
 		if (!$personal) {
-			$this->session->setFlashdata('errors', 'Invalid brand');
-			return redirect()->to('PersonalManagement');
+			// $this->session->setFlashdata('errors', 'Invalid brand');
+			return redirect()->to('PersonalManagementPRMN');
 		}
 
 		if ($this->PersonalForceModel->delete($personal['fid'])) {
-			$this->session->setFlashdata('success', 'The brand has been deleted');
-			return redirect()->to('PersonalManagement');
+			// $this->session->setFlashdata('success', 'The brand has been deleted');
+			return redirect()->to('PersonalManagementPRMN');
 		} else {
-			$this->session->setFlashdata('errors', 'Could not delete the brand');
-			return redirect()->to('PersonalManagement');
+			// $this->session->setFlashdata('errors', 'Could not delete the brand');
+			return redirect()->to('PersonalManagementPRMN');
 		}
     }
 
@@ -167,11 +169,11 @@ class PersonalManagement extends BaseController
 
         if ($this->PersonalForceModel->save($params)) {
             // $this->session->setFlashdata('success', 'Brand has been saved.');
-            return redirect()->to('PersonalManagement');
+            return redirect()->to('PersonalManagementPRMN');
         } else {
             // $this->getBrands();
             $this->data['errors'] = $this->PersonalForceModel->errors();
-            return view('personalManagement/form/'.$id, $this->data);
+            return view('personalManagementPRMN/form/'.$id, $this->data);
         }
     }
 
