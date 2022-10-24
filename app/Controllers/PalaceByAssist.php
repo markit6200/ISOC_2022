@@ -22,16 +22,23 @@ class PalaceByAssist extends BaseController
 		$org = new OrganizeForcesModel();
 		$tree = $org->getTreeList(1,0,'');
 
+		// $data = [
+		// 	'title_meta' => view('partials/title-meta', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
+		// 	'page_title' => view('partials/page-title', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
+			
+		// ];
+
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
-			'page_title' => view('partials/page-title', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
+			'page_title' => view('partials/page-title', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.','pagetitle' => '']),
 			
 		];
-		if($_GET['typeForce'] == 1){
-			$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.';
-		}else{
-			$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.';
-		}
+		// if($_GET['typeForce'] == 1){
+		// 	$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.';
+		// }else{
+		// 	$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.';
+		// }
+		$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.';
 		$data['datas'] = '';
 		$data['table_content'] = $tree;
 		// $data['personal'] = $dataPersonal;
@@ -67,21 +74,21 @@ class PalaceByAssist extends BaseController
 	public function view()
 	{
 		exit;
-		$data = [
-			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
-		];
-		return view('palaceByAs/view', $data);
+		// $data = [
+		// 	'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
+		// 	'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
+		// ];
+		// return view('palaceByAs/view', $data);
 	}
 
 	public function form()
 	{
 		exit;
-		$data = [
-			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
-		];
-		return view('palaceByAs/form', $data);
+		// $data = [
+		// 	'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
+		// 	'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
+		// ];
+		// return view('palaceByAs/form', $data);
 	}
 
 	public function savePalace()

@@ -152,7 +152,7 @@ class OrganizeForcesModel extends Model
 					$icon = ($detail != '')?'<i class="fas fa-angle-down"></i>':'';
 					$cls = 'collapseExample'.$value->org_id;
 					$html .= '<tr>';
-					$html .= '	<td colspan="13" class="line_bar-'.$root.'">';
+					$html .= '	<td colspan="14" class="line_bar-'.$root.'">';
 					$html .= '		<div class="ms-0 d-inline custom-code bar-'.$root.'">';
 					$html .= '<a class="btn btn-default" data-bs-toggle="collapse"
 									href=".'.$cls.'" aria-expanded="false" aria-controls="'.$cls.'">
@@ -203,7 +203,7 @@ class OrganizeForcesModel extends Model
 		foreach( $data as $key => $value ){
 			$name = $value->org_name;
 			$html .= '<tr>';
-			$html .= '	<td colspan="13" class="line_bar">';
+			$html .= '	<td colspan="14" class="line_bar">';
 			$html .= '		<div class="ms-0 d-inline custom-code bar-1">';
 			$html .= ' 			<span>'.$name.'</span>';
 			$html .= '			<div class="float-end">';
