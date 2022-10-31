@@ -3,6 +3,7 @@
 use App\Models\OrganizeModel;
 use App\Models\GeneralModel;
 use App\Models\DataPositionMapOrganizeModel;
+use App\Libraries\ExportExcel;
 class StructureByAssistRatePRMN extends BaseController
 {
 	public function __construct()
@@ -149,5 +150,19 @@ class StructureByAssistRatePRMN extends BaseController
 		$data['positionRank'] = $positionRank;
 
 		return view('structureByAsRatePRMN/ajaxRankTo', $data);
+	}
+
+	// EXCEL
+	public function exportExcel()
+	{
+		$exportexcel = new ExportExcel();
+		$data = array();
+		$file_name = 'รายงานสิทธิ์สวัสดิการเจ้าหน้าที่';
+		$data['file_name'] = $file_name;
+
+		// จัดให้อยู่ในรูปแบบ html
+		$html = view('structureByAsRatePRMN/export', $data,);
+		// echo $html;die();
+		$result =  $exportexcel->export($data, $file_name, $html, 'L');
 	}
 }
