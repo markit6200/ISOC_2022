@@ -89,11 +89,19 @@
             padding: 4px 12px;
         }
     
-        .dtHorizontalVerticalExampleWrapper {
+        /* .dtHorizontalVerticalExampleWrapper {
             max-width: 600px;
             margin: 0 auto;
         }
         #dtHorizontalVerticalExample th, td {
+            white-space: nowrap;
+        } */
+
+        .dtHorizontalVerticalWrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .dtHorizontalVertical th, td {
             white-space: nowrap;
         }
         table.dataTable thead .sorting:after,
@@ -108,6 +116,7 @@
         table.dataTable thead .sorting_desc_disabled:before {
             bottom: .5em;
         }
+
     </style>
 
     <div class="row">
@@ -115,7 +124,7 @@
             <div class="bg-white rounded shadow-sm p-4 py-4 d-flex flex-column">
                 <div class="row form-group align-items-baseline">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dtHorizontalVerticalExample">
+                        <table class="table table-bordered dtHorizontalVertical" id="">
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 25rem;" class="text-dark fw-bold text-center">ลำดับ</th>
@@ -188,9 +197,9 @@ function checkRequest(org_id){
 
         $("input:checkbox[name=checkBoxReq]:checked").each(function(){
             ReqD.push($(this).val());
-            $('#requestDirectiveModal .controlData').append(`
-                <input type="hidden" id="cReq${ $(this).val() }" name="${ $(this).attr('name') }Name[]" value="${ $(this).val() }" class='ReqD' />
-            `);
+            // $('#requestDirectiveModal .controlData').append(`
+            //     <input type="hidden" id="cReq${ $(this).val() }" name="${ $(this).attr('name') }Name[]" value="${ $(this).val() }" class='ReqD' />
+            // `);
         });
 
         $.ajax({
@@ -200,8 +209,8 @@ function checkRequest(org_id){
             dataType: "text",
             success: function (data) {
                 $("#directiveBegin").val('');
-                $("#dateBegin").val('');
-                $("#dateEnd").val('');
+                $("#hID").val('');
+                $("#orderTypeID").val('');
 
                 $("#loadPData").html(data);
             }
@@ -224,8 +233,9 @@ function checkRequest(org_id){
                         success: function (msg) {
                             var obj = JSON.parse(msg);
                             $("#directiveBegin").val(obj.directiveBegin);
-                            $("#dateBegin").val(obj.dateBegin);
-                            $("#dateEnd").val(obj.dateEnd);
+                            $("#hID").val(obj.hID);
+                            $("#orderTypeID").val(obj.orderTypeID);
+
                             $("#loadPData").html(obj.html);
 
                             $('#requestDirectiveModal .controlData').append(`${obj.input}`);

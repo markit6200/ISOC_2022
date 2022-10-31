@@ -23,9 +23,10 @@ class OrganizeForcesModel extends Model
 
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.directiveBegin,t2.dateBegin,t2.dateEnd,t2.directiveRetire,t2.dateRetire');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t4.directiveBegin,t2.dateBegin,t2.dateEnd,t2.directiveRetire,t2.dateRetire');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '{$typeForce}' AND t2.statusPackingRate != '2'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
+		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id","left");
 		$builder->where("t1.org_id = '{$org_id}' AND t1.profileType = 1");
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();

@@ -5,6 +5,7 @@ use App\Models\OrganizeForcesModel;
 use App\Models\GeneralModel;
 use App\Models\DataPersonalForcesMapModel;
 use App\Models\DataPersonalForcesModel;
+use App\Models\DataPersonalForcesMapHeadModel;
 
 class PalaceByAssist extends BaseController
 {
@@ -15,6 +16,7 @@ class PalaceByAssist extends BaseController
 		$this->DataPersonalForcesMapModel = new DataPersonalForcesMapModel();
 		$this->personalForcesModel = new DataPersonalForcesModel();
 		$this->generalModel = new GeneralModel();
+		$this->DataPersonalForcesMapHeadModel = new DataPersonalForcesMapHeadModel();
     }
 
 	public function index()
@@ -67,6 +69,9 @@ class PalaceByAssist extends BaseController
         // $data['totalPages']  = $this->personalForcesModel->pager->getPageCount('bootstrap');   // The total page count
 		// $data['perPage'] = $this->perPage;
 		$data['typeForce'] = $_GET['typeForce'];
+
+		$orderType = $this->generalModel->getOrderType();
+		$data['orderType'] = $orderType;
 
 		return view('palaceByAs/index', $data);
 	}
@@ -182,18 +187,36 @@ class PalaceByAssist extends BaseController
     {
 		// echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
 		if(!empty($_POST['checkBoxReqName'])){
-			foreach($_POST['checkBoxReqName'] AS $key){
-				$params = [
-					'mId' => $key,
-					'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
-					'directiveBegin' => $_POST['directiveBegin'], //คำสั่งปฏิบัติ
-					'dateBegin' => @$this->ConvertToSQLDate($_POST['dateBegin']), //วันที่ปฏิบัติ
-					'dateEnd' => @$this->ConvertToSQLDate($_POST['dateEnd']) //วันที่สิ้นสุด
+			foreach($_POST['checkBoxReqName'] AS $key=>$val){
+				//บันทึกตารางหลัก
+				$paramsHead = [
+					'id' => @$_POST['hID'],
+					'statusDirective' => $_POST['statusDirective'], //สถานะ
+					'directiveBegin' => $_POST['directiveBegin'],
+					'orderTypeID' => $_POST['orderTypeID'],
+					'orgID' => @$_POST['rOrgId'],
 				];
-				$this->DataPersonalForcesMapModel->save($params);
+				// echo '<pre>'; print_r($paramsHead); echo '</pre>';
+				if($this->DataPersonalForcesMapHeadModel->save($paramsHead)){
+					if(@$_POST['hID'] == ''){
+						$hID = $this->DataPersonalForcesMapHeadModel->insertID();
+					}else{
+						$hID = @$_POST['hID'];
+					}
+
+					$params = [
+						'mId' => $val,
+						'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
+						'hID' => @$hID, 
+						'dateBegin' => @$this->ConvertToSQLDate($_POST['dateBegin'][$key]), //วันที่ปฏิบัติ
+						'dateEnd' => @$this->ConvertToSQLDate($_POST['dateEnd'][$key]) //วันที่สิ้นสุด
+					];
+					$this->DataPersonalForcesMapModel->save($params);
+					// echo '<pre>'; print_r($params); echo '</pre>';
+				}
 			}
 		}
-		
+		// exit;
 		return redirect()->to('PalaceByAssist?typeForce=1');
     }
 
@@ -264,6 +287,7 @@ class PalaceByAssist extends BaseController
 		$rank = $this->generalModel->getPositionRankList();
 		$rankShort = $this->generalModel->getPositionRankShortList();
 		$codePrefixShort = $this->generalModel->getcodePrefixShort();
+		$orderType = $this->generalModel->getOrderType();
 
 		$html = '';
 		$runno = 0;
@@ -278,13 +302,25 @@ class PalaceByAssist extends BaseController
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
 				$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';
 				$html .= '<tr id="R'.$value->mId.'">
-							<td class="text-center" rowspan="">'.$runno.'</td>
+							<td class="text-center" rowspan="">'.$runno.'<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" /></td>
 							<td class="text-center" rowspan="">'.$positionTxt.' </td>
 							<td class="text-left" rowspan="">'.$rankTxt.'</td>
 							<td class="text-center">'.$positionNumberTxt.'</td>
 							<td class="text-center">'.$codePrefixTxt.'</td>
 							<td class="text-center">'.$fullName.'</td>
 							<td class="text-center">'.$personalPositionCivilianTxt.'</td>
+							<td class="text-center">
+								<div class="input-group" id="datepicker2">
+									<input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="dateBegin" name="dateBegin[]">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
+							</td>
+							<td class="text-center">
+								<div class="input-group" id="datepicker2">
+									<input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="dateEnd" name="dateEnd[]">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
+							</td>
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
@@ -333,9 +369,10 @@ class PalaceByAssist extends BaseController
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.directiveBegin,t2.dateBegin,t2.dateEnd,t2.directiveRetire,t2.dateRetire');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveBegin,t2.dateBegin,t2.dateEnd,t2.directiveRetire,t2.dateRetire,t4.orderTypeID');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
+		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id","left");
 		$builder->where("t1.org_id = '{$org_id}' AND t2.statusPackingRate = '4'");
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();
@@ -348,17 +385,24 @@ class PalaceByAssist extends BaseController
 		$rank = $this->generalModel->getPositionRankList();
 		$rankShort = $this->generalModel->getPositionRankShortList();
 		$codePrefixShort = $this->generalModel->getcodePrefixShort();
+		$orderType = $this->generalModel->getOrderType();
 
 		$html = '';
 		$input = '';
 		$runno = 0;
+		$dateBegin = '';
+		$dateEnd = '';
 		if(!empty($result)){
 			foreach($result AS $value){
 				$runno++;
 
 				$arr_data['directiveBegin'] = $value->directiveBegin;
-				$arr_data['dateBegin'] = $this->mydate2date($value->dateBegin,0,'en');
-				$arr_data['dateEnd'] = $this->mydate2date($value->dateEnd,0,'en');
+				$arr_data['hID'] = $value->hID;
+				$arr_data['orderTypeID'] = $value->orderTypeID;
+				// $arr_data['dateBegin'] = $this->mydate2date($value->dateBegin,0,'en');
+				// $arr_data['dateEnd'] = $this->mydate2date($value->dateEnd,0,'en');
+				$dateBegin = $this->mydate2date($value->dateBegin,0,'en');
+				$dateEnd = $this->mydate2date($value->dateEnd,0,'en');
 				
 				$positionTxt = $position[$value->positionID];
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
@@ -367,7 +411,7 @@ class PalaceByAssist extends BaseController
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
 				$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';
 				$html .= '<tr id="R'.$value->mId.'">
-							<td class="text-center" rowspan="">'.$runno.'</td>
+							<td class="text-center" rowspan="">'.$runno.'<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" /></td>
 							<td class="text-center" rowspan="">'.$positionTxt.' </td>
 							<td class="text-left" rowspan="">'.$rankTxt.'</td>
 							<td class="text-center">'.$positionNumberTxt.'</td>
@@ -375,17 +419,27 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">'.$fullName.'</td>
 							<td class="text-center">'.$personalPositionCivilianTxt.'</td>
 							<td class="text-center">
+								<div class="input-group" id="datepicker2">
+									<input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="dateBegin" name="dateBegin[]" value="'.$dateBegin.'">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
+							</td>
+							<td class="text-center">
+								<div class="input-group" id="datepicker2">
+									<input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="dateEnd" name="dateEnd[]" value="'.$dateEnd.'">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
+							</td>
+							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button class="btn btn-danger" onclick="delRow('.$value->mId.')">
-											<x-orchid-icon path="fa.plus" />&nbsp;ลบ
-										</button>
+										<button type="button" class="btn btn-danger" onclick="delRow('.$value->mId.')">ลบ</button>
 									</div>
 								</div>
 							</td>
 						</tr>';
 				
-				$input .= '<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" />';
+				// $input .= '<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" />';
 			}
 		}
 		$arr_data['html'] = $html;
@@ -457,5 +511,35 @@ class PalaceByAssist extends BaseController
 		}
 		
 		return redirect()->to('PalaceByAssist?typeForce=1');
+    }
+
+	public function saveDelRequest()
+    {
+		// echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
+		if(!empty($_POST['mId'])){
+			$params = [
+				'mId' => $_POST['mId'],
+				'statusPackingRate' => '3', //สถานะ รอออกคำสั่ง
+				'dateBegin' => NULL,
+				'dateEnd' => NULL,
+				'hID' => NULL,
+			];
+
+			if ($this->DataPersonalForcesMapModel->save($params)) {
+
+				//เช็คว่าถ้าไม่มีตารางหลักแล้วให้ลบข้อมูลตารางหลักออก
+				
+				$result = 'success';
+			} else {
+				$result = 'error';
+			}
+			
+		}else{
+			$result = 'error';
+		}
+		echo $result;
+		// return redirect()->to('PalaceByAssist?typeForce=1');
+
+		
     }
 }

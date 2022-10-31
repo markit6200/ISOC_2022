@@ -10,7 +10,7 @@
             <div class="modal-body" style="padding:22px;">
                 <div class="card">
                     <div class="card-body">
-                        <form class="needs-validation" novalidate action="<?php echo base_url('PalaceByAssist/saveRequestRetire'); ?>" method="POST" id="forRetire">
+                        <form action="<?php echo base_url('PalaceByAssist/saveRequestRetire'); ?>" method="POST" id="forRetire">
                             <input type="hidden" class="form-control" id="statusPackingRateR" name="statusPackingRate">
                             <input type="hidden" class="form-control" id="mId" name="mId">
                             <div class="row">
@@ -19,7 +19,7 @@
                                         <label for="" class="col-12 col-md-3 form-label"></label>
                                         <label for="directiveRetire" class="col-12 col-md-1 form-label">คำสั่งพ้น</label>
                                         <div class="col-12 col-md-5">
-                                            <input type="text" class="form-control"  id="directiveRetire" name="directiveRetire" value="" required/>
+                                            <input type="text" class="form-control"  id="directiveRetire" name="directiveRetire" value="">
                                         </div>
                                     </div>
 
@@ -28,7 +28,7 @@
                                         <label for="dateRetire" class="col-12 col-md-1 form-label">วันที่พ้น</label>
                                         <div class="col-12 col-md-5">
                                             <div class="input-group" id="dateRetire2">
-                                                <input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container='#dateRetire2' data-provide="datepicker" data-date-autoclose="true" id="dateRetire" name="dateRetire" required>
+                                                <input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container='#dateRetire2' data-provide="datepicker" data-date-autoclose="true" id="dateRetire" name="dateRetire">
                                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                             </div>
                                         </div>
