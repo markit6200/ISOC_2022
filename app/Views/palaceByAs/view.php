@@ -75,7 +75,6 @@ function addPalace(fId) {
         data: {fId: fId,positionMapID:positionMapID,typeForce:typeForce},
         dataType: "text",
         success: function (data) {
-            console.log(data);
             if(data == 'success'){
                 Swal.fire({
                     icon: 'success',
@@ -105,7 +104,6 @@ function search() {
         data: {search: search},
         dataType: "text",
         success: function (data) {
-            // console.log(data);
             $("#load_data").html(data);
         }
     });

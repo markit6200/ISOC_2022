@@ -211,4 +211,18 @@ class GeneralModel extends Model
         return $data;
     }
 
+    public function getOrderType()
+    {
+        $builder = $this->db->table('STDOrderType');
+        $builder->select('orderTypeID, orderTypeName');
+        $builder->orderBy('orderTypeID','ASC');
+        $data = array();
+
+        foreach ($builder->get()->getResult() as $key => $value) {
+            $data[$value->orderTypeID] = $value->orderTypeName;
+        }
+
+        return $data;
+    }
+
 }
