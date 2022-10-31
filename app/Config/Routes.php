@@ -30,7 +30,10 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'StructureByAssistRate::index');
+$routes->get('/', 'StructureByAssistRate::index', ['filter' => 'authGuard']);
+$routes->get('/OrganizeProfile', 'OrganizeProfile::index', ['filter' => 'authGuard']);
+$routes->get('/PersonalManagement', 'PersonalManagement::index', ['filter' => 'authGuard']);
+$routes->get('/UserManager', 'UserManager::index', ['filter' => 'authGuard']);
 
 $routes->get('/lang/{locale}', 'Language::index');
 // example
