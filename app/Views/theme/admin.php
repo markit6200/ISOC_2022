@@ -20,7 +20,7 @@
             <!-- ============================================================== -->
             <div class="main-content">
 
-                <div class="page-content">
+                <div class="mt-3">
                     <div class="container-fluid">
 
                     <?php echo $this->renderSection('content') ?>
