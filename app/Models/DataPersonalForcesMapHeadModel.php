@@ -7,7 +7,7 @@ class DataPersonalForcesMapHeadModel extends Model
 {
     protected $table      = 'DataPersonalForcesMapHead';
 	protected $primaryKey = 'id';
-    protected $allowedFields = ['id','orderTypeID','orgID','directiveBegin','statusDirective','createDate','updateTime','userID'];
+    protected $allowedFields = ['id','orderTypeID','orgID','directiveNo','directiveType','statusDirective','createDate','updateTime','userID'];
     
     public function __construct() {
 		parent::__construct();

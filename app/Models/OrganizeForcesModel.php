@@ -23,10 +23,11 @@ class OrganizeForcesModel extends Model
 
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t4.directiveBegin,t2.dateBegin,t2.dateEnd,t2.directiveRetire,t2.dateRetire');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t5.directiveNo AS directiveRetire,t2.dateRetire');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '{$typeForce}' AND t2.statusPackingRate != '2'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
-		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id","left");
+		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
+		$builder->join("DataPersonalForcesMapHead AS t5","t2.hIDRetire = t5.id AND t5.directiveType = 2","left");
 		$builder->where("t1.org_id = '{$org_id}' AND t1.profileType = 1");
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();
@@ -55,7 +56,6 @@ class OrganizeForcesModel extends Model
 				$fullName = $value->firstName.' '.$value->lastName;
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
 
-				// $css_bg = ($value->statusPackingRate == '1')?"background: yellow;":(($value->statusPackingRate == '2')?"background: #f46a6a;":(($value->statusPackingRate == '3')?"background: #ffffff;":""));
 				$arr_color = array('1'=>'#ffffff','2'=>'#ffffff','3'=>'yellow','4'=>'#81d4fa','5'=>'#81d4fa','6'=>'#f46a6a','7'=>'#f46a6a');
 				$css_bg = "background:".@$arr_color[$value->statusPackingRate];
 				$html .= '	<tr class="collapseExample'.$value->org_id.' show" style="vertical-align: middle;'.$css_bg.'"> ';
@@ -93,7 +93,7 @@ class OrganizeForcesModel extends Model
 					if($value->statusPackingRate == '3'){
 						$html .= '			<div class="col-auto pe-md-0">';
 						$html .= '				<div class="form-group mb-0">';
-						$html .= '					<input type="checkbox" class="custom-control-input tran_id_item select_print_slip" data-line="'.$value->mId.'" id="checkBoxReq'.$value->mId.'" name="checkBoxReq" value="'.$value->mId.'">';
+						$html .= '					<input type="checkbox" class="custom-control-input" data-line="'.$value->mId.'" id="checkBoxReq'.$value->mId.'" name="checkBoxReq" value="'.$value->mId.'">';
 						$html .= '					</button>';
 						$html .= '				</div>';
 						$html .= '			</div>';
@@ -103,9 +103,10 @@ class OrganizeForcesModel extends Model
 						$html .= '			<div class="col-auto pe-md-0">';
 						$html .= '				<div class="form-group mb-0">';
 						// $html .= '					<button class="btn  btn-danger w-xs btn_distribute" data-bs-toggle="modal" data-bs-target="#distributeModal" onclick="checkDistribute(\''.$value->mId.'\',\''.$rankTxt.'\',\''.$fullName.'\',\''.$personalPositionCivilianTxt.'\',\''.$typeForce.'\')">';
-						$html .= '					<button class="btn  btn-danger w-xs" onclick="checkRetire(\''.$value->mId.'\')">';
-						$html .= '						<i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น';
-						$html .= '					</button>';
+						// $html .= '					<button class="btn  btn-danger w-xs" onclick="checkRetire(\''.$value->mId.'\')">';
+						// $html .= '						<i class="mdi mdi-close-circle-outline"></i>&nbsp;พ้น';
+						// $html .= '					</button>';
+						$html .= '					<input type="checkbox" class="custom-control-input" data-line="'.$value->mId.'" id="checkBoxRetire'.$value->mId.'" name="checkBoxRetire" value="'.$value->mId.'">';
 						$html .= '				</div>';
 						$html .= '			</div>';
 					}
@@ -163,6 +164,10 @@ class OrganizeForcesModel extends Model
 					$html .= '			<div class="float-end">';
 					
 					if($detail != ''){
+						$html .= '				<button class="btn  btn-danger w-xs" onclick="checkRetire(\''.$value->org_id.'\')">';
+						$html .= '					<i class="mdi mdi-close-circle-outline"></i>&nbsp;ร้องขออกคำสั่งพ้น';
+						$html .= '				</button>';
+
 						$html .= '				<button class="btn btn-success w-md btn_search" onclick="checkRequest(\''.$value->org_id.'\')">';
 						$html .= '					<i class="mdi mdi-plus-circle-outline"></i>&nbsp;ร้องขออกคำสั่ง';
 						$html .= '				</button>';

@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center" style="padding:22px;">
-                กรุณาเลือกรายการร้องขออกคำสั่ง
+                <span id="text_alert">กรุณาเลือกรายการร้องขออกคำสั่ง</span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">ปิด</button>

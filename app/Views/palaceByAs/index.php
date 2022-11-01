@@ -189,79 +189,156 @@ function checkSearch(positionMapID,typeForce){
 function checkRequest(org_id){
     var chk_arr =  $("input:checkbox[name=checkBoxReq]:checked");
     var chklength = chk_arr.filter(':checked').length;
-    $("#requestDirectiveModal").find('.modal-body #rOrgId').val(org_id);
 
-    if(chklength > 0){
-        var ReqD = [];
-        $('#requestDirectiveModal').modal("show");
+    var chkRetire_arr =  $("input:checkbox[name=checkBoxRetire]:checked");
+    var chkRetireLength = chkRetire_arr.filter(':checked').length;
 
-        $("input:checkbox[name=checkBoxReq]:checked").each(function(){
-            ReqD.push($(this).val());
-            // $('#requestDirectiveModal .controlData').append(`
-            //     <input type="hidden" id="cReq${ $(this).val() }" name="${ $(this).attr('name') }Name[]" value="${ $(this).val() }" class='ReqD' />
-            // `);
-        });
-
-        $.ajax({
-            url:  "PalaceByAssist/dataPersonalForces",
-            method: "post",
-            data: {ReqD: ReqD,org_id:org_id},
-            dataType: "text",
-            success: function (data) {
-                $("#directiveBegin").val('');
-                $("#hID").val('');
-                $("#orderTypeID").val('');
-
-                $("#loadPData").html(data);
-            }
-        });
+    if(chklength > 0 && chkRetireLength >0){
+        $("#text_alert").html("กรุณาเลือกรายการใหม่ เนื่องไม่สามารถเลือกคำสั่งที่ต่างกันได้");
+        $('#requestAlertModal').modal("show");
     }else{
-        $.ajax({
-            url:  "PalaceByAssist/chkRequestDirective",
-            method: "post",
-            data: {org_id: org_id},
-            dataType: "text",
-            success: function (data) {
-                if(data == 'success'){
-                    $('#requestDirectiveModal').modal("show");
+        
+        if(chklength > 0){
+            $("#requestDirectiveModal").find('.modal-body #rOrgId').val(org_id);
 
-                    $.ajax({
-                        url:  "PalaceByAssist/dataForcesReq",
-                        method: "post",
-                        data: {org_id: org_id},
-                        // dataType: "text",
-                        success: function (msg) {
-                            var obj = JSON.parse(msg);
-                            $("#directiveBegin").val(obj.directiveBegin);
-                            $("#hID").val(obj.hID);
-                            $("#orderTypeID").val(obj.orderTypeID);
+            var ReqD = [];
+            $("input:checkbox[name=checkBoxReq]:checked").each(function(){
+                ReqD.push($(this).val());
+            });
 
-                            $("#loadPData").html(obj.html);
+            $.ajax({
+                url:  "PalaceByAssist/dataPersonalForces",
+                method: "post",
+                data: {ReqD: ReqD,org_id:org_id},
+                dataType: "text",
+                success: function (data) {
+                    
+                    if(data == 'error'){
+                        $("#text_alert").html("กรุณาเลือกรายการใหม่ เนื่องจากรายการที่เลือกไม่ตรงหน่วยงาน");
+                        $('#requestAlertModal').modal("show");
+                    }else{
+                        $("#directiveBegin").val('');
+                        $("#hID").val('');
+                        $("#orderTypeID").val('');
 
-                            $('#requestDirectiveModal .controlData').append(`${obj.input}`);
-                        }
-                    });
-                }else{
-                    $('#requestAlertModal').modal("show");
+                        $("#loadPData").html(data);
+                        $('#requestDirectiveModal').modal("show");
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            $.ajax({
+                url:  "PalaceByAssist/chkRequestDirective",
+                method: "post",
+                data: {org_id: org_id},
+                dataType: "text",
+                success: function (data) {
+                    if(data == 'success'){
+                        $('#requestDirectiveModal').modal("show");
+
+                        $.ajax({
+                            url:  "PalaceByAssist/dataForcesReq",
+                            method: "post",
+                            data: {org_id: org_id},
+                            // dataType: "text",
+                            success: function (msg) {
+                                var obj = JSON.parse(msg);
+                                
+                                $("#directiveBegin").val(obj.directiveBegin);
+                                $("#hID").val(obj.hID);
+                                $("#orderTypeID").val(obj.orderTypeID);
+                                $("#requestDirectiveModal").find('.modal-body #rOrgId').val(obj.org_id);
+
+                                $("#loadPData").html(obj.html);
+
+                                $('#requestDirectiveModal .controlData').append(`${obj.input}`);
+                            }
+                        });
+                    }else{
+                        $("#text_alert").html("กรุณาเลือกรายการร้องขออกคำสั่ง");
+                        $('#requestAlertModal').modal("show");
+                    }
+                }
+            });
+        }
     }
 }
 
-function checkRetire(mId){
-    $("#requestRetireModal").find('.modal-body #mId').val(mId);
-    $('#requestRetireModal').modal("show");
+function checkRetire(org_id){
+    var chk_arr =  $("input:checkbox[name=checkBoxReq]:checked");
+    var chklength = chk_arr.filter(':checked').length;
 
-    $.ajax({
-        url:  "PalaceByAssist/dataPersonalRetire",
-        method: "post",
-        data: {mId: mId},
-        dataType: "text",
-        success: function (data) {
-            $("#loadRetireData").html(data);
-        }
-    });
+    var chkRetire_arr =  $("input:checkbox[name=checkBoxRetire]:checked");
+    var chkRetireLength = chkRetire_arr.filter(':checked').length;
+
+    if(chklength > 0 && chkRetireLength >0){
+        $("#text_alert").html("กรุณาเลือกรายการใหม่ เนื่องไม่สามารถเลือกคำสั่งที่ต่างกันได้");
+        $('#requestAlertModal').modal("show");
+    }else{  
+        if(chkRetireLength > 0){
+            $("#requestRetireModal").find('.modal-body #rOrgId').val(org_id);
+
+            var ReqD = [];
+            $("input:checkbox[name=checkBoxRetire]:checked").each(function(){
+                ReqD.push($(this).val());
+            });
+
+            $.ajax({
+                url:  "PalaceByAssist/dataPersonalRetire",
+                method: "post",
+                data: {ReqD: ReqD,org_id:org_id},
+                dataType: "text",
+                success: function (data) {
+                    
+                    if(data == 'error'){
+                        $("#text_alert").html("กรุณาเลือกรายการใหม่ เนื่องจากรายการที่เลือกไม่ตรงหน่วยงาน");
+                        $('#requestAlertModal').modal("show");
+                    }else{
+                        $("#directiveBegin").val('');
+                        $("#hID").val('');
+                        $("#orderTypeID").val('');
+
+                        $("#loadRetireData").html(data);
+                        $('#requestRetireModal').modal("show");
+                    }
+                }
+            });
+        }else{
+            $.ajax({
+                url:  "PalaceByAssist/chkRequestRetire",
+                method: "post",
+                data: {org_id: org_id},
+                dataType: "text",
+                success: function (data) {
+                    if(data == 'success'){
+                        $('#requestRetireModal').modal("show");
+
+                        $.ajax({
+                            url:  "PalaceByAssist/dataForcesReqRetire",
+                            method: "post",
+                            data: {org_id: org_id},
+                            // dataType: "text",
+                            success: function (msg) {
+                                var obj = JSON.parse(msg);
+                                
+                                $("#directiveRetire").val(obj.directiveRetire);
+                                $("#hIDRetire").val(obj.hIDRetire);
+                                $("#requestRetireModal").find('.modal-body #orderTypeID').val(obj.orderTypeID);
+                                $("#requestRetireModal").find('.modal-body #rOrgId').val(obj.org_id);
+
+                                $("#loadRetireData").html(obj.html);
+
+                                $('#requestRetireModal .controlData').append(`${obj.input}`);
+                            }
+                        });
+                    }else{
+                        $("#text_alert").html("กรุณาเลือกรายการร้องขออกคำสั่งพ้น");
+                        $('#requestAlertModal').modal("show");
+                    }
+                }
+            });
+        }   
+    }
 }
 
 flatpickr('.datepicker-basic', {
@@ -271,6 +348,17 @@ flatpickr('.datepicker-basic', {
 $( document ).ready(function() {
     $("#requestDirectiveModal").on('hide.bs.modal', function(){
         $("input[name='checkBoxReq']:checkbox").prop('checked',false);
+        $("input[name='checkBoxRetire']:checkbox").prop('checked',false);
+    });
+
+    $("#requestRetireModal").on('hide.bs.modal', function(){
+        $("input[name='checkBoxReq']:checkbox").prop('checked',false);
+        $("input[name='checkBoxRetire']:checkbox").prop('checked',false);
+    });
+
+    $("#requestAlertModal").on('hide.bs.modal', function(){
+        $("input[name='checkBoxReq']:checkbox").prop('checked',false);
+        $("input[name='checkBoxRetire']:checkbox").prop('checked',false);
     });
 });
 

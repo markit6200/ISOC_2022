@@ -24,50 +24,16 @@ class PalaceByAssist extends BaseController
 		$org = new OrganizeForcesModel();
 		$tree = $org->getTreeList(1,0,'');
 
-		// $data = [
-		// 	'title_meta' => view('partials/title-meta', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
-		// 	'page_title' => view('partials/page-title', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
-			
-		// ];
-
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.']),
 			'page_title' => view('partials/page-title', ['title' => 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.','pagetitle' => '']),
 			
 		];
-		// if($_GET['typeForce'] == 1){
-		// 	$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.';
-		// }else{
-		// 	$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตรา  สง.ปรมน.ทบ., สน.ปรมน.จว.';
-		// }
+		
 		$data['title'] = 'ระบบทำเนียบกำลังพลตามอัตราช่วยราชการ กอ.รมน.';
 		$data['datas'] = '';
 		$data['table_content'] = $tree;
-		// $data['personal'] = $dataPersonal;
-
-		// $personalData = $this->personalForcesModel->select("*");
-		// if ($txtSearch = $this->request->getGet('search')){
-		// 	$where = "cardID LIKE '%{$txtSearch}%' OR firstName LIKE '%{$txtSearch}%' OR lastName LIKE '%{$txtSearch}%'";
-		// 	$personalData->where($where);
-		// }
-		// $personal = $personalData->paginate($this->perPage, 'bootstrap');
-
-		// $codePrefixShort = $this->generalModel->getcodePrefixShort();
-        // $positionCivilian = $this->generalModel->getPositionCivilianList();
-		// if(!empty($personal)){
-		// 	foreach($personal AS $key=>$value){
-		// 		$arr_personal[$key] = $value;
-		// 		$arr_personal[$key]['codePrefixTxt'] = !empty($value['codePrefix'])?$codePrefixShort[$value['codePrefix']]:'-';
-        //         $arr_personal[$key]['personalPosition'] = !empty($value['positionCivilianID'])?$positionCivilian[$value['positionCivilianID']]:'';
-		// 	}
-		// }	
-
-		// $data['personal'] = $arr_personal;
-		// // echo '<pre>'; print_r($data['personal']); echo '</pre>'; exit;
-		// $data['pager'] = $this->personalForcesModel->pager;
-		// $data['currentPage'] =$this->personalForcesModel->pager->getCurrentPage('bootstrap'); // The current page number
-        // $data['totalPages']  = $this->personalForcesModel->pager->getPageCount('bootstrap');   // The total page count
-		// $data['perPage'] = $this->perPage;
+		
 		$data['typeForce'] = $_GET['typeForce'];
 
 		$orderType = $this->generalModel->getOrderType();
@@ -79,21 +45,11 @@ class PalaceByAssist extends BaseController
 	public function view()
 	{
 		exit;
-		// $data = [
-		// 	'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-		// 	'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
-		// ];
-		// return view('palaceByAs/view', $data);
 	}
 
 	public function form()
 	{
 		exit;
-		// $data = [
-		// 	'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-		// 	'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
-		// ];
-		// return view('palaceByAs/form', $data);
 	}
 
 	public function savePalace()
@@ -121,7 +77,6 @@ class PalaceByAssist extends BaseController
 			'statusPackingRate' => '2', //สถานะ 2=พ้น
 			'directiveRetire' => date("Y-m-d H:i:s"), //คำสั่งพ้น
 			'dateRetire' => date("Y-m-d H:i:s"), //วันที่พ้น
-			// 'dateOffPackingRate' => date("Y-m-d H:i:s"), //วันที่พ้นบรรจุอัตรา
         ];
 
         if ($this->DataPersonalForcesMapModel->save($params)) {
@@ -136,7 +91,6 @@ class PalaceByAssist extends BaseController
 	{
 
 		$personalData = $this->personalForcesModel->select("*");
-		// $where = "fid NOT IN (SELECT fid FROM DataPersonalForcesMap WHERE statusPackingRate = '1' GROUP BY fid) AND profileType = 1 ";
 		$where = "fid NOT IN (SELECT fid FROM DataPersonalForcesMap WHERE statusPackingRate != '2' GROUP BY fid) AND profileType = 1 ";
 		if ($txtSearch = $this->request->getPost('search')){
 			$where .= " AND (cardID LIKE '%{$txtSearch}%' OR firstName LIKE '%{$txtSearch}%' OR lastName LIKE '%{$txtSearch}%')";
@@ -192,9 +146,10 @@ class PalaceByAssist extends BaseController
 				$paramsHead = [
 					'id' => @$_POST['hID'],
 					'statusDirective' => $_POST['statusDirective'], //สถานะ
-					'directiveBegin' => $_POST['directiveBegin'],
+					'directiveNo' => $_POST['directiveBegin'],
 					'orderTypeID' => $_POST['orderTypeID'],
 					'orgID' => @$_POST['rOrgId'],
+					'directiveType' => '1',
 				];
 				// echo '<pre>'; print_r($paramsHead); echo '</pre>';
 				if($this->DataPersonalForcesMapHeadModel->save($paramsHead)){
@@ -271,13 +226,12 @@ class PalaceByAssist extends BaseController
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
 		$builder->where("t2.mId IN (".implode(',',array_filter($arrReqD)).") ");
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();
-		//AND t1.org_id = '{$org_id }'
 		// echo $db->getLastQuery(); exit;
 
 		$position = $this->generalModel->getPositionList();
@@ -293,6 +247,10 @@ class PalaceByAssist extends BaseController
 		$runno = 0;
 		if(!empty($result)){
 			foreach($result AS $value){
+				if($org_id != $value->org_id){
+					return 'error';
+					exit;
+				}
 				$runno++;
 				
 				$positionTxt = $position[$value->positionID];
@@ -324,7 +282,7 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button class="btn btn-danger" onclick="delRow('.$value->mId.')">
+										<button class="btn btn-danger" onclick="delRow('.$value->mId.','.$value->hID.')">
 											<x-orchid-icon path="fa.plus" />&nbsp;ลบ
 										</button>
 									</div>
@@ -369,10 +327,11 @@ class PalaceByAssist extends BaseController
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveBegin,t2.dateBegin,t2.dateEnd,t2.directiveRetire,t2.dateRetire,t4.orderTypeID');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t4.orderTypeID');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
-		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id","left");
+		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
+		// $builder->join("DataPersonalForcesMapHead AS t5","t2.hIDRetire = t5.id AND t5.directiveType = 2","left");
 		$builder->where("t1.org_id = '{$org_id}' AND t2.statusPackingRate = '4'");
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();
@@ -399,8 +358,7 @@ class PalaceByAssist extends BaseController
 				$arr_data['directiveBegin'] = $value->directiveBegin;
 				$arr_data['hID'] = $value->hID;
 				$arr_data['orderTypeID'] = $value->orderTypeID;
-				// $arr_data['dateBegin'] = $this->mydate2date($value->dateBegin,0,'en');
-				// $arr_data['dateEnd'] = $this->mydate2date($value->dateEnd,0,'en');
+				$arr_data['org_id'] = $value->org_id;
 				$dateBegin = $this->mydate2date($value->dateBegin,0,'en');
 				$dateEnd = $this->mydate2date($value->dateEnd,0,'en');
 				
@@ -433,13 +391,12 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button type="button" class="btn btn-danger" onclick="delRow('.$value->mId.')">ลบ</button>
+										<button type="button" class="btn btn-danger" onclick="delRow('.$value->mId.','.$value->hID.')">ลบ</button>
 									</div>
 								</div>
 							</td>
 						</tr>';
 				
-				// $input .= '<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" />';
 			}
 		}
 		$arr_data['html'] = $html;
@@ -447,20 +404,20 @@ class PalaceByAssist extends BaseController
 		echo json_encode($arr_data);
 	}
 
-
 	public function dataPersonalRetire()
 	{
-		$mId = $this->request->getPost('mId');
+		$arrReqD = $this->request->getPost('ReqD');
+		$org_id = $this->request->getPost('org_id');
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hIDRetire');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
-		$builder->where("t2.mId = '{$mId}'");
+		$builder->where("t2.mId IN (".implode(',',array_filter($arrReqD)).") ");
 		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
 		$result = $builder->get()->getResult();
-		// echo $db->getLastQuery();
+		// echo $db->getLastQuery(); exit;
 
 		$position = $this->generalModel->getPositionList();
 		$positionGroup = $this->generalModel->getPositionGroupList();
@@ -469,11 +426,16 @@ class PalaceByAssist extends BaseController
 		$rank = $this->generalModel->getPositionRankList();
 		$rankShort = $this->generalModel->getPositionRankShortList();
 		$codePrefixShort = $this->generalModel->getcodePrefixShort();
+		$orderType = $this->generalModel->getOrderType();
 
 		$html = '';
 		$runno = 0;
 		if(!empty($result)){
 			foreach($result AS $value){
+				if($org_id != $value->org_id){
+					return 'error';
+					exit;
+				}
 				$runno++;
 				
 				$positionTxt = $position[$value->positionID];
@@ -482,14 +444,29 @@ class PalaceByAssist extends BaseController
 				$fullName = $value->firstName.' '.$value->lastName;
 				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
 				$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';
-				$html .= '<tr>
-							<td class="text-center" rowspan="">'.$runno.'</td>
+				$html .= '<tr id="R'.$value->mId.'">
+							<td class="text-center" rowspan="">'.$runno.'<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" /></td>
 							<td class="text-center" rowspan="">'.$positionTxt.' </td>
 							<td class="text-left" rowspan="">'.$rankTxt.'</td>
 							<td class="text-center">'.$positionNumberTxt.'</td>
 							<td class="text-center">'.$codePrefixTxt.'</td>
 							<td class="text-center">'.$fullName.'</td>
 							<td class="text-center">'.$personalPositionCivilianTxt.'</td>
+							<td class="text-center">
+								<div class="input-group" id="dateRetire2">
+									<input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#dateRetire2" data-provide="datepicker" data-date-autoclose="true" id="dateRetire" name="dateRetire[]">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
+							</td>
+							<td class="text-center">
+								<div class="col-auto pe-md-0">
+									<div class="form-group mb-0">
+										<button class="btn btn-danger" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">
+											<x-orchid-icon path="fa.plus" />&nbsp;ลบ
+										</button>
+									</div>
+								</div>
+							</td>
 						</tr>';
 			}
 		}
@@ -500,16 +477,37 @@ class PalaceByAssist extends BaseController
 	public function saveRequestRetire()
     {
 		// echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
-		if(!empty($_POST['mId'])){
-				$params = [
-					'mId' => $_POST['mId'],
-					'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
-					'directiveRetire' => $_POST['directiveRetire'], //คำสั่งพ้น
-					'dateRetire' => @$this->ConvertToSQLDate($_POST['dateRetire']), //วันที่พ้น
+		if(!empty($_POST['checkBoxReqName'])){
+			foreach($_POST['checkBoxReqName'] AS $key=>$val){
+				//บันทึกตารางหลัก
+				$paramsHead = [
+					'id' => @$_POST['hIDRetire'],
+					'statusDirective' => $_POST['statusDirective'], //สถานะ
+					'directiveNo' => $_POST['directiveRetire'],
+					'orderTypeID' => $_POST['orderTypeID'],
+					'orgID' => @$_POST['rOrgId'],
+					'directiveType' => '2',
 				];
-				$this->DataPersonalForcesMapModel->save($params);
+				// echo '<pre>'; print_r($paramsHead); echo '</pre>';
+				if($this->DataPersonalForcesMapHeadModel->save($paramsHead)){
+					if(@$_POST['hIDRetire'] == ''){
+						$hIDRetire = $this->DataPersonalForcesMapHeadModel->insertID();
+					}else{
+						$hIDRetire = @$_POST['hIDRetire'];
+					}
+
+					$params = [
+						'mId' => $val,
+						'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
+						'hIDRetire' => @$hIDRetire, 
+						'dateRetire' => @$this->ConvertToSQLDate($_POST['dateRetire'][$key]), //วันที่พ้น
+					];
+					$this->DataPersonalForcesMapModel->save($params);
+					// echo '<pre>'; print_r($params); echo '</pre>';
+				}
+			}
 		}
-		
+		// exit;
 		return redirect()->to('PalaceByAssist?typeForce=1');
     }
 
@@ -528,6 +526,14 @@ class PalaceByAssist extends BaseController
 			if ($this->DataPersonalForcesMapModel->save($params)) {
 
 				//เช็คว่าถ้าไม่มีตารางหลักแล้วให้ลบข้อมูลตารางหลักออก
+				$db = db_connect();
+				$builder = $db->table('DataPersonalForcesMap AS t1');
+				$builder->select('count(t1.hID) AS c_num');
+				$builder->where("t1.hID = '{$_POST['hID']}'");
+				$result = $builder->get()->getResult();
+				if($result[0]->c_num == 0){
+					$this->DataPersonalForcesMapHeadModel->delete($_POST['hID']);
+				}
 				
 				$result = 'success';
 			} else {
@@ -538,8 +544,140 @@ class PalaceByAssist extends BaseController
 			$result = 'error';
 		}
 		echo $result;
-		// return redirect()->to('PalaceByAssist?typeForce=1');
+    }
 
+	//เช็คสถานะ 6=ร้องขอออกคำสั่งพ้น
+	public function chkRequestRetire()
+	{
+		$org_id = $this->request->getPost('org_id');
 		
+		$db = db_connect();
+		$builder = $db->table('DataPositionMapOrganize AS t1');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
+		$builder->where("t1.org_id = '{$org_id}' AND t2.statusPackingRate = '6'");
+		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
+		$result = $builder->get()->getResult();
+		// echo $db->getLastQuery();
+
+		if(!empty($result)){
+			$result = 'success';
+        }else {
+			$result = 'error';
+        }
+		return $result;
+	}
+
+	public function dataForcesReqRetire()
+	{
+		$org_id = $this->request->getPost('org_id');
+
+		$arr_data = array();
+		
+		$db = db_connect();
+		$builder = $db->table('DataPositionMapOrganize AS t1');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hIDRetire,t5.directiveNo AS directiveRetire,t2.dateRetire,t5.orderTypeID');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
+		// $builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
+		$builder->join("DataPersonalForcesMapHead AS t5","t2.hIDRetire = t5.id AND t5.directiveType = 2","left");
+		$builder->where("t1.org_id = '{$org_id}' AND t2.statusPackingRate = '6'");
+		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
+		$result = $builder->get()->getResult();
+		// echo $db->getLastQuery();
+ 
+		$position = $this->generalModel->getPositionList();
+		$positionGroup = $this->generalModel->getPositionGroupList();
+		$positionCivilian = $this->generalModel->getPositionCivilianList();
+		$positionCivilianGroup = $this->generalModel->getPositionCivilianGroupList();
+		$rank = $this->generalModel->getPositionRankList();
+		$rankShort = $this->generalModel->getPositionRankShortList();
+		$codePrefixShort = $this->generalModel->getcodePrefixShort();
+		$orderType = $this->generalModel->getOrderType();
+
+		$html = '';
+		$input = '';
+		$runno = 0;
+		$dateBegin = '';
+		$dateEnd = '';
+		if(!empty($result)){
+			foreach($result AS $value){
+				$runno++;
+
+				$arr_data['directiveRetire'] = $value->directiveRetire;
+				$arr_data['hIDRetire'] = $value->hIDRetire;
+				$arr_data['orderTypeID'] = $value->orderTypeID;
+				$arr_data['org_id'] = $value->org_id;
+				$dateRetire = $this->mydate2date($value->dateRetire,0,'en');
+				
+				$positionTxt = $position[$value->positionID];
+				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
+				$positionNumberTxt = $value->positionNumber;
+				$fullName = $value->firstName.' '.$value->lastName;
+				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
+				$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';
+				$html .= '<tr id="R'.$value->mId.'">
+							<td class="text-center" rowspan="">'.$runno.'<input type="hidden" name="checkBoxReqName[]" value="'.$value->mId.'" class="ReqD" /></td>
+							<td class="text-center" rowspan="">'.$positionTxt.' </td>
+							<td class="text-left" rowspan="">'.$rankTxt.'</td>
+							<td class="text-center">'.$positionNumberTxt.'</td>
+							<td class="text-center">'.$codePrefixTxt.'</td>
+							<td class="text-center">'.$fullName.'</td>
+							<td class="text-center">'.$personalPositionCivilianTxt.'</td>
+							<td class="text-center">
+								<div class="input-group" id="datepicker2">
+									<input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="dateRetire" name="dateRetire[]" value="'.$dateRetire.'">
+									<span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+								</div>
+							</td>
+							<td class="text-center">
+								<div class="col-auto pe-md-0">
+									<div class="form-group mb-0">
+										<button type="button" class="btn btn-danger" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">ลบ</button>
+									</div>
+								</div>
+							</td>
+						</tr>';
+				
+			}
+		}
+		$arr_data['html'] = $html;
+		$arr_data['input'] = $input;
+		echo json_encode($arr_data);
+	}
+
+	public function saveDelRequestRetire()
+    {
+		// echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
+		if(!empty($_POST['mId'])){
+			$params = [
+				'mId' => $_POST['mId'],
+				'statusPackingRate' => '1', //สถานะ บรรจุ
+				'dateRetire' => NULL,
+				'hIDRetire' => NULL,
+			];
+
+			if ($this->DataPersonalForcesMapModel->save($params)) {
+
+				//เช็คว่าถ้าไม่มีตารางหลักแล้วให้ลบข้อมูลตารางหลักออก
+				$db = db_connect();
+				$builder = $db->table('DataPersonalForcesMap AS t1');
+				$builder->select('count(t1.hIDRetire) AS c_num');
+				$builder->where("t1.hIDRetire = '{$_POST['hIDRetire']}'");
+				$result = $builder->get()->getResult();
+				if($result[0]->c_num == 0){
+					$this->DataPersonalForcesMapHeadModel->delete($_POST['hIDRetire']);
+				}
+				
+				$result = 'success';
+			} else {
+				$result = 'error';
+			}
+			
+		}else{
+			$result = 'error';
+		}
+		echo $result;
     }
 }

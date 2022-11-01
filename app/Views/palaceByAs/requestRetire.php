@@ -1,3 +1,9 @@
+<style>
+    .scoll-tree{
+        overflow-x: auto;
+        min-height: 300px;
+    }
+</style>
 <!-- Modal -->
 <div class="modal fade" id="requestRetireModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -11,43 +17,55 @@
                 <div class="card">
                     <div class="card-body">
                         <form action="<?php echo base_url('PalaceByAssist/saveRequestRetire'); ?>" method="POST" id="forRetire">
-                            <input type="hidden" class="form-control" id="statusPackingRateR" name="statusPackingRate">
-                            <input type="hidden" class="form-control" id="mId" name="mId">
+
+                            <input type="hidden" class="form-control" id="statusPackingRate" name="statusPackingRate">
+                            <input type="hidden" class="form-control" id="rOrgId" name="rOrgId">
+                            <input type="hidden" class="form-control" id="hIDRetire" name="hIDRetire">
+                            <input type="hidden" class="form-control" id="statusDirective" name="statusDirective">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3 row">
-                                        <label for="" class="col-12 col-md-3 form-label"></label>
-                                        <label for="directiveRetire" class="col-12 col-md-1 form-label">คำสั่งพ้น</label>
+                                        <label for="" class="col-12 col-md-2 form-label"></label>
+                                        <label for="directiveRetire" class="col-12 col-md-2 form-label text-end">คำสั่งพ้น</label>
                                         <div class="col-12 col-md-5">
                                             <input type="text" class="form-control"  id="directiveRetire" name="directiveRetire" value="">
                                         </div>
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="" class="col-12 col-md-3 form-label"></label>
-                                        <label for="dateRetire" class="col-12 col-md-1 form-label">วันที่พ้น</label>
+                                        <label for="" class="col-12 col-md-2 form-label"></label>
+                                        <label for="orderTypeID" class="col-12 col-md-2 form-label text-end">ประเภทคำสั่ง</label>
                                         <div class="col-12 col-md-5">
-                                            <div class="input-group" id="dateRetire2">
-                                                <input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container='#dateRetire2' data-provide="datepicker" data-date-autoclose="true" id="dateRetire" name="dateRetire">
-                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                            </div>
+                                            <select class="form-select select2" name="orderTypeID" id="orderTypeID" >
+                                                <option value="">---- ประเภทคำสั่ง ----</option>
+                                                <?php 
+                                                    if (isset($orderType)){
+                                                        foreach ($orderType as $key => $value) {
+                                                ?>
+                                                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+                                                <?php 
+                                                        }
+                                                    }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="controlData"></div>
-                            <div class="table-responsive">
-                                <table id="myTable" class="table  table-bordered">
+                            <div class="table-responsive scoll-tree">
+                                <table id="myTable" class="table  table-bordered" style="width: max-content;">
                                     <thead>
                                         <tr>
-                                            <th rowspan="2" class="text-center text-dark" width="4%">ลำดับ</th>
-                                            <th rowspan="2" class="text-center text-dark sort-column" width="20%">ชื่อตำแหน่งใน กอ.รมน./<br>ชื่อตำแหน่งในการบริหาร</th>
-                                            <th rowspan="2" class="text-center text-dark sort-column" width="10%">ชั้นยศ</th>
-                                            <th rowspan="2" class="text-center text-dark sort-column" width="10%">ตำแหน่ง<br>เลขที่</th>
-                                            <th rowspan="2" class="text-center text-dark sort-column" width="10%">ยศ</th>
+                                            <th rowspan="2" class="text-center text-dark" width="60px">ลำดับ</th>
+                                            <th rowspan="2" class="text-center text-dark sort-column" width="200px">ชื่อตำแหน่งใน กอ.รมน./<br>ชื่อตำแหน่งในการบริหาร</th>
+                                            <th rowspan="2" class="text-center text-dark sort-column" width="100px">ชั้นยศ</th>
+                                            <th rowspan="2" class="text-center text-dark sort-column" width="100px">ตำแหน่ง<br>เลขที่</th>
+                                            <th rowspan="2" class="text-center text-dark sort-column" width="100px">ยศ</th>
                                             <th rowspan="2" class="text-center text-dark sort-column">ชื่อ-สกุล</th>
-                                            <th rowspan="2" class="text-center text-dark sort-column" width="20%">ตำแหน่งและสังกัดปกติ</th>
-                                            <!-- <th class="text-center text-dark" style="width: 80px;">เครื่องมือ</th> -->
+                                            <th rowspan="2" class="text-center text-dark sort-column" width="200px">ตำแหน่งและสังกัดปกติ</th>
+                                            <th rowspan="2" class="text-center text-dark sort-column" width="200px">วันที่พ้น</th>
+                                            <th class="text-center text-dark" style="width: 80px;">เครื่องมือ</th>
                                         </tr>
 
                                     </thead>
@@ -58,7 +76,7 @@
                             </div>
                             
                             <div class="text-center">
-                                <!-- <button type="submit" class="btn btn-success" onclick="checkRetireSave()">บันทึก</button> -->
+                                <button type="submit" class="btn btn-success" onclick="checkRetireSave()">บันทึก</button>
                                 <button type="submit" class="btn btn-primary" onclick="checkRetireSend()">ส่งไปคำสั่งพ้น</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                             </div>
@@ -92,8 +110,30 @@
 
 <script>
 
+function checkRetireSave(){
+    $("#requestRetireModal").find('.modal-body #statusPackingRate').val(6);
+    $("#requestRetireModal").find('.modal-body #statusDirective').val(0);
+}
+
 function checkRetireSend(){
-    $("#statusPackingRateR").val(6);
+    $("#requestRetireModal").find('.modal-body #statusPackingRate').val(7);
+    $("#requestRetireModal").find('.modal-body #statusDirective').val(1);
+}
+
+function delRowRetire(mId,hIDRetire){
+    //update status
+    $.ajax({
+        url:  "PalaceByAssist/saveDelRequestRetire",
+        method: "post",
+        data: {mId: mId,hIDRetire:hIDRetire},
+        dataType: "text",
+        success: function (data) {
+            if(data=='success'){
+                $("#R"+mId).closest('tr').remove();
+                $("#cReq"+mId).closest('input').remove();
+            }
+        }
+    });
 }
 
 </script>
