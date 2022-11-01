@@ -60,8 +60,17 @@ class UserManager extends BaseController
         return view('userManager/userGroupView', $data);
     }
 
-    public function userGroupForm(){
-        $data['title'] = 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.';
+    public function userGroupForm($id = ''){
+        $save_data = array();
+        if($id != ''){
+            $save_data = $this->UserMainMenuModel->find($id);
+        }
+        $data = [
+            'title' => 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.',
+            'title_meta' => view('partials/title-meta', ['title' => 'ข้อมูลกำลังพล']),
+            'page_title' => view('partials/page-title', ['title' => 'ข้อมูลกำลังพล', 'pagetitle' => 'ข้อมูลกำลังพล']),
+            'save_data' => $save_data,
+        ];
         return view('userManager/userGroupForm', $data);
     }
 
