@@ -11,10 +11,6 @@ $readonly = isset($save_data['runid'])?'readonly=""':'';
         <div class="card">
             <div class="card-body d-inline">
                 <span class="h2"><?php echo $title; ?></span>
-                <div class="float-end">
-                    <a href="<?php echo base_url('userManager/index') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
-                    <button class="btn btn-default" type="submit"><i class="fas fa-save"></i> บันทึก</button>
-                </div>
             </div>
         </div>
     </div>
@@ -24,6 +20,10 @@ $readonly = isset($save_data['runid'])?'readonly=""':'';
         <div class="card">
             <div class="card-body">
                 <span class="h4">เพิ่มข้อมูลผู้ใช้งาน</span>
+                <div class="float-end">
+                    <a href="<?php echo base_url('userManager/index') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
+                    <button class="btn btn-default" type="submit"><i class="fas fa-save"></i> บันทึก</button>
+                </div>
             </div>
         </div>
     </div>
