@@ -11,7 +11,9 @@
                                 <button type="submit" class="btn btn-success">ค้นหา</button>
                             </div>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="<?php echo base_url('PersonalManagement/form') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มข้อมูล</a>
+                            <a href="<?php echo base_url('userManager/userGroupView') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> จัดการกลุ่มผู้ใช้</a>
+                            <a href="#" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> จัดการสิทธิ</a>
+                            <a href="<?php echo base_url('userManager/form') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มข้อมูล</a>
                         </div>
                     </form>
                 </div>
@@ -48,7 +50,18 @@
                                                     <td class="text-left"><?php echo $user['username']?></td>
                                                     <td class="text-left"><?php echo $user['name_th']." ".$user['surname_th']?></td>
                                                     <td class="text-left"><?php echo $user['office']?></td>
-                                                    <td class="text-center"></td>
+                                                    <td class="text-center">
+                                                        <div class="col-auto pe-md-0 ">
+                                                            <div class="form-group mb-0">
+                                                                <a href="<?php echo base_url('userManager/form/'.$user['runid']) ?>" class="btn  btn-warning  text-dark">
+                                                                    <i class="mdi mdi-pencil"></i>&nbsp;แก้ไข
+                                                                </a>
+                                                                <button data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModal('<?php echo $user['runid'] ?>','<?php echo $user['name_th']." ".$user['surname_th']?>','<?php echo $user['office'] ?> ')" class="btn  btn-danger">&nbsp;
+                                                                    <i class="mdi mdi-close-circle-outline"></i>&nbsp;ลบ
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <?php
                                             endforeach;
@@ -75,3 +88,30 @@
         </div>
     </div>
 </div>
+<script>
+    function showModal(id,name,position){
+        var textConfirm = 'ท่านต้องการลบข้อมูล'+name+' สังกัดหน่วยงาน '+position+' หรือไม่?';
+        $("#myModal").find('.modal-body #runid').val(id);
+        $("#myModal").find('.modal-body #textConfirm').html(textConfirm);
+    }
+
+    function removeUser(){
+        var id = $("#myModal").find('.modal-body #runid').val();
+        location.href = '<?php echo base_url("userManager/delete"); ?>/'+id;
+    }
+    function confirmDelete(id){
+        Swal.fire({
+            title: "ท่านต้องการลบข้อมูลใช่หรือไม่?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f46a6a",
+            cancelButtonText: "ยกเลิก",
+            confirmButtonText: "ลบข้อมูล",
+            reverseButtons: true
+        }).then(function (result) {
+            if (result.value) {
+                location.href = '<?php echo base_url("userManager/delete"); ?>/'+id;
+            }
+        });
+    }
+</script>

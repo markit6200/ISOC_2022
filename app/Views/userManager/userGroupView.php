@@ -1,3 +1,15 @@
+<?= $this->extend('theme/admin') ?>
+<?= $this->section('content') ?>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <span class="h2"><?php echo $title; ?></span>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -11,7 +23,8 @@
                                 <button type="submit" class="btn btn-success">ค้นหา</button>
                             </div>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="<?php echo base_url('PersonalManagement/form') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มข้อมูล</a>
+                            <a href="<?php echo base_url('userManager/index') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
+                            <a href="<?php echo base_url('UserManager/userGroupForm') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มข้อมูล</a>
                         </div>
                     </form>
                 </div>
@@ -36,7 +49,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                <?php if(isset($user_group) && !empty($user_group)):
+                                    $no = 0;
+                                    foreach ($user_group as $key => $user_group):
+                                        $no++;
+                                        ?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $no ?></td>
+                                            <td class="text-left"><?php echo $user_group['NLABEL']?></td>
+                                            <td class="text-center"></td>
+                                        </tr>
+                                    <?php
+                                    endforeach;
+                                endif;
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -58,3 +84,13 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+<?= $this->section('cssTopContent') ?>
+    <link href="<?php echo base_url() ?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
+<?= $this->section('jsContent') ?>
+    <script src="<?php echo base_url() ?>/assets/libs/parsleyjs/parsley.min.js"></script>
+    <script src="<?php echo base_url() ?>/assets/js/pages/form-validation.init.js"></script>
+    <script src="<?php echo base_url() ?>/assets/libs/select2/js/select2.min.js"></script>
+
+<?= $this->endSection() ?>
