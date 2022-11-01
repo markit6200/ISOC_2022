@@ -141,6 +141,12 @@
                         <span>ข้อมูลกำลังพล</span>
                     </a>
                 </li>
+                <li>
+                    <a href="<?php echo base_url('ReportPalaceByAssist') ?>" class="waves-effect">
+                        <i class="uil-calender"></i>
+                        <span>รายงานคำสั่ง/ขอช่วยราชการ</span>
+                    </a>
+                </li>
 
                 <li class="menu-title">ระบบย่อย</li>
                 <li>
