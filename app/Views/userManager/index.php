@@ -16,36 +16,36 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-4">
+<!--                    <div class="col-4">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="col-md-12">-->
+<!--                                    <div class="row form-group align-items-baseline">-->
+<!--                                        Organize Tree-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="col-md-12">
-                                    <div class="row form-group align-items-baseline">
-                                        Organize Tree
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="col-md-12">
-                                    <div class="row form-group align-items-baseline">
-                                        <?php echo view('userManager/userGroupView') ?>
-                                    </div>
-                                    <div class="row form-group align-items-baseline">
-                                        <?php echo view('userManager/userGroupForm') ?>
-                                    </div>
-                                    <div class="row form-group align-items-baseline">
-                                        <?php echo view('userManager/userGroupInfo') ?>
-                                    </div>
+<!--                                    <div class="row form-group align-items-baseline">-->
+<!--                                        --><?php //echo view('userManager/userGroupView') ?>
+<!--                                    </div>-->
+<!--                                    <div class="row form-group align-items-baseline">-->
+<!--                                        --><?php //echo view('userManager/userGroupForm') ?>
+<!--                                    </div>-->
+<!--                                    <div class="row form-group align-items-baseline">-->
+<!--                                        --><?php //echo view('userManager/userGroupInfo') ?>
+<!--                                    </div>-->
                                     <div class="row form-group align-items-baseline">
                                         <?php echo view('userManager/view') ?>
                                     </div>
-                                    <div class="row form-group align-items-baseline">
-                                        <?php echo view('userManager/form') ?>
-                                    </div>
+<!--                                    <div class="row form-group align-items-baseline">-->
+<!--                                        --><?php //echo view('userManager/form') ?>
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
