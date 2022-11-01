@@ -113,7 +113,7 @@
 <script>
     function showModal(id,name,position){
         var textConfirm = 'ท่านต้องการจำหน่ายข้อมูล'+name+' ตำแหน่งและสังกัดปกติ '+position+' หรือไม่?';
-        $("#myModal").find('.modal-body #fid').val(id);
+        $("#myModal").find('.modal-body # ').val(id);
         $("#myModal").find('.modal-body #textConfirm').html(textConfirm);
     }
 
