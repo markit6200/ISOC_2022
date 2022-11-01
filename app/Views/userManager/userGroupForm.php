@@ -1,3 +1,19 @@
+<?= $this->extend('theme/admin') ?>
+<?= $this->section('content') ?>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <span class="h2"><?php echo $title; ?></span>
+                <div class="float-end">
+                    <a href="<?php echo base_url('userManager/userGroupView') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
+                    <button class="btn btn-default" type="submit"><i class="fas fa-save"></i> บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -125,3 +141,13 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+<?= $this->section('cssTopContent') ?>
+    <link href="<?php echo base_url() ?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
+<?= $this->section('jsContent') ?>
+    <script src="<?php echo base_url() ?>/assets/libs/parsleyjs/parsley.min.js"></script>
+    <script src="<?php echo base_url() ?>/assets/js/pages/form-validation.init.js"></script>
+    <script src="<?php echo base_url() ?>/assets/libs/select2/js/select2.min.js"></script>
+
+<?= $this->endSection() ?>
