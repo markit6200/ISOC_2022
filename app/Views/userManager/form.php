@@ -116,7 +116,11 @@ $readonly = isset($save_data['runid'])?'readonly=""':'';
                     <div class="row mt-2">
                         <label for="" class="col-md-4 form-label">วัน/เดือน/ปี เกิด</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="birthday" value="<?php echo isset($save_data['birthday'])?$save_data['birthday']:'' ?>" />
+<!--                            <input type="text" class="form-control" name="birthday" value="--><?php //echo isset($save_data['birthday'])?$save_data['birthday']:'' ?><!--" />-->
+                            <div class="input-group" id="datepicker2">
+                                <input type="text" class="form-control" placeholder="dd/mm/yyyy" data-date-format="dd/mm/yyyy" data-date-container="#datepicker2" data-provide="datepicker" data-date-autoclose="true" id="birthday" name="birthday" value="<?php echo isset($save_data['birthday'])?$save_data['birthday']:'' ?>">
+                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                            </div>
                         </div>
                     </div>
 <!--                    <div class="row mt-2">-->
@@ -192,6 +196,9 @@ $readonly = isset($save_data['runid'])?'readonly=""':'';
 <?= $this->endSection() ?>
 <?= $this->section('cssTopContent') ?>
     <link href="<?php echo base_url() ?>/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url() ?>/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo base_url() ?>/assets/libs/@chenfengyuan/datepicker/datepicker.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>/assets/libs/flatpickr/flatpickr.min.css">
 <?= $this->endSection() ?>
 <?= $this->section('jsContent') ?>
     <script src="<?php echo base_url() ?>/assets/libs/parsleyjs/parsley.min.js"></script>
@@ -199,6 +206,11 @@ $readonly = isset($save_data['runid'])?'readonly=""':'';
     <script src="<?php echo base_url() ?>/assets/libs/select2/js/select2.min.js"></script>
     <script src="<?php echo base_url() ?>/assets/libs/inputmask/min/jquery.inputmask.bundle.min.js"></script>
     <script src="<?php echo base_url() ?>/assets/js/pages/form-mask.init.js"></script>
+    <script src="<?php echo base_url() ?>/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="<?php echo base_url() ?>/assets/libs/@chenfengyuan/datepicker/datepicker.min.js"></script>
+
+<!-- datepicker js -->
+    <script src="<?php echo base_url() ?>/assets/libs/flatpickr/flatpickr.min.js"></script>
     <script>
         $(document).ready(function(){
             $(".select2").select2();
