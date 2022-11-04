@@ -46,7 +46,7 @@
 
                                 <div class="mb-3">
                                     <div class="float-end">
-                                        <a href="/auth/recoverpw" class="text-muted">Forgot password?</a>
+                                        <a href="<?php echo base_url(); ?>/auth/recoverpw" class="text-muted">Forgot password?</a>
                                     </div>
                                     <label class="form-label" for="userpassword">Password</label>
                                     <input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Enter password">
