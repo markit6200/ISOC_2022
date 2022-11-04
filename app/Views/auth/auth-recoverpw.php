@@ -19,7 +19,7 @@
                     <div>
 
                         <a href="/" class="mb-5 d-block auth-logo">
-                            <img src="/assets/images/logo.gif" alt="" height="150" class="logo logo-dark">
+                            <img src="<?php echo base_url(); ?>/assets/images/logo.gif" alt="" height="150" class="logo logo-dark">
                         </a>
                         <div class="card">
 
@@ -46,7 +46,7 @@
 
 
                                         <div class="mt-4 text-center">
-                                            <p class="mb-0">Remember It ? <a href="/auth" class="fw-medium text-primary"> Signin </a></p>
+                                            <p class="mb-0">Remember It ? <a href="<?php echo base_url(); ?>/auth" class="fw-medium text-primary"> Signin </a></p>
                                         </div>
                                     </form>
                                 </div>
