@@ -233,7 +233,7 @@
                 <li ><a href="javascript: void(0);" class="waves-effect">บันทึกการทำบัตรผ่าน (สขว.กอ.รมน.)</a></li>
 
                 <li class="menu-title"><i class="fas fa-layer-group"></i> บริหารจัดการระบบ</li>
-                <li><a href="/UserManager" class="waves-effect">กำหนดสิทธิเข้าใช้งานระบบ</a></li>
+                <li><a href="<?php echo base_url('UserManager') ?>" class="waves-effect">กำหนดสิทธิเข้าใช้งานระบบ</a></li>
                 <li><a href="#" class="waves-effect">บัญชีอัตราเงินเดือน</a></li>
                 <li><a href="javascript: void(0);" class="has-arrow waves-effect">จัดการข้อมูลพื้นฐาน</a>
                     <ul class="sub-menu" aria-expanded="false">
