@@ -7,7 +7,7 @@ class OrganizeModel extends Model
 {
 	protected $DBGroup = ('usermanager');
     protected $table      = 'organize_to_profile';
-	protected $primaryKey = ['org_profile_id','org_id'];
+	protected $primaryKey = 'org_id';
 	protected $allowedFields = ['org_profile_id','org_id','org_profile_year','org_name','org_short_name','org_parent','org_type','order_no','profileType'];
 
 	public function __construct() {
