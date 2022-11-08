@@ -66,7 +66,8 @@ class OrganizeProfile extends BaseController
 			'page_title' => view('partials/page-title', ['title' => 'โปรไฟล์ผังองค์กร', 'pagetitle' => 'Minible']),
 			
 		];
-		$tree = $this->organizeModel->getOrgList($profileId,0,'',1);
+        $profile = $this->organizeProfileModel->find($profileId);
+		$tree = $this->organizeModel->getOrgList($profileId,0,'',$profile['profileType']);
 		$data['title'] = 'ผังองค์กร';
 		$data['org_profile_id'] = $profileId;
 		// $data['profile'] = $this->organizeProfileModel->findAll();
@@ -88,11 +89,14 @@ class OrganizeProfile extends BaseController
 		$save_data = array();
 		if ($org_id != '') {
 			$save_data = $this->organizeModel->where(array('org_profile_id'=>$profileId,'org_id'=>$org_id))->get()->getResultArray();
-		}
+		}else{
+		    $parent_data = $this->organizeModel->where(array('org_profile_id'=>$profileId,'org_id'=>$org_parent))->get()->getResultArray();
+        }
 		$data['title'] = 'ผังองค์กร';
 		$data['save_data'] = !empty($save_data)?$save_data[0]:$save_data;
 		$data['org_profile_id'] = $profileId;
 		$data['org_parent'] = $org_parent;
+		$data['parent_data'] = !empty($parent_data)?$parent_data[0]:$parent_data;
 		$data['org_id'] = $org_id; 
 		return view('organizeProfile/formStructure', $data);
 	}
@@ -225,6 +229,46 @@ class OrganizeProfile extends BaseController
 		}
 		return json_encode($test);
 	}
+
+	public function saveStructure(){
+        $params = [
+            'org_profile_id' => $this->request->getVar('org_profile_id'),
+            'org_id' => $this->request->getVar('org_id'),
+            'org_name' => $this->request->getVar('org_name'),
+            'org_profile_year' => $this->request->getVar('org_profile_year'),
+            'org_short_name' => $this->request->getVar('org_short_name'),
+            'org_parent' => $this->request->getVar('org_parent'),
+            'profileType' => $this->request->getVar('profileType'),
+        ];
+        if ($this->organizeModel->save($params)) {
+            // $this->session->setFlashdata('success', 'Brand has been saved.');
+            return redirect()->to('OrganizeProfile/structure/'.$params['org_profile_id']);
+        } else {
+            // $this->getBrands();
+            $this->data['errors'] = $this->organizeModel->errors();
+            return view('organizeProfile/form', $this->data);
+        }
+    }
+
+	public function updateStructure(){
+        $params = [
+            'org_profile_id' => $this->request->getVar('org_profile_id'),
+            'org_id' => $this->request->getVar('org_id'),
+            'org_name' => $this->request->getVar('org_name'),
+            'org_profile_year' => $this->request->getVar('org_profile_year'),
+            'org_short_name' => $this->request->getVar('org_short_name'),
+            'org_parent' => $this->request->getVar('org_parent'),
+            'profileType' => $this->request->getVar('profileType'),
+        ];
+        if ($this->organizeModel->save($params)) {
+            // $this->session->setFlashdata('success', 'Brand has been saved.');
+            return redirect()->to('OrganizeProfile/structure/'.$params['org_profile_id']);
+        } else {
+            // $this->getBrands();
+            $this->data['errors'] = $this->organizeModel->errors();
+            return view('organizeProfile/form', $this->data);
+        }
+    }
 
 	public function duplicateProfile()
 	{
