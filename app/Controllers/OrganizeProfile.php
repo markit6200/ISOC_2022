@@ -58,7 +58,8 @@ class OrganizeProfile extends BaseController
 			'page_title' => view('partials/page-title', ['title' => 'โปรไฟล์ผังองค์กร', 'pagetitle' => 'Minible']),
 			
 		];
-		$tree = $this->organizeModel->getOrgList($profileId,0,'',1);
+        $profile = $this->organizeProfileModel->find($profileId);
+		$tree = $this->organizeModel->getOrgList($profileId,0,'',$profile['profileType']);
 		$data['title'] = 'ผังองค์กร';
 		// $data['profile'] = $this->organizeProfileModel->findAll();
 		$data['table_content'] = $tree;
