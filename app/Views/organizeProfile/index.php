@@ -48,7 +48,7 @@
                                                 <td class="text-center">
                                                     <a href="<?php echo base_url('OrganizeProfile/structure/' . $value['org_profile_id']) ?>" title="โครงสร้าง" class="btn btn-primary btn-sm btn-block mb-2"><i class="mdi mdi-sitemap"></i>&nbsp;</a>
                                                     <a href="<?php echo base_url('OrganizeProfile/form/' . $value['org_profile_id']) ?>" title="แก้ไข" class="btn btn-sm btn-block btn-warning mb-2"><i class="mdi mdi-pencil"></i>&nbsp;</a>
-                                                    <button onclick="confirmDelete('<?php echo $value['org_profile_id'] ?>')" title="คัดลอก" class="btn btn-info btn-sm btn-block mb-2"><i class="mdi mdi-content-copy"></i>&nbsp;</button>
+                                                    <button data-bs-toggle="modal" data-bs-target="#duplicateModal" onclick="duplicateProfile('<?php echo $value['org_profile_id'] ?>')" title="คัดลอก" class="btn btn-info btn-sm btn-block mb-2"><i class="mdi mdi-content-copy"></i>&nbsp;</button>
                                                     <button onclick="confirmDelete('<?php echo $value['org_profile_id'] ?>')" title="ลบ" class="btn btn-danger btn-sm btn-block mb-2"><i class="mdi mdi-close-circle-outline"></i>&nbsp;</button>
 
                                                 </td>
@@ -88,6 +88,35 @@
                 location.href = '<?php echo base_url("OrganizeProfile/delete"); ?>/' + id;
             }
         });
+    }
+
+    function duplicateProfile(id) {
+        $("#duplicateModal").find('.modal-body #org_profile_id').val(id);
+    }
+
+    function saveDuplicateProfile(){
+       var dataString = $('#duplicateProfileFrm').serialize();
+       $.ajax({
+		  type: "POST",
+		  url: "<?php echo base_url("OrganizeProfile/duplicateProfile"); ?>",
+		  data: dataString,
+		  success: function(data)
+		  {
+            if (data == 'success') {
+                
+                alert('Success!');
+                $('#duplicateModal').modal('toggle');
+                // window.location.reload();
+            } else {
+
+                alert('Failed!');
+                $('#duplicateModal').modal('toggle');
+                // window.location.reload();
+            }
+			// $("#serializeForm")[0].reset();
+		  }
+		});
+
     }
 </script>
 

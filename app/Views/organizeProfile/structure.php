@@ -8,7 +8,7 @@
                 <span class="h2"><?php echo $title; ?></span>
                 <div class="float-end">
                 <a href="<?php echo base_url('OrganizeProfile') ?>" class="btn btn-default"><i class="fas fa-chevron-left"></i> ย้อนกลับ</a>
-                    <a href="<?php echo base_url('OrganizeProfile/form') ?>" class="btn btn-outline-light mb-2"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มหน่วยงาน</a>
+                    <a href="<?php echo base_url('OrganizeProfile/structureForm/'.$org_profile_id) ?>" class="btn btn-outline-light mb-2"><i class="mdi mdi-plus-circle-outline"></i> เพิ่มหน่วยงาน</a>
                     <!-- <a href="<?php //echo base_url('OrganizeProfile/form') ?>" class="btn btn-outline-light"><i class="mdi mdi-plus-circle-outline"></i> </a> -->
                 </div>
             </div>
