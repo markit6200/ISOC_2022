@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-center">
-                    <a href="/" class="mb-5 d-block auth-logo">
+                    <a href="<?php echo base_url(); ?>" class="mb-5 d-block auth-logo">
                         <img src="assets/images/logo.gif" alt="" height="150" class="logo logo-dark">
                     </a>
                 </div>

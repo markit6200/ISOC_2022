@@ -34,6 +34,11 @@ $routes->get('/', 'StructureByAssistRate::index', ['filter' => 'authGuard']);
 $routes->get('/OrganizeProfile', 'OrganizeProfile::index', ['filter' => 'authGuard']);
 $routes->get('/PersonalManagement', 'PersonalManagement::index', ['filter' => 'authGuard']);
 $routes->get('/UserManager', 'UserManager::index', ['filter' => 'authGuard']);
+$routes->get('/PalaceByAssist', 'PalaceByAssist::index', ['filter' => 'authGuard']);
+$routes->get('/ReportPalaceByAssist', 'ReportPalaceByAssist::index', ['filter' => 'authGuard']);
+$routes->get('/StructureByAssistRatePRMN', 'StructureByAssistRatePRMN::index', ['filter' => 'authGuard']);
+$routes->get('/PalaceByAssistPRMN', 'PalaceByAssistPRMN::index', ['filter' => 'authGuard']);
+$routes->get('/PersonalManagementPRMN', 'PersonalManagementPRMN::index', ['filter' => 'authGuard']);
 
 $routes->get('/lang/{locale}', 'Language::index');
 // example

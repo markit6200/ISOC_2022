@@ -1,5 +1,6 @@
 <?php namespace App\Controllers;
 
+use App\Models\OrganizeProfileModel;
 use App\Models\UsersModel;
 use App\Models\OrganizeModel;
 use App\Models\GeneralModel;
@@ -11,13 +12,15 @@ class StructureByAssistRate extends BaseController
 		$this->DataPositionMapOrganizeModel = new DataPositionMapOrganizeModel();
 		$this->OrganizeModel = new OrganizeModel();
 		$this->GeneralModel = new GeneralModel();
+        $this->organizeProfileModel = new OrganizeProfileModel();
         // $this->data['currentAdminMenu'] = 'catalogue';
         // $this->data['currentAdminSubMenu'] = 'brand';
     }
 
-	public function index()
+	public function index($profileId = '')
 	{
-		$tree = $this->OrganizeModel->getTreeList(1,0,'',1);
+        $profile = $this->organizeProfileModel->find($profileId);
+		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType']);
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
