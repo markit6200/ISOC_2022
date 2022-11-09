@@ -25,6 +25,10 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="mb-3 row">
+                                        <label for="" class="col-12 col-md-12 form-label text-center" id="textOrgName"></label>
+                                    </div>
+
+                                    <div class="mb-3 row">
                                         <label for="" class="col-12 col-md-2 form-label"></label>
                                         <label for="directiveRetire" class="col-12 col-md-2 form-label text-end">คำสั่งพ้น</label>
                                         <div class="col-12 col-md-5">
@@ -76,8 +80,9 @@
                             </div>
                             
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success" onclick="checkRetireSave()">บันทึก</button>
-                                <button type="submit" class="btn btn-primary" onclick="checkRetireSend()">ส่งไปคำสั่งพ้น</button>
+                                <button type="submit" class="btn btn-success bt_save" onclick="checkRetireSave()">บันทึก</button>
+                                <button type="submit" class="btn btn-primary bt_send" onclick="checkRetireSend()">ส่งไปคำสั่งพ้น</button>
+                                <button type="button" class="btn btn-info" onclick="checkPrint()">พิมพ์</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                             </div>
                         </form>

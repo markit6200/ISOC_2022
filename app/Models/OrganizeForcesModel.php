@@ -254,4 +254,22 @@ class OrganizeForcesModel extends Model
 			return "";
 	}
 
+	public function org_full_name($org_id,$org_profile_id){
+        
+		$this->select('*');
+		$this->where('org_profile_id',$org_profile_id);
+		$this->where('org_id',$org_id);
+		$this->orderBy('order_no','ASC');
+		$data = $this->get()->getResult();
+		$name = '';
+			if(count($data)>0){
+				foreach( $data as $key => $value ){
+					
+					$name .= $value->org_name." ";
+					$name .= $this->org_full_name($value->org_parent,$org_profile_id);
+				}
+		}
+		return $name;
+	}
+
 }

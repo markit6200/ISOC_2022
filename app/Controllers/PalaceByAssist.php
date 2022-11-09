@@ -6,6 +6,8 @@ use App\Models\GeneralModel;
 use App\Models\DataPersonalForcesMapModel;
 use App\Models\DataPersonalForcesModel;
 use App\Models\DataPersonalForcesMapHeadModel;
+use App\Libraries\ExportExcel;
+use App\Libraries\DateFunction;
 
 class PalaceByAssist extends BaseController
 {
@@ -17,6 +19,7 @@ class PalaceByAssist extends BaseController
 		$this->personalForcesModel = new DataPersonalForcesModel();
 		$this->generalModel = new GeneralModel();
 		$this->DataPersonalForcesMapHeadModel = new DataPersonalForcesMapHeadModel();
+		$this->DateFunction = new DateFunction();
     }
 
 	public function index()
@@ -141,83 +144,44 @@ class PalaceByAssist extends BaseController
     {
 		// echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
 		if(!empty($_POST['checkBoxReqName'])){
-			foreach($_POST['checkBoxReqName'] AS $key=>$val){
-				//บันทึกตารางหลัก
-				$paramsHead = [
-					'id' => @$_POST['hID'],
-					'statusDirective' => $_POST['statusDirective'], //สถานะ
-					'directiveNo' => $_POST['directiveBegin'],
-					'orderTypeID' => $_POST['orderTypeID'],
-					'orgID' => @$_POST['rOrgId'],
-					'directiveType' => '1',
-				];
-				// echo '<pre>'; print_r($paramsHead); echo '</pre>';
-				if($this->DataPersonalForcesMapHeadModel->save($paramsHead)){
-					if(@$_POST['hID'] == ''){
-						$hID = $this->DataPersonalForcesMapHeadModel->insertID();
-					}else{
-						$hID = @$_POST['hID'];
-					}
+			//บันทึกตารางหลัก
+			$paramsHead = [
+				'id' => @$_POST['hID'],
+				'statusDirective' => $_POST['statusDirective'], //สถานะ
+				'directiveNo' => $_POST['directiveBegin'],
+				'orderTypeID' => $_POST['orderTypeID'],
+				'orgID' => @$_POST['rOrgId'],
+				'directiveType' => '1',
+			];
 
-					$params = [
-						'mId' => $val,
-						'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
-						'hID' => @$hID, 
-						'dateBegin' => @$this->ConvertToSQLDate($_POST['dateBegin'][$key]), //วันที่ปฏิบัติ
-						'dateEnd' => @$this->ConvertToSQLDate($_POST['dateEnd'][$key]) //วันที่สิ้นสุด
-					];
-					$this->DataPersonalForcesMapModel->save($params);
-					// echo '<pre>'; print_r($params); echo '</pre>';
+			// echo '<pre>'; print_r($paramsHead); echo '</pre>';
+			if($this->DataPersonalForcesMapHeadModel->save($paramsHead)){
+				if(@$_POST['hID'] == ''){
+					$hID = $this->DataPersonalForcesMapHeadModel->insertID();
+				}else{
+					$hID = @$_POST['hID'];
+				}
+				
+				foreach($_POST['checkBoxReqName'] AS $key=>$val){
+						$params = [
+							'mId' => $val,
+							'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
+							'hID' => @$hID, 
+							'dateBegin' => @$this->DateFunction->ConvertToSQLDate($_POST['dateBegin'][$key]), //วันที่ปฏิบัติ
+							'dateEnd' => @$this->DateFunction->ConvertToSQLDate($_POST['dateEnd'][$key]) //วันที่สิ้นสุด
+						];
+						$this->DataPersonalForcesMapModel->save($params);
+						// echo '<pre>'; print_r($params); echo '</pre>';
 				}
 			}
 		}
 		// exit;
-		return redirect()->to('PalaceByAssist?typeForce=1');
-    }
-
-	function ConvertToSQLDate($date,$type='en') {
-		if(!empty($date)) {
-			if(strpos($date, "/")!==false) {
-				$x = explode("/", $date);
-				if($type=='th'){
-					$x[2] = ($x[2] - 543);
-				}else{
-					$x[2] = ($x[2]);
-				}
-				$x[1] = sprintf("%02d", (int)$x[1]);
-				$return = "{$x[2]}-{$x[1]}-{$x[0]}";
-				
-			} elseif(strpos($date, "-")!==false) {
-				$x = explode("-", $date);
-				$x[0] = ($x[0] - 543);
-				$x[1] = sprintf("%02d", (int)$x[1]);
-				$return = "{$x[0]}-{$x[1]}-{$x[2]}";
-			} else $return = "0000-00-00";
-		} else $return = "";
-		return $return;
-	}
-
-	function mydate2date($date, $time = false, $lang = "th") {
-		if ($date != '') {
-			if ($lang == "th") {
-				$tmp = explode(" ", $date);
-				if ($tmp[0] != "" && $tmp[0] != "0000-00-00") {
-					$d = explode("-", $tmp[0]);
-					$str = $d[2] . "/" . $d[1] . "/" . ($d[0] > 2500 ? $d[0] : $d[0] + 543);
-					if ($time) {
-						$t = strtotime($date);
-						$str .= " " . date("H:i", $t);
-					}
-				}
-			} else {
-				$str = empty($date) || $date == "0000-00-00 00:00:00" || $date == "0000-00-00" ? "" : date("d/m/Y" . ($time ? " H:i" : ""), strtotime($date));
-			}
-
-			return $str;
-		} else {
-			return '';
+		if(@$_POST['showSend'] == 1){
+			return redirect()->to('ReportPalaceByAssist');
+		}else{
+			return redirect()->to('PalaceByAssist?typeForce=1');
 		}
-	}
+    }
 
 	public function dataPersonalForces()
 	{
@@ -282,7 +246,7 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button class="btn btn-danger" onclick="delRow('.$value->mId.','.$value->hID.')">
+										<button class="btn btn-danger bt_del" onclick="delRow('.$value->mId.','.$value->hID.')">
 											<x-orchid-icon path="fa.plus" />&nbsp;ลบ
 										</button>
 									</div>
@@ -321,13 +285,14 @@ class PalaceByAssist extends BaseController
 
 	public function dataForcesReq()
 	{
+		$org = new OrganizeForcesModel();
 		$org_id = $this->request->getPost('org_id');
 
 		$arr_data = array();
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t4.orderTypeID');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t4.orderTypeID,t4.statusDirective');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
 		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
@@ -359,8 +324,13 @@ class PalaceByAssist extends BaseController
 				$arr_data['hID'] = $value->hID;
 				$arr_data['orderTypeID'] = $value->orderTypeID;
 				$arr_data['org_id'] = $value->org_id;
-				$dateBegin = $this->mydate2date($value->dateBegin,0,'en');
-				$dateEnd = $this->mydate2date($value->dateEnd,0,'en');
+				$dateBegin = $this->DateFunction->mydate2date($value->dateBegin,0,'en');
+				$dateEnd = $this->DateFunction->mydate2date($value->dateEnd,0,'en');
+
+				$arr_data['statusDirective'] = $value->statusDirective;
+
+				$org_full_name = $org->org_full_name($value->org_id,1);
+				$arr_data['textOrgName'] = 'สังกัด'.$org_full_name;
 				
 				$positionTxt = $position[$value->positionID];
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
@@ -391,7 +361,7 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button type="button" class="btn btn-danger" onclick="delRow('.$value->mId.','.$value->hID.')">ลบ</button>
+										<button type="button" class="btn btn-danger bt_del" onclick="delRow('.$value->mId.','.$value->hID.')">ลบ</button>
 									</div>
 								</div>
 							</td>
@@ -461,7 +431,7 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button class="btn btn-danger" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">
+										<button class="btn btn-danger bt_del" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">
 											<x-orchid-icon path="fa.plus" />&nbsp;ลบ
 										</button>
 									</div>
@@ -500,7 +470,7 @@ class PalaceByAssist extends BaseController
 						'mId' => $val,
 						'statusPackingRate' => $_POST['statusPackingRate'], //สถานะ
 						'hIDRetire' => @$hIDRetire, 
-						'dateRetire' => @$this->ConvertToSQLDate($_POST['dateRetire'][$key]), //วันที่พ้น
+						'dateRetire' => @$this->DateFunction->ConvertToSQLDate($_POST['dateRetire'][$key]), //วันที่พ้น
 					];
 					$this->DataPersonalForcesMapModel->save($params);
 					// echo '<pre>'; print_r($params); echo '</pre>';
@@ -571,13 +541,17 @@ class PalaceByAssist extends BaseController
 
 	public function dataForcesReqRetire()
 	{
+		$org = new OrganizeForcesModel();
 		$org_id = $this->request->getPost('org_id');
-
+		
 		$arr_data = array();
+
+		$org_full_name = $org->org_full_name($org_id,1);
+		$arr_data['textOrgName'] = 'สังกัด'.$org_full_name;
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hIDRetire,t5.directiveNo AS directiveRetire,t2.dateRetire,t5.orderTypeID');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hIDRetire,t5.directiveNo AS directiveRetire,t2.dateRetire,t5.orderTypeID,t4.statusDirective');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
 		// $builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
@@ -609,7 +583,8 @@ class PalaceByAssist extends BaseController
 				$arr_data['hIDRetire'] = $value->hIDRetire;
 				$arr_data['orderTypeID'] = $value->orderTypeID;
 				$arr_data['org_id'] = $value->org_id;
-				$dateRetire = $this->mydate2date($value->dateRetire,0,'en');
+				$dateRetire = $this->DateFunction->mydate2date($value->dateRetire,0,'en');
+				$arr_data['statusDirective'] = $value->statusDirective;
 				
 				$positionTxt = $position[$value->positionID];
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
@@ -634,7 +609,7 @@ class PalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button type="button" class="btn btn-danger" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">ลบ</button>
+										<button type="button" class="btn btn-danger bt_del" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">ลบ</button>
 									</div>
 								</div>
 							</td>
@@ -680,4 +655,102 @@ class PalaceByAssist extends BaseController
 		}
 		echo $result;
     }
+
+	// EXCEL
+	public function exportExcel()
+	{
+		$exportexcel = new ExportExcel();
+		$data = array();
+		$file_name = 'บัญชีรายชื่อกำลังพล';
+		$data['file_name'] = $file_name;
+
+		$data['DataReq'] = $this->getDataReq($_GET['hID']);
+		$data['datePrint'] = $this->DateFunction->changeThainum($this->DateFunction->ConvertToThaiDate(date('Y-m-d')));//วันที่พิมพ์
+
+		$dataHead = $this->DataPersonalForcesMapHeadModel->find($_GET['hID']);
+		$orderType = $this->generalModel->getOrderType();
+
+		$org = new OrganizeForcesModel();
+		$org_full_name = $org->org_full_name($dataHead['orgID'],1);
+
+		$data['orgName'] = $org_full_name;//สังกัด หน่วยงานย่อยไปหาหน่วยงานหลัก
+		$data['orderType'] = ($dataHead['orderTypeID'] != '')?$orderType[$dataHead['orderTypeID']]:'';//ประเภทคำสั่ง
+		
+		// จัดให้อยู่ในรูปแบบ html
+		$html = view('palaceByAs/export', $data,);
+		// echo $html;die();
+		$result =  $exportexcel->export($data, $file_name, $html, 'L');
+	}
+
+	public function getDataReq($hID)
+	{
+		$arr_data = array();
+		
+		$db = db_connect();
+		$builder = $db->table('DataPositionMapOrganize AS t1');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.hrNumber,t3.originPosition,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t4.orderTypeID,t4.statusDirective');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
+		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
+		$builder->where("t2.hID = '{$hID}'");
+		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
+		$result = $builder->get()->getResult();
+		// echo $db->getLastQuery();
+
+		$position = $this->generalModel->getPositionList();
+		$positionGroup = $this->generalModel->getPositionGroupList();
+		$positionCivilian = $this->generalModel->getPositionCivilianList();
+		$positionCivilianGroup = $this->generalModel->getPositionCivilianGroupList();
+		$rank = $this->generalModel->getPositionRankList();
+		$rankShort = $this->generalModel->getPositionRankShortList();
+		$codePrefixShort = $this->generalModel->getcodePrefixShort();
+		$orderType = $this->generalModel->getOrderType();
+
+		$html = '';
+		$input = '';
+		$runno = 0;
+		$dateBegin = '';
+		$dateEnd = '';
+		$key = 0;
+		if(!empty($result)){
+			foreach($result AS $value){
+				$runno++;
+				
+				$positionTxt = $position[$value->positionID];
+				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
+				$positionNumberTxt = $value->positionNumber;
+				$fullName = $value->firstName.' '.$value->lastName;
+				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
+				$codePrefixTxt = !empty($value->codePrefix)?$codePrefixShort[$value->codePrefix]:'-';
+
+				$arr_data[$key]['runno'] = $this->DateFunction->changeThainum($runno);
+				$arr_data[$key]['positionTxt'] = $positionTxt;
+				$arr_data[$key]['rankTxt'] = $rankTxt;
+				$arr_data[$key]['positionNumberTxt'] = $positionNumberTxt;
+				$arr_data[$key]['codePrefixTxt'] = $codePrefixTxt;
+				$arr_data[$key]['fullName'] = $fullName;
+				$arr_data[$key]['dateBegin'] = $this->DateFunction->changeThainum($this->DateFunction->ConvertToThaiDate($value->dateBegin));
+				$arr_data[$key]['dateEnd'] = $this->DateFunction->changeThainum($this->DateFunction->ConvertToThaiDate($value->dateEnd));
+				$arr_data[$key]['originPosition'] = @str_replace('|',' ',@$value->originPosition);
+				$arr_data[$key]['isocPosition'] = @str_replace('|',' ',@$value->isocPosition);
+				$arr_data[$key]['hrNumber'] = $this->DateFunction->changeThainum(@$value->hrNumber);
+				$key++;
+			}
+		}
+		return $arr_data;
+	}
+
+	public function getOrgFullName()
+	{
+		$org = new OrganizeForcesModel();
+		$org_id = $this->request->getPost('org_id');
+		
+		$arr_data = array();
+
+		$org_full_name = $org->org_full_name($org_id,1);
+		$arr_data['textOrgName'] = 'สังกัด'.$org_full_name;
+
+		echo json_encode($arr_data);
+	}
+	
 }

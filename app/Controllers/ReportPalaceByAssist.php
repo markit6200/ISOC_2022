@@ -1,11 +1,14 @@
 <?php namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Models\OrganizeForcesModel;
 use App\Models\OrganizeModel;
 use App\Models\GeneralModel;
 use App\Models\DataPositionMapOrganizeModel;
 use App\Models\PersonalForceModel;
 use App\Models\DataPersonalForcesMapHeadModel;
+use App\Models\DataPersonalForcesMapModel;
+use App\Libraries\DateFunction;
 class ReportPalaceByAssist extends BaseController
 {
 	protected $perPage = 100;
@@ -16,6 +19,8 @@ class ReportPalaceByAssist extends BaseController
 		$this->PersonalForceModel = new PersonalForceModel();
 		$this->generalModel = new GeneralModel();
 		$this->DataPersonalForcesMapHeadModel = new DataPersonalForcesMapHeadModel();
+		$this->DataPersonalForcesMapModel = new DataPersonalForcesMapModel();
+		$this->DateFunction = new DateFunction();
     }
 
 	public function index()
@@ -56,6 +61,7 @@ class ReportPalaceByAssist extends BaseController
 
 	public function dataForcesReq()
 	{
+		$org = new OrganizeForcesModel();
 		$org_id = $this->request->getPost('org_id');
 		$hID = $this->request->getPost('hID');
 
@@ -63,7 +69,7 @@ class ReportPalaceByAssist extends BaseController
 		
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t4.orderTypeID');
+		$builder->select('t1.*,t2.mId,t3.firstName,t3.lastName,t3.isocPosition,t3.codePrefix,t3.positionCivilianID AS personalPositionCivilianID,t2.statusPackingRate,t2.hID,t4.directiveNo AS directiveBegin,t2.dateBegin,t2.dateEnd,t4.orderTypeID,t4.statusDirective');
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
 		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
@@ -96,8 +102,13 @@ class ReportPalaceByAssist extends BaseController
 				$arr_data['hID'] = $value->hID;
 				$arr_data['orderTypeID'] = $value->orderTypeID;
 				$arr_data['org_id'] = $value->org_id;
-				$dateBegin = $this->mydate2date($value->dateBegin,0,'en');
-				$dateEnd = $this->mydate2date($value->dateEnd,0,'en');
+				$dateBegin = $this->DateFunction->mydate2date($value->dateBegin,0,'en');
+				$dateEnd = $this->DateFunction->mydate2date($value->dateEnd,0,'en');
+
+				$arr_data['statusDirective'] = $value->statusDirective;
+
+				$org_full_name = $org->org_full_name($value->org_id,1);
+				$arr_data['textOrgName'] = 'สังกัด'.$org_full_name;
 				
 				$positionTxt = $position[$value->positionID];
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
@@ -128,7 +139,7 @@ class ReportPalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button type="button" class="btn btn-danger" onclick="delRow('.$value->mId.','.$value->hID.')">ลบ</button>
+										<button type="button" class="btn btn-danger bt_del" onclick="delRow('.$value->mId.','.$value->hID.')">ลบ</button>
 									</div>
 								</div>
 							</td>
@@ -183,7 +194,7 @@ class ReportPalaceByAssist extends BaseController
 				$arr_data['hIDRetire'] = $value->hIDRetire;
 				$arr_data['orderTypeID'] = $value->orderTypeID;
 				$arr_data['org_id'] = $value->org_id;
-				$dateRetire = $this->mydate2date($value->dateRetire,0,'en');
+				$dateRetire = $this->DateFunction->mydate2date($value->dateRetire,0,'en');
 				
 				$positionTxt = $position[$value->positionID];
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
@@ -208,7 +219,7 @@ class ReportPalaceByAssist extends BaseController
 							<td class="text-center">
 								<div class="col-auto pe-md-0">
 									<div class="form-group mb-0">
-										<button type="button" class="btn btn-danger" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">ลบ</button>
+										<button type="button" class="btn btn-danger bt_del" onclick="delRowRetire('.$value->mId.','.$value->hIDRetire.')">ลบ</button>
 									</div>
 								</div>
 							</td>
@@ -221,25 +232,35 @@ class ReportPalaceByAssist extends BaseController
 		echo json_encode($arr_data);
 	}
 
-	function mydate2date($date, $time = false, $lang = "th") {
-		if ($date != '') {
-			if ($lang == "th") {
-				$tmp = explode(" ", $date);
-				if ($tmp[0] != "" && $tmp[0] != "0000-00-00") {
-					$d = explode("-", $tmp[0]);
-					$str = $d[2] . "/" . $d[1] . "/" . ($d[0] > 2500 ? $d[0] : $d[0] + 543);
-					if ($time) {
-						$t = strtotime($date);
-						$str .= " " . date("H:i", $t);
+	public function saveDelByhID()
+    {
+		// echo '<pre>'; print_r($_POST); echo '</pre>'; exit;
+		if(!empty($_POST['hID'])){
+			if($this->DataPersonalForcesMapHeadModel->delete($_POST['hID'])){
+				$db = db_connect();
+				$builder = $db->table('DataPersonalForcesMap AS t1');
+				$builder->select('mId');
+				$builder->where("t1.hID = '{$_POST['hID']}'");
+				$result = $builder->get()->getResult();
+				if(!empty($result)){
+					foreach($result AS $value){
+						$params = [
+							'mId' => $value->mId,
+							'statusPackingRate' => '3', //สถานะ รอออกคำสั่ง
+							'dateBegin' => NULL,
+							'dateEnd' => NULL,
+							'hID' => NULL,
+						];
+						$this->DataPersonalForcesMapModel->save($params);
 					}
 				}
-			} else {
-				$str = empty($date) || $date == "0000-00-00 00:00:00" || $date == "0000-00-00" ? "" : date("d/m/Y" . ($time ? " H:i" : ""), strtotime($date));
+				$result = 'success';
+			}else{
+				$result = 'error';
 			}
-
-			return $str;
-		} else {
-			return '';
+		}else{
+			$result = 'error';
 		}
-	}
+		echo $result;
+    }
 }

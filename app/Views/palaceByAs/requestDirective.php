@@ -22,8 +22,12 @@
                             <input type="hidden" class="form-control" id="rOrgId" name="rOrgId">
                             <input type="hidden" class="form-control" id="hID" name="hID">
                             <input type="hidden" class="form-control" id="statusDirective" name="statusDirective">
+                            <input type="hidden" class="form-control" id="showSend" name="showSend">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="mb-3 row">
+                                        <label for="" class="col-12 col-md-12 form-label text-center" id="textOrgName"></label>
+                                    </div>
                                     <div class="mb-3 row">
                                         <label for="" class="col-12 col-md-2 form-label"></label>
                                         <label for="directiveBegin" class="col-12 col-md-2 form-label text-end">คำสั่งปฏิบัติ</label>
@@ -76,8 +80,9 @@
                             </div>
                             
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success" onclick="checkSave()">บันทึก</button>
-                                <button type="submit" class="btn btn-primary" onclick="checkSend()">ส่งไปออกคำสั่ง</button>
+                                <button type="submit" class="btn btn-success bt_save" onclick="checkSave()">บันทึก</button>
+                                <button type="submit" class="btn btn-primary bt_send" onclick="checkSend()">ส่งไปออกคำสั่ง</button>
+                                <button type="button" class="btn btn-info" onclick="checkPrint()">พิมพ์</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="checkClose()">ปิด</button>
                             </div>
                         </form>
@@ -109,7 +114,22 @@
 
 <script>
 $( document ).ready(function() {
-   
+
+});
+
+$(document).on("change", "#orderTypeID", function(){
+    // console.log('orderTypeID='+$(this).val());
+    if($(this).val() === "3"){
+        $(".bt_send").hide();
+    }else if($(this).val() === "4"){
+        $(".bt_send").hide();
+    }else{
+        if($("#showSend").val()==1){
+            $(".bt_send").show();
+        }else{
+            $(".bt_send").hide();
+        }
+    }
 });
 
 function checkSave(){
@@ -138,4 +158,8 @@ function delRow(mId,hID){
     });
 }
 
+function checkPrint(){
+    var hID = $("#requestDirectiveModal #hID").val();
+    window.location = "palaceByAssist/exportExcel?hID="+hID;
+}
 </script>
