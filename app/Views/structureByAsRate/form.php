@@ -8,6 +8,7 @@
 <form  class="needs-validation" novalidate action="<?php echo $action ?>" method="POST" id="strForm">
     <input type="hidden" name="id" value="<?php echo isset($save_data['positionMapID'])?$save_data['positionMapID']:'' ?>"/>
     <input type="hidden" name="org_id" value="<?php echo $org_id ?>"/>
+    <input type="hidden" name="profile_id" value="<?php echo $profile_id ?>">
     <div class="row">
         <div class="col-12">
             <div class="card">

@@ -17,10 +17,10 @@ class StructureByAssistRate extends BaseController
         // $this->data['currentAdminSubMenu'] = 'brand';
     }
 
-	public function index($profileId = '')
+	public function index($profileId = '1')
 	{
         $profile = $this->organizeProfileModel->find($profileId);
-		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType'] == '' ? '1' : $profile['profileType']);
+		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType']);
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
@@ -68,13 +68,15 @@ class StructureByAssistRate extends BaseController
 			'positionType' => $positionType,
 			'org_id' => $org_id,
 			'save_data' => $save_data,
-			'org_name' => $org_name
+			'org_name' => $org_name,
+            'profile_id' => $org->org_profile_id
 		];
 		return view('structureByAsRate/form', $data);
 	}
 
 	public function save()
     {
+        $profile = $this->organizeProfileModel->find($this->request->getVar('profile_id'));
         $params = [
 			'positionID' => $this->request->getVar('position'),
 			'positionGroupID' => $this->request->getVar('positionGroup'),
@@ -87,15 +89,14 @@ class StructureByAssistRate extends BaseController
 			'positionNumber' => $this->request->getVar('positionNumber'),
 			'ordering' => '1',
 			'activeStatus' => '1',
-			'profileType' => '1',
+			'profileType' => $profile['profileType'],
         ];
-		$profile_id = $this->request->getVar('profile_id') == '' ? '1' : $this->request->getVar('profile_id');
 
         if ($this->DataPositionMapOrganizeModel->save($params)) {
 			// echo $this->DataPositionMapOrganizeModel->getLastQuery();
 			// die();
             // $this->session->setFlashdata('success', 'Brand has been saved.');
-            return view('structureByAsRate/index/'.$profile_id);
+            return redirect()->to('StructureByAssistRate');
         } else {
             // $this->getBrands();
             $this->data['errors'] = $this->DataPositionMapOrganizeModel->errors();
