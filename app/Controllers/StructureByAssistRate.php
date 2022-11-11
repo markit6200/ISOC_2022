@@ -89,13 +89,13 @@ class StructureByAssistRate extends BaseController
 			'activeStatus' => '1',
 			'profileType' => '1',
         ];
-		
+		$profile_id = $this->request->getVar('profile_id') == '' ? '1' : $this->request->getVar('profile_id');
 
         if ($this->DataPositionMapOrganizeModel->save($params)) {
 			// echo $this->DataPositionMapOrganizeModel->getLastQuery();
 			// die();
             // $this->session->setFlashdata('success', 'Brand has been saved.');
-            return redirect()->to('StructureByAssistRate');
+            return view('structureByAsRate/index/'.$profile_id);
         } else {
             // $this->getBrands();
             $this->data['errors'] = $this->DataPositionMapOrganizeModel->errors();
