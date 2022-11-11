@@ -20,7 +20,7 @@ class StructureByAssistRate extends BaseController
 	public function index($profileId = '')
 	{
         $profile = $this->organizeProfileModel->find($profileId);
-		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType']);
+		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType'] == '' ? '1' : $profile['profileType']);
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
