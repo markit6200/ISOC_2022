@@ -134,7 +134,7 @@
             // dataType: "text",
             success: function (msg) {
                 var obj = JSON.parse(msg);
-                console.log(obj);
+                // console.log(obj);
                 
                 $("#textOrgName").html(obj.textOrgName);
                 $("#directiveBegin").val(obj.directiveBegin);

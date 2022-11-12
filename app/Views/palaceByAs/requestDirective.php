@@ -177,7 +177,17 @@ function checkSend(){
                 data: obj,
                 // data: JSON.stringify(obj),
                 success: function(result){
+                    console.log("======data result========");
                     console.log(result);
+                        
+                    var objRe = JSON.parse(result);
+                    if(objRe.result == 'success'){
+                        console.log("======data success========");
+                        console.log(objRe.result);
+                    }else{
+                        console.log("======data error========");
+                        console.log(objRe.result);
+                    }
                 }
             });
         }
