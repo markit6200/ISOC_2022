@@ -796,7 +796,7 @@ class PalaceByAssist extends BaseController
 		$result = $builder->get()->getResult();
 		// echo $db->getLastQuery();
 		
-		$arr_data['staffid'] = 1;
+		$arr_data['staffid'] = $_SESSION['userId'];
 		$arr_data['ref_id'] = $hID;
 		// echo '<pre>'; print_r($result); echo '</pre>'; exit;
 

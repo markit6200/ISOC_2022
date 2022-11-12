@@ -152,7 +152,10 @@ function checkSend(){
         dataType: "text",
         success: function (obj) {
             // var obj = JSON.parse(msg);
-            // console.log(obj);
+
+            console.log("======data array========");
+            console.log(obj);
+            
             // console.log(msg);
             // $.ajax({
             //     url:  "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
@@ -171,7 +174,8 @@ function checkSend(){
                 type: "POST",
                 url: "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
                 dataType: "json",
-                data: JSON.stringify(obj),
+                data: obj,
+                // data: JSON.stringify(obj),
                 success: function(result){
                     console.log(result);
                 }
