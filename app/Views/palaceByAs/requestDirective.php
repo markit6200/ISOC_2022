@@ -143,7 +143,6 @@ function checkSend(){
     $("#statusDirective").val(1);
 
     var hID = $("#requestDirectiveModal #hID").val();
-    // console.log("hID="+hID);
 
     $.ajax({
         url:  "PalaceByAssist/getDataSendDirective",
@@ -151,40 +150,24 @@ function checkSend(){
         data: {hID:hID},
         dataType: "text",
         success: function (obj) {
-            // var obj = JSON.parse(msg);
-
-            console.log("======data array========");
-            console.log(obj);
-            
-            // console.log(msg);
-            // $.ajax({
-            //     url:  "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
-            //     method: "post",
-            //     data: {obj},
-            //     // dataType: "text",
-            //     dataType: "application/json",
-            //     success: function (result) {
-            //         // var obj = JSON.parse(result);
-            //         // console.log(obj);
-            //         console.log(result);
-            //     }
-            // });
-
             $.ajax({
                 type: "POST",
                 url: "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
                 dataType: "json",
                 data: obj,
-                // data: JSON.stringify(obj),
                 success: function(msg){
-                    console.log("======data result========");
-                    console.log(msg);
                     if(msg.result == 'success'){
                         console.log("======data success========");
                         console.log(msg.response);
+                        $('#forReq').submit();
                     }else{
                         console.log("======data error========");
                         console.log(msg.response);
+                        Swal.fire({
+                            title: 'ไม่สามารถส่งไปออกคำสั่งได้',
+                            text: '',
+                            icon: 'error'
+                        })
                     }
                 }
             });
