@@ -176,17 +176,15 @@ function checkSend(){
                 dataType: "json",
                 data: obj,
                 // data: JSON.stringify(obj),
-                success: function(result){
+                success: function(msg){
                     console.log("======data result========");
-                    console.log(result);
-                        
-                    var objRe = JSON.parse(result);
-                    if(objRe.result == 'success'){
+                    console.log(msg);
+                    if(msg.result == 'success'){
                         console.log("======data success========");
-                        console.log(objRe.result);
+                        console.log(msg.response);
                     }else{
                         console.log("======data error========");
-                        console.log(objRe.result);
+                        console.log(msg.response);
                     }
                 }
             });
