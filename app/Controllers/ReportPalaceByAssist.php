@@ -273,4 +273,54 @@ class ReportPalaceByAssist extends BaseController
 		}
 		echo $result;
     }
+
+	public function reportStatusSummary(){
+		$data = [
+			'title_meta' => view('partials/title-meta', ['title' => 'รายงานข้อมูลสรุปสถานภาพกำลังพล']),
+			'page_title' => view('partials/page-title', ['title' => 'รายงานข้อมูลสรุปสถานภาพกำลังพล', 'pagetitle' => 'Minible']),
+		];
+
+		$data['title'] = 'รายงานข้อมูลสรุปสถานภาพกำลังพล';
+
+		$positionData = $this->DataPositionMapOrganizeModel->select("*");
+		$positionData->groupBy("org_id");
+
+		$db = db_connect();
+		$builder = $db->table('DataPositionMapOrganize AS t1');
+		$builder->select('t1.org_id,count(t2.mid) AS c_num_all');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->groupBy("t1.org_id");
+		$row_all = $builder->get()->getResultArray();
+		$num_all = array_column($row_all,'c_num_all','org_id');
+
+		$db = db_connect();
+		$builder = $db->table('DataPositionMapOrganize AS t1');
+		$builder->select('t1.org_id,count(t2.mid) AS c_num_palace');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->where("t2.statusPackingRate = 1");
+		$builder->groupBy("t1.org_id");
+		$row_palace = $builder->get()->getResultArray();
+		$num_palace = array_column($row_palace,'c_num_palace','org_id');
+		
+		$org = new OrganizeForcesModel();
+		$row = $positionData->paginate($this->perPage, 'bootstrap');
+		$positionData = array();
+		if(!empty($row)){
+			foreach($row AS $key=>$value){
+				$positionData[$key] = $value;
+				$positionData[$key]['org_full_name'] = $org->org_full_name($value['org_id'],1);
+				$positionData[$key]['c_num_all'] = @$num_all[$value['org_id']];
+				$positionData[$key]['c_num_palace'] = @$num_palace[$value['org_id']];
+				$positionData[$key]['c_num_free'] = $positionData[$key]['c_num_all']-@$positionData[$key]['c_num_palace'];
+			}
+		}
+		
+		$data['positionData'] =  $positionData;
+		
+		$data['pager'] = $this->DataPositionMapOrganizeModel->pager;
+		$data['currentPage'] =$this->DataPositionMapOrganizeModel->pager->getCurrentPage('bootstrap'); // The current page number
+        $data['totalPages']  = $this->DataPositionMapOrganizeModel->pager->getPageCount('bootstrap');   // The total page count
+		$data['perPage'] = $this->perPage;
+		return view('reportPalaceByAssist/reportStatusSummary', $data);
+	}
 }
