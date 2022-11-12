@@ -81,7 +81,8 @@
                             
                             <div class="text-center">
                                 <button type="submit" class="btn btn-success bt_save" onclick="checkSave()">บันทึก</button>
-                                <button type="submit" class="btn btn-primary bt_send" onclick="checkSend()">ส่งไปออกคำสั่ง</button>
+                                <!-- <button type="submit" class="btn btn-primary bt_send" onclick="checkSend()">ส่งไปออกคำสั่ง</button> -->
+                                <button type="button" class="btn btn-primary bt_send" onclick="checkSend()">ส่งไปออกคำสั่ง</button>
                                 <button type="button" class="btn btn-info" onclick="checkPrint()">พิมพ์</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="checkClose()">ปิด</button>
                             </div>
@@ -140,6 +141,43 @@ function checkSave(){
 function checkSend(){
     $("#statusPackingRate").val(5);
     $("#statusDirective").val(1);
+
+    var hID = $("#requestDirectiveModal #hID").val();
+    // console.log("hID="+hID);
+
+    $.ajax({
+        url:  "PalaceByAssist/getDataSendDirective",
+        method: "post",
+        data: {hID:hID},
+        dataType: "text",
+        success: function (obj) {
+            // var obj = JSON.parse(msg);
+            // console.log(obj);
+            // console.log(msg);
+            // $.ajax({
+            //     url:  "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
+            //     method: "post",
+            //     data: {obj},
+            //     // dataType: "text",
+            //     dataType: "application/json",
+            //     success: function (result) {
+            //         // var obj = JSON.parse(result);
+            //         // console.log(obj);
+            //         console.log(result);
+            //     }
+            // });
+
+            $.ajax({
+                type: "POST",
+                url: "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
+                dataType: "json",
+                data: JSON.stringify(obj),
+                success: function(result){
+                    console.log(result);
+                }
+            });
+        }
+    });
 }
 
 function delRow(mId,hID){

@@ -254,8 +254,8 @@ class OrganizeForcesModel extends Model
 			return "";
 	}
 
-	public function org_full_name($org_id,$org_profile_id){
-        
+	public function org_full_name($org_id,$org_profile_id,$set_split=''){
+		$text_split = ($set_split == '')?" ":$set_split;
 		$this->select('*');
 		$this->where('org_profile_id',$org_profile_id);
 		$this->where('org_id',$org_id);
@@ -264,9 +264,9 @@ class OrganizeForcesModel extends Model
 		$name = '';
 			if(count($data)>0){
 				foreach( $data as $key => $value ){
-					
-					$name .= $value->org_name." ";
-					$name .= $this->org_full_name($value->org_parent,$org_profile_id);
+					$org_name = ($value->org_short_name != '')?$value->org_short_name:$value->org_name;
+					$name .= $org_name.$text_split;
+					$name .= $this->org_full_name($value->org_parent,$org_profile_id,$set_split);
 				}
 		}
 		return $name;

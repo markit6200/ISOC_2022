@@ -752,5 +752,116 @@ class PalaceByAssist extends BaseController
 
 		echo json_encode($arr_data);
 	}
+
+	public function getOrgFullNameArr($org_id)
+	{
+		$org = new OrganizeForcesModel();
+		
+		$arr_data = array();
+
+		$org_name = $org->org_full_name($org_id,1,'|');
+		// echo '<pre>'; print_r($org_name); echo '</pre>';
+		$arr_data = explode("|",$org_name);
+		
+		// $arr_data[$org_id] = $org_full_name;
+		return $arr_data;
+		
+	}
+
+	//ส่งไปออกคำสั่งขอบรรจุ
+	public function getDataSendDirective()
+	{
+		$hID = $this->request->getPost('hID');
+		$arr_data = array();
+		$db = db_connect();
+		$builder = $db->table('DataPositionMapOrganize AS t1');
+		$builder->select("t3.pid,
+						t3.codePrefix AS prename,
+						t3.firstName AS first_name,
+						t3.lastName AS last_name,
+						t3.cardID AS idcard,
+						t4.orgID AS org_id,
+						t3.hrTypeID AS hr_type,
+						DATE(t2.dateBegin) AS date_in,
+						'' AS no_cmd_for_out,
+						'' AS date_cmd_in_for_out,
+						'' AS date_out,
+						IF(t4.directiveType = '1','I',IF(t4.directiveType='2','O',IF(t4.directiveType='5','IO',''))) AS type_cmd,
+						t3.positionCivilianID AS personalPositionCivilianID");
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
+		$builder->join("DataPersonalForcesMapHead AS t4","t2.hID = t4.id AND t4.directiveType = 1","left");
+		$builder->where("t2.hID = '{$hID}'");
+		$builder->orderBy("t1.org_id ASC,t1.positionMapID ASC");
+		$result = $builder->get()->getResult();
+		// echo $db->getLastQuery();
+		
+		$arr_data['staffid'] = 1;
+		$arr_data['ref_id'] = $hID;
+		// echo '<pre>'; print_r($result); echo '</pre>'; exit;
+
+		$positionCivilian = $this->generalModel->getPositionCivilianList();
+		$row = 0;
+		// if(!empty($result)){
+		// 	foreach($result AS $key=>$value){
+		// 		$row++;
+		// 		$result[$key]->row_id = $row;
+		// 		// echo '<pre>'; print_r($value); echo '</pre>';
+		// 		$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
+		// 		$result[$key]->position1 = $personalPositionCivilianTxt;
+				
+		// 		$orgFullName = $this->getOrgFullNameArr($value->orgID);
+
+		// 		$i=0;
+		// 		if(!empty($orgFullName)){
+		// 			foreach($orgFullName AS $key_org=>$val_org){
+		// 				echo '<pre>'; print_r($val_org); echo '</pre>';
+		// 				if($val_org != ''){
+		// 					$i++;
+		// 					$result[$key]->position_isoc = @$val_org;
+
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		$arr_persons = array();
+		if(!empty($result)){
+			foreach($result AS $key=>$value){
+				$row++;
+				$arr_persons[$key]['row_id'] = $row;
+				$arr_persons[$key]['pid'] = $value->pid;
+				$arr_persons[$key]['prename'] = $value->prename;
+				$arr_persons[$key]['first_name'] = $value->first_name;
+				$arr_persons[$key]['last_name'] = $value->last_name;
+				$arr_persons[$key]['idcard'] = $value->idcard;
+				$arr_persons[$key]['org_id'] = $value->org_id;
+				$arr_persons[$key]['hr_type'] = $value->hr_type;
+				$arr_persons[$key]['date_in'] = $value->date_in;
+				$arr_persons[$key]['no_cmd_for_out'] = $value->no_cmd_for_out;
+				$arr_persons[$key]['date_cmd_in_for_out'] = $value->date_cmd_in_for_out;
+				$arr_persons[$key]['date_out'] = $value->date_out;
+				$arr_persons[$key]['type_cmd'] = $value->type_cmd;
+
+				$personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
+				$arr_persons[$key]['position1'] = $personalPositionCivilianTxt;
+				$arr_persons[$key]['position2'] = "";
+				$arr_persons[$key]['position3'] = "";
+				$arr_persons[$key]['position4'] = "";
+				$arr_persons[$key]['position5'] = "";
+				
+				$orgFullName = $this->getOrgFullNameArr($value->org_id);
+
+				$i=0;
+				for($r=0;$r<8;$r++){
+					$i++;
+					$arr_persons[$key]['position_isoc'.$i] = (@$orgFullName[$r] != '')?@$orgFullName[$r]:"";
+				}
+			}
+		}
+		$arr_data['persons'] = $arr_persons;
+		echo json_encode($arr_data,JSON_UNESCAPED_UNICODE);
+	}
 	
 }

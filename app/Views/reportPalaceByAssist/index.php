@@ -47,12 +47,12 @@
                                             $i=1+(($currentPage-1) * $perPage);
                                             foreach ($headData as $key => $value){
                                                 $orderTypeText = isset($orderType[$value['orderTypeID']])?$orderType[$value['orderTypeID']]:'';
-                                                $org_name = $value['org_name'];
+                                                // $org_name = $value['org_name'];
                                     ?>
                                                 <tr>
                                                     <td class="text-center" style="width:6rem;"><?php echo $i++; ?></td>
                                                     <td class="text-left"><?php echo $orderTypeText; ?></td>
-                                                    <td class="text-left"><?php echo $org_name; ?></td>
+                                                    <td class="text-left"><?php echo $value['org_full_name']; ?></td>
                                                     <td class="text-center"><?php echo $value['directiveNo']; ?></td>
                                                     <td class="text-center"><?php echo (@$value['c_num'] !='')?@number_format(@$value['c_num'], 0, '.', ''):''; ?></td>
                                                     <td class="text-center">

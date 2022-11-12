@@ -46,7 +46,17 @@ class ReportPalaceByAssist extends BaseController
 			$headData->where($where);
 		}
 		
-		$data['headData'] = $headData->paginate($this->perPage, 'bootstrap');
+		$org = new OrganizeForcesModel();
+		$rowHead = $headData->paginate($this->perPage, 'bootstrap');
+		$headData = array();
+		if(!empty($rowHead)){
+			foreach($rowHead AS $key=>$value){
+				$headData[$key] = $value;
+				$headData[$key]['org_full_name'] = $org->org_full_name($value['org_id'],1);
+			}
+		}
+		
+		$data['headData'] =  $headData;
 		// echo '<pre>'; print_r($data['headData']); echo '</pre>'; exit;
 		// $orderType = $this->generalModel->getOrderType();
 		$orderType = $this->generalModel->getOrderType();
