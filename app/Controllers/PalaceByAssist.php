@@ -786,7 +786,7 @@ class PalaceByAssist extends BaseController
 						'' AS no_cmd_for_out,
 						'' AS date_cmd_in_for_out,
 						'' AS date_out,
-						IF(t4.directiveType = '1','I',IF(t4.directiveType='2','O',IF(t4.directiveType='5','IO',''))) AS type_cmd,
+						IF(t4.orderTypeID = '1','I',IF(t4.orderTypeID='2','O',IF(t4.orderTypeID='5','IO',''))) AS type_cmd,
 						t3.positionCivilianID AS personalPositionCivilianID");
 		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
 		$builder->join("DataPersonalForces AS t3","t2.fid= t3.fid","left");
