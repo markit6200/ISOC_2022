@@ -287,8 +287,9 @@ class ReportPalaceByAssist extends BaseController
 
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
-		$builder->select('t1.org_id,count(t2.mid) AS c_num_all');
-		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->select('t1.org_id,count(*) AS c_num_all');
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID","left");
+		$builder->where("t1.profileType = '1'");
 		$builder->groupBy("t1.org_id");
 		$row_all = $builder->get()->getResultArray();
 		$num_all = array_column($row_all,'c_num_all','org_id');
@@ -296,7 +297,7 @@ class ReportPalaceByAssist extends BaseController
 		$db = db_connect();
 		$builder = $db->table('DataPositionMapOrganize AS t1');
 		$builder->select('t1.org_id,count(t2.mid) AS c_num_palace');
-		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t2.typeForce = '1'","left");
+		$builder->join("DataPersonalForcesMap AS t2","t1.positionMapID = t2.positionMapID AND t1.profileType = '1'","left");
 		$builder->where("t2.statusPackingRate = 1");
 		$builder->groupBy("t1.org_id");
 		$row_palace = $builder->get()->getResultArray();
