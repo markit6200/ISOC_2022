@@ -182,6 +182,18 @@
                 $("#loadRetireData").html(obj.html);
 
                 $('#requestRetireModal .controlData').append(`${obj.input}`);
+
+                //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั้งเสร็จแล้ว
+                if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                    $(".bt_save").hide();
+                    $(".bt_send").hide();
+                    $("#requestRetireModal .bt_del").hide();
+                }else{
+                    $(".bt_save").show();
+                    $(".bt_send").show(); //การแสดงปุ่มส่ง
+                    $(".bt_del").show();
+                }
+                $("#requestRetireModal #showSend").val(1);
             }
         });
     }

@@ -291,6 +291,7 @@ function checkRequest(org_id){
 }
 
 function checkRetire(org_id){
+    console.log("org_id="+org_id);
     var chk_arr =  $("input:checkbox[name=checkBoxReq]:checked");
     var chklength = chk_arr.filter(':checked').length;
 
@@ -359,6 +360,8 @@ function checkRetire(org_id){
                             // dataType: "text",
                             success: function (msg) {
                                 var obj = JSON.parse(msg);
+                                console.log('A');
+                                console.log(obj);
                                 
                                 $("#requestRetireModal").find('.modal-body #textOrgName').html(obj.textOrgName);
                                 $("#directiveRetire").val(obj.directiveRetire);

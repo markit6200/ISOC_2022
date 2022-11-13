@@ -42,6 +42,7 @@
                                             <select class="form-select select2" name="orderTypeID" id="orderTypeID" >
                                                 <option value="">---- ประเภทคำสั่ง ----</option>
                                                 <?php 
+                                                    unset($orderType[2]);
                                                     if (isset($orderType)){
                                                         foreach ($orderType as $key => $value) {
                                                 ?>
@@ -193,6 +194,6 @@ function delRow(mId,hID){
 
 function checkPrint(){
     var hID = $("#requestDirectiveModal #hID").val();
-    window.location = "palaceByAssist/exportExcel?hID="+hID;
+    window.location = "palaceByAssist/exportExcel?hID="+hID+"&directiveType=1";
 }
 </script>
