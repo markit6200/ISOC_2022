@@ -41,7 +41,7 @@
                                     ?>
                                             <tr>
                                                 <td class="text-center o"><?php echo $no ?></td>
-                                                <td class="text-left"><a href="<?php echo base_url('StructureByAssistRate') ?>"><?php echo $value['org_profile_name'] ?></a></td>
+                                                <td class="text-left"><a href="<?php echo base_url('StructureByAssistRate/view/'.$value['org_profile_id']) ?>"><?php echo $value['org_profile_name'] ?></a></td>
                                                 <td class="text-center"><?php echo $value['org_profile_year'] != '' ? $value['org_profile_year'] + 543 : '-' ?></td>
                                                 <td class="text-center"><?php echo $value['org_profile_status'] == 1 ? 'ใช้งาน' : 'ไม่ใช้งาน' ?></td>
                                                 <td class="text-center"><?php echo dayThai($value['org_date_announce']) ?></td>
