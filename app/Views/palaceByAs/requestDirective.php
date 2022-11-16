@@ -22,8 +22,12 @@
                             <input type="hidden" class="form-control" id="rOrgId" name="rOrgId">
                             <input type="hidden" class="form-control" id="hID" name="hID">
                             <input type="hidden" class="form-control" id="statusDirective" name="statusDirective">
+                            <input type="hidden" class="form-control" id="showSend" name="showSend">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="mb-3 row">
+                                        <label for="" class="col-12 col-md-12 form-label text-center" id="textOrgName"></label>
+                                    </div>
                                     <div class="mb-3 row">
                                         <label for="" class="col-12 col-md-2 form-label"></label>
                                         <label for="directiveBegin" class="col-12 col-md-2 form-label text-end">คำสั่งปฏิบัติ</label>
@@ -38,6 +42,7 @@
                                             <select class="form-select select2" name="orderTypeID" id="orderTypeID" >
                                                 <option value="">---- ประเภทคำสั่ง ----</option>
                                                 <?php 
+                                                    unset($orderType[2]);
                                                     if (isset($orderType)){
                                                         foreach ($orderType as $key => $value) {
                                                 ?>
@@ -76,8 +81,10 @@
                             </div>
                             
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success" onclick="checkSave()">บันทึก</button>
-                                <button type="submit" class="btn btn-primary" onclick="checkSend()">ส่งไปออกคำสั่ง</button>
+                                <button type="submit" class="btn btn-success bt_save" onclick="checkSave()">บันทึก</button>
+                                <!-- <button type="submit" class="btn btn-primary bt_send" onclick="checkSend()">ส่งไปออกคำสั่ง</button> -->
+                                <button type="button" class="btn btn-primary bt_send" onclick="checkSend()">ส่งไปออกคำสั่ง</button>
+                                <button type="button" class="btn btn-info" onclick="checkPrint()">พิมพ์</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="checkClose()">ปิด</button>
                             </div>
                         </form>
@@ -109,7 +116,22 @@
 
 <script>
 $( document ).ready(function() {
-   
+
+});
+
+$(document).on("change", "#orderTypeID", function(){
+    // console.log('orderTypeID='+$(this).val());
+    if($(this).val() === "3"){
+        $(".bt_send").hide();
+    }else if($(this).val() === "4"){
+        $(".bt_send").hide();
+    }else{
+        if($("#showSend").val()==1){
+            $(".bt_send").show();
+        }else{
+            $(".bt_send").hide();
+        }
+    }
 });
 
 function checkSave(){
@@ -120,6 +142,38 @@ function checkSave(){
 function checkSend(){
     $("#statusPackingRate").val(5);
     $("#statusDirective").val(1);
+
+    var hID = $("#requestDirectiveModal #hID").val();
+
+    $.ajax({
+        url:  "PalaceByAssist/getDataSendDirective",
+        method: "post",
+        data: {hID:hID},
+        dataType: "text",
+        success: function (obj) {
+            $.ajax({
+                type: "POST",
+                url: "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
+                dataType: "json",
+                data: obj,
+                success: function(msg){
+                    if(msg.result == 'success'){
+                        console.log("======data success========");
+                        console.log(msg.response);
+                        $('#forReq').submit();
+                    }else{
+                        console.log("======data error========");
+                        console.log(msg.response);
+                        Swal.fire({
+                            title: 'ไม่สามารถส่งไปออกคำสั่งได้',
+                            text: '',
+                            icon: 'error'
+                        })
+                    }
+                }
+            });
+        }
+    });
 }
 
 function delRow(mId,hID){
@@ -138,4 +192,8 @@ function delRow(mId,hID){
     });
 }
 
+function checkPrint(){
+    var hID = $("#requestDirectiveModal #hID").val();
+    window.location = "palaceByAssist/exportExcel?hID="+hID+"&directiveType=1";
+}
 </script>

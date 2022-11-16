@@ -47,12 +47,12 @@
                                             $i=1+(($currentPage-1) * $perPage);
                                             foreach ($headData as $key => $value){
                                                 $orderTypeText = isset($orderType[$value['orderTypeID']])?$orderType[$value['orderTypeID']]:'';
-                                                $org_name = $value['org_name'];
+                                                // $org_name = $value['org_name'];
                                     ?>
                                                 <tr>
                                                     <td class="text-center" style="width:6rem;"><?php echo $i++; ?></td>
                                                     <td class="text-left"><?php echo $orderTypeText; ?></td>
-                                                    <td class="text-left"><?php echo $org_name; ?></td>
+                                                    <td class="text-left"><?php echo $value['org_full_name']; ?></td>
                                                     <td class="text-center"><?php echo $value['directiveNo']; ?></td>
                                                     <td class="text-center"><?php echo (@$value['c_num'] !='')?@number_format(@$value['c_num'], 0, '.', ''):''; ?></td>
                                                     <td class="text-center">
@@ -73,9 +73,14 @@
                                                                 <?php
                                                                 } 
                                                                 ?>
-                                                                <button class="btn btn-danger">&nbsp;
+
+                                                                <?php
+                                                                $chk_disabled = ($value['statusDirective'] == '0')?"":"disabled";
+                                                                ?>
+                                                                <button class="btn btn-danger" <?php echo $chk_disabled;?> onclick="delByhID('<?php echo $value['hID'];?>')">&nbsp;
                                                                     <i class="mdi mdi-close-circle-outline"></i>&nbsp;ลบ
                                                                 </button>
+
                                                             </div>
                                                         </div>
                                                     </td>
@@ -108,6 +113,9 @@
 
 <?= $this->include('personalManagement/modal') ?>
 <?= $this->endSection() ?>
+<?= $this->section('cssTopContent')?>
+<link href="<?php echo base_url() ?>/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<?= $this->endSection() ?>
 <?= $this->section('jsContent')?>
 <script src="<?php echo base_url() ?>/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
@@ -126,15 +134,30 @@
             // dataType: "text",
             success: function (msg) {
                 var obj = JSON.parse(msg);
+                // console.log(obj);
                 
+                $("#textOrgName").html(obj.textOrgName);
                 $("#directiveBegin").val(obj.directiveBegin);
                 $("#hID").val(obj.hID);
                 $("#orderTypeID").val(obj.orderTypeID);
                 $("#requestDirectiveModal").find('.modal-body #rOrgId').val(obj.org_id);
-
+                
                 $("#loadPData").html(obj.html);
 
                 $('#requestDirectiveModal .controlData').append(`${obj.input}`);
+
+                //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั้งเสร็จแล้ว
+                if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                    $(".bt_save").hide();
+                    $(".bt_send").hide();
+                    $("#requestDirectiveModal .bt_del").hide();
+                }else{
+                    $(".bt_save").show();
+                    $(".bt_send").show(); //การแสดงปุ่มส่ง
+                    $(".bt_del").show();
+                }
+
+                $("#showSend").val(1);
             }
         });
     }
@@ -159,6 +182,58 @@
                 $("#loadRetireData").html(obj.html);
 
                 $('#requestRetireModal .controlData').append(`${obj.input}`);
+
+                //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั้งเสร็จแล้ว
+                if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                    $(".bt_save").hide();
+                    $(".bt_send").hide();
+                    $("#requestRetireModal .bt_del").hide();
+                }else{
+                    $(".bt_save").show();
+                    $(".bt_send").show(); //การแสดงปุ่มส่ง
+                    $(".bt_del").show();
+                }
+                $("#requestRetireModal #showSend").val(1);
+            }
+        });
+    }
+
+    function delByhID(hID){
+        Swal.fire({
+            title: "ท่านต้องการลบข้อมูลใช่หรือไม่?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#f46a6a",
+            cancelButtonText: "ยกเลิก",
+            confirmButtonText: "ลบข้อมูล",
+            reverseButtons: true
+            }).then(function (result) {
+            if (result.value) {
+                //update status
+                $.ajax({
+                    url:  "reportPalaceByAssist/saveDelByhID",
+                    method: "post",
+                    data: {hID:hID},
+                    dataType: "text",
+                    success: function (data) {
+                        if(data == 'success'){
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ลบข้อมูลเรียบร้อย',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(function() {
+                                window.location = "reportPalaceByAssist";
+                            });
+                        }else{
+                            Swal.fire({
+                                title: 'ไม่สามารถลบข้อมูลได้',
+                                text: '',
+                                icon: 'error'
+                            })
+                        }
+                    }
+                });
             }
         });
     }

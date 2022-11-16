@@ -217,12 +217,25 @@ function checkRequest(org_id){
                         $("#text_alert").html("กรุณาเลือกรายการใหม่ เนื่องจากรายการที่เลือกไม่ตรงหน่วยงาน");
                         $('#requestAlertModal').modal("show");
                     }else{
+                        getOrgName(org_id,"requestDirectiveModal");
                         $("#directiveBegin").val('');
                         $("#hID").val('');
                         $("#orderTypeID").val('');
 
                         $("#loadPData").html(data);
                         $('#requestDirectiveModal').modal("show");
+
+                        $(".bt_send").hide();  //การซ่อนปุ่มส่ง
+                        $("#showSend").val(0); //การซ่อนปุ่มส่ง
+
+                        //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั่งเสร็จแล้ว
+                        if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                            $(".bt_save").hide();
+                            $(".bt_del").hide();
+                        }else{
+                            $(".bt_save").show();
+                            $(".bt_del").show();
+                        }
                     }
                 }
             });
@@ -243,7 +256,8 @@ function checkRequest(org_id){
                             // dataType: "text",
                             success: function (msg) {
                                 var obj = JSON.parse(msg);
-                                
+
+                                $("#textOrgName").html(obj.textOrgName);
                                 $("#directiveBegin").val(obj.directiveBegin);
                                 $("#hID").val(obj.hID);
                                 $("#orderTypeID").val(obj.orderTypeID);
@@ -252,6 +266,18 @@ function checkRequest(org_id){
                                 $("#loadPData").html(obj.html);
 
                                 $('#requestDirectiveModal .controlData').append(`${obj.input}`);
+
+                                $(".bt_send").hide();  //การแสดงปุ่มส่ง
+                                $("#showSend").val(0); //การซ่อนปุ่มส่ง
+                                
+                                //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั่งเสร็จแล้ว
+                                if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                                    $(".bt_save").hide();
+                                    $(".bt_del").hide();
+                                }else{
+                                    $(".bt_save").show();
+                                    $(".bt_del").show();
+                                }
                             }
                         });
                     }else{
@@ -265,6 +291,7 @@ function checkRequest(org_id){
 }
 
 function checkRetire(org_id){
+    console.log("org_id="+org_id);
     var chk_arr =  $("input:checkbox[name=checkBoxReq]:checked");
     var chklength = chk_arr.filter(':checked').length;
 
@@ -294,12 +321,25 @@ function checkRetire(org_id){
                         $("#text_alert").html("กรุณาเลือกรายการใหม่ เนื่องจากรายการที่เลือกไม่ตรงหน่วยงาน");
                         $('#requestAlertModal').modal("show");
                     }else{
+                        getOrgName(org_id,"requestRetireModal");
                         $("#directiveBegin").val('');
                         $("#hID").val('');
                         $("#orderTypeID").val('');
 
                         $("#loadRetireData").html(data);
                         $('#requestRetireModal').modal("show");
+
+                        $(".bt_send").hide();  //การซ่อนปุ่มส่ง
+                        $("#showSend").val(0); //การซ่อนปุ่มส่ง
+
+                        //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั่งเสร็จแล้ว
+                        if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                            $(".bt_save").hide();
+                            $(".bt_del").hide();
+                        }else{
+                            $(".bt_save").show();
+                            $(".bt_del").show();
+                        }
                     }
                 }
             });
@@ -320,7 +360,10 @@ function checkRetire(org_id){
                             // dataType: "text",
                             success: function (msg) {
                                 var obj = JSON.parse(msg);
+                                console.log('A');
+                                console.log(obj);
                                 
+                                $("#requestRetireModal").find('.modal-body #textOrgName').html(obj.textOrgName);
                                 $("#directiveRetire").val(obj.directiveRetire);
                                 $("#hIDRetire").val(obj.hIDRetire);
                                 $("#requestRetireModal").find('.modal-body #orderTypeID').val(obj.orderTypeID);
@@ -329,6 +372,18 @@ function checkRetire(org_id){
                                 $("#loadRetireData").html(obj.html);
 
                                 $('#requestRetireModal .controlData').append(`${obj.input}`);
+
+                                $(".bt_send").hide();  //การซ่อนปุ่มส่ง
+                                $("#showSend").val(0); //การซ่อนปุ่มส่ง
+
+                                //ซ่อนปุ่มเมื่อ 1 ส่งแล้ว,2=ออกคำสั่งเสร็จแล้ว
+                                if(obj.statusDirective == 1 || obj.statusDirective == 2){
+                                    $(".bt_save").hide();
+                                    $(".bt_del").hide();
+                                }else{
+                                    $(".bt_save").show();
+                                    $(".bt_del").show();
+                                }
                             }
                         });
                     }else{
@@ -361,6 +416,20 @@ $( document ).ready(function() {
         $("input[name='checkBoxRetire']:checkbox").prop('checked',false);
     });
 });
+
+function getOrgName(org_id,modal){
+    $.ajax({
+        url:  "PalaceByAssist/getOrgFullName",
+        method: "post",
+        data: {org_id:org_id},
+        dataType: "text",
+        success: function (msg) {
+            var obj = JSON.parse(msg);
+            $("#"+modal+" #textOrgName").html(obj.textOrgName);
+        }
+    });
+}
+
 
 </script>
 <?= $this->endSection() ?>

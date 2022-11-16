@@ -22,8 +22,13 @@
                             <input type="hidden" class="form-control" id="rOrgId" name="rOrgId">
                             <input type="hidden" class="form-control" id="hIDRetire" name="hIDRetire">
                             <input type="hidden" class="form-control" id="statusDirective" name="statusDirective">
+                            <input type="hidden" class="form-control" id="showSend" name="showSend">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <div class="mb-3 row">
+                                        <label for="" class="col-12 col-md-12 form-label text-center" id="textOrgName"></label>
+                                    </div>
+
                                     <div class="mb-3 row">
                                         <label for="" class="col-12 col-md-2 form-label"></label>
                                         <label for="directiveRetire" class="col-12 col-md-2 form-label text-end">คำสั่งพ้น</label>
@@ -39,6 +44,7 @@
                                             <select class="form-select select2" name="orderTypeID" id="orderTypeID" >
                                                 <option value="">---- ประเภทคำสั่ง ----</option>
                                                 <?php 
+                                                    unset($orderType[1],$orderType[3],$orderType[4],$orderType[5]);
                                                     if (isset($orderType)){
                                                         foreach ($orderType as $key => $value) {
                                                 ?>
@@ -76,8 +82,10 @@
                             </div>
                             
                             <div class="text-center">
-                                <button type="submit" class="btn btn-success" onclick="checkRetireSave()">บันทึก</button>
-                                <button type="submit" class="btn btn-primary" onclick="checkRetireSend()">ส่งไปคำสั่งพ้น</button>
+                                <button type="submit" class="btn btn-success bt_save" onclick="checkRetireSave()">บันทึก</button>
+                                <!-- <button type="submit" class="btn btn-primary bt_send" onclick="checkRetireSend()">ส่งไปคำสั่งพ้น</button> -->
+                                <button type="button" class="btn btn-primary bt_send" onclick="checkRetireSend()">ส่งไปคำสั่งพ้น</button>
+                                <button type="button" class="btn btn-info" onclick="checkRetirePrint()">พิมพ์</button>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
                             </div>
                         </form>
@@ -109,6 +117,19 @@
 <script src="assets/js/app.js"></script>
 
 <script>
+$(document).on("change", "#orderTypeIDRetire", function(){
+    if($(this).val() === "3"){
+        $(".bt_send").hide();
+    }else if($(this).val() === "4"){
+        $(".bt_send").hide();
+    }else{
+        if($("#requestRetireModal #showSend").val()==1){
+            $(".bt_send").show();
+        }else{
+            $(".bt_send").hide();
+        }
+    }
+});
 
 function checkRetireSave(){
     $("#requestRetireModal").find('.modal-body #statusPackingRate').val(6);
@@ -118,6 +139,39 @@ function checkRetireSave(){
 function checkRetireSend(){
     $("#requestRetireModal").find('.modal-body #statusPackingRate').val(7);
     $("#requestRetireModal").find('.modal-body #statusDirective').val(1);
+
+    var hID = $("#requestRetireModal #hIDRetire").val();
+
+    $.ajax({
+        url:  "PalaceByAssist/getDataSendRetire",
+        method: "post",
+        data: {hID:hID},
+        dataType: "text",
+        success: function (obj) {
+            // console.log(obj);
+            $.ajax({
+                type: "POST",
+                url: "http://dev.jarvittechnology.co.th:8074/isoc_master/application/import_system/import_order.php",
+                dataType: "json",
+                data: obj,
+                success: function(msg){
+                    if(msg.result == 'success'){
+                        console.log("======data success========");
+                        console.log(msg.response);
+                        $('#forRetire').submit();
+                    }else{
+                        console.log("======data error========");
+                        console.log(msg.response);
+                        Swal.fire({
+                            title: 'ไม่สามารถส่งไปออกคำสั่งได้',
+                            text: '',
+                            icon: 'error'
+                        })
+                    }
+                }
+            });
+        }
+    });
 }
 
 function delRowRetire(mId,hIDRetire){
@@ -136,4 +190,8 @@ function delRowRetire(mId,hIDRetire){
     });
 }
 
+function checkRetirePrint(){
+    var hID = $("#requestRetireModal #hIDRetire").val();
+    window.location = "palaceByAssist/exportExcel?hID="+hID+"&directiveType=2";
+}
 </script>

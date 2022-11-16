@@ -13,6 +13,7 @@ class OrganizeProfile extends BaseController
 
 	public function index()
 	{
+        $session = session();
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'โปรไฟล์ผังองค์กร']),
 			'page_title' => view('partials/page-title', ['title' => 'โปรไฟล์ผังองค์กร', 'pagetitle' => 'Minible']),
@@ -27,6 +28,7 @@ class OrganizeProfile extends BaseController
 		$data['title'] = 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.';
 		$data['profile'] = $this->organizeProfileModel->findAll();
 		$data['year'] = $year;
+		$data['session_login'] = $session->get();
 		return view('organizeProfile/index', $data)
 				. view('organizeProfile/modalDuplicate', $data);
 	}

@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 ini_set('memory_limit', '-1');
 
+use App\Models\OrganizeProfileModel;
 use App\Models\UsersModel;
 use App\Models\OrganizeModel;
 use App\Models\GeneralModel;
@@ -16,13 +17,15 @@ class StructureByAssistRate extends BaseController
 		$this->DataPositionMapOrganizeModel = new DataPositionMapOrganizeModel();
 		$this->OrganizeModel = new OrganizeModel();
 		$this->GeneralModel = new GeneralModel();
+        $this->organizeProfileModel = new OrganizeProfileModel();
         // $this->data['currentAdminMenu'] = 'catalogue';
         // $this->data['currentAdminSubMenu'] = 'brand';
     }
 
-	public function index($id)
+	public function index($profileId = '1')
 	{
-		$tree = $this->OrganizeModel->getTreeList($id,0,'',1);
+        $profile = $this->organizeProfileModel->find($profileId);
+		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType']);
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
@@ -30,14 +33,15 @@ class StructureByAssistRate extends BaseController
 		];
 		$data['title'] = 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.';
 		$data['table_content'] = $tree;
-		$data['id'] = $id;
+		$data['id'] = $profileId;
 		
 		return view('structureByAsRate/index', $data);
 	}
 
-	public function view($id)
+	public function view($profileId = '1')
 	{
-		$tree = $this->OrganizeModel->getTreeList($id,0,'',1);
+		$profile = $this->organizeProfileModel->find($profileId);
+		$tree = $this->OrganizeModel->getTreeList($profileId,0,'',$profile['profileType']);
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
@@ -45,7 +49,7 @@ class StructureByAssistRate extends BaseController
 		];
 		$data['title'] = 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.';
 		$data['table_content'] = $tree;
-		$data['id'] = $id;
+		$data['id'] = $profileId;
 		
 		return view('structureByAsRate/index', $data);
 	}
@@ -77,7 +81,8 @@ class StructureByAssistRate extends BaseController
 			'positionType' => $positionType,
 			'org_id' => $org_id,
 			'save_data' => $save_data,
-			'org_name' => $org_name
+			'org_name' => $org_name,
+            'profile_id' => $org->org_profile_id
 		];
 		return view('structureByAsRate/form', $data);
 	}
@@ -94,6 +99,7 @@ class StructureByAssistRate extends BaseController
 
 	public function save()
     {
+        $profile = $this->organizeProfileModel->find($this->request->getVar('profile_id'));
         $params = [
 			'positionID' => $this->request->getVar('position'),
 			'positionGroupID' => $this->request->getVar('positionGroup'),
@@ -106,9 +112,8 @@ class StructureByAssistRate extends BaseController
 			'positionNumber' => $this->request->getVar('positionNumber'),
 			'ordering' => '1',
 			'activeStatus' => '1',
-			'profileType' => '1',
+			'profileType' => $profile['profileType'],
         ];
-		
 
         if ($this->DataPositionMapOrganizeModel->save($params)) {
 			// echo $this->DataPositionMapOrganizeModel->getLastQuery();
