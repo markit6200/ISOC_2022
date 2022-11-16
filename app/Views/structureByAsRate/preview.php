@@ -25,37 +25,55 @@
                         <div class="col-md-12 mb-2">
                             <div class="d-inline">
                                 <div class="float-end">
-                                    <a href="<?php echo base_url('StructureByAssistRate/import/'.$id)?>" title="นำเข้าข้อมูล" class="btn btn-default btn-warning"><i class="fas fa-file-import"></i></a>
-                                    <a href="#" title="ส่งออกข้อมูล" class="btn btn-default btn-success"><i class="fas fa-file-excel"></i></a>
+                                    <a href="#" title="นำเข้าข้อมูล" class="btn btn-default btn-warning"><i class="fas fa-file-import"></i></a>
+                                    <a href="<?php echo base_url('StructureByAssistRate/import')?>" title="ส่งออกข้อมูล" class="btn btn-default btn-success"><i class="fas fa-file-excel"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead class="table-light">
-                                    <tr>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:6rem;">ลำดับ</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:15rem;">
-                                            ชื่อตำแหน่งใน กอ.รมน./<br>ชื่อตำแหน่งในการบริหาร</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:6rem;">
-                                            เหล่า</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:9rem;">
-                                            ประเภท</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:11rem;">
-                                            ชื่อตำแหน่งใน<br>สายงานพลเรือน</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:7rem;">
-                                            ระดับพลเรือนหรือเทียบเท่า</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width:10rem;">ชั้นยศ</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width: 5rem;">
-                                            ตำแหน่ง<br>เลขที่</th>
-                                        <th scope="col" class="text-dark fw-bold text-center" style="width: 14rem;">
-                                            เครื่องมือ</th>
-
-                                    </tr>
+                                    <?php 
+                                       if (isset($previewData) && !empty($previewData)) {
+                                        foreach ($previewData as $index => $row) {
+                                            if ($index == 1) {
+                                            ?>
+                                            <tr>
+                                                <?php 
+                                                foreach($row as $key => $col){
+                                                    ?>
+                                                    <td><?php echo $col ?></td>
+                                                    <?php
+                                                }
+                                            ?>
+                                            </tr>
+                                            <?php 
+                                            }
+                                        }
+                                        
+                                       }
+                                    ?>
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        echo $table_content;
+                                       if (isset($previewData) && !empty($previewData)) {
+                                        foreach ($previewData as $index => $row) {
+                                            if ($index >=2) {
+                                            ?>
+                                            <tr>
+                                                <?php 
+                                                foreach($row as $key => $col){
+                                                    ?>
+                                                    <td><?php echo $col ?></td>
+                                                    <?php
+                                                }
+                                            ?>
+                                            </tr>
+                                            <?php 
+                                            }
+                                        }
+                                        
+                                       }
                                     ?>
                                 </tbody>
                             </table>

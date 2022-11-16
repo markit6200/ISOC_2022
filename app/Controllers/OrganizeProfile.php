@@ -19,10 +19,18 @@ class OrganizeProfile extends BaseController
 			'page_title' => view('partials/page-title', ['title' => 'โปรไฟล์ผังองค์กร', 'pagetitle' => 'Minible']),
 			
 		];
+		$year = array();
+		$year_now = date('Y');
+		$year_start = $year_now - 5;
+		for ($i=0; $i <= 10 ; $i++) { 
+			$year[$year_start+$i] = $year_start+$i+543;
+		}
 		$data['title'] = 'ระบบโครงสร้างตามอัตราช่วยราชการ กอ.รมน.';
 		$data['profile'] = $this->organizeProfileModel->findAll();
+		$data['year'] = $year;
 		$data['session_login'] = $session->get();
-		return view('organizeProfile/index', $data);
+		return view('organizeProfile/index', $data)
+				. view('organizeProfile/modalDuplicate', $data);
 	}
 
 	public function form($id='')
@@ -63,6 +71,7 @@ class OrganizeProfile extends BaseController
         $profile = $this->organizeProfileModel->find($profileId);
 		$tree = $this->organizeModel->getOrgList($profileId,0,'',$profile['profileType']);
 		$data['title'] = 'ผังองค์กร';
+		$data['org_profile_id'] = $profileId;
 		// $data['profile'] = $this->organizeProfileModel->findAll();
 		$data['table_content'] = $tree;
 		return view('organizeProfile/structure', $data);
@@ -112,6 +121,7 @@ class OrganizeProfile extends BaseController
 			'org_profile_status' => $this->request->getVar('org_profile_status'),
 			'org_date_announce' => $this->request->getVar('org_date_announce'),
 		];
+
 		if ($this->organizeProfileModel->save($params)) {
             // $this->session->setFlashdata('success', 'Brand has been saved.');
             return redirect()->to('OrganizeProfile');
@@ -153,6 +163,7 @@ class OrganizeProfile extends BaseController
 			'org_parent' => $this->request->getVar('org_parent'),
 			'profileType' => $this->request->getVar('profileType'),
 		];
+		
 		if ($this->organizeModel->save($params)) {
             // $this->session->setFlashdata('success', 'Brand has been saved.');
             return redirect()->to('OrganizeProfile');
@@ -260,5 +271,58 @@ class OrganizeProfile extends BaseController
             return view('organizeProfile/form', $this->data);
         }
     }
+
+	public function duplicateProfile()
+	{
+		// echo "<pre>";
+		// print_r($this->request->getVar());
+		// die();
+		$id = $this->request->getVar('org_profile_id');
+		$params = [
+			'org_profile_name' => $this->request->getVar('org_profile_name'),
+			'org_profile_year' => $this->request->getVar('org_profile_year'),
+			'org_profile_status' => $this->request->getVar('org_profile_status'),
+			'org_date_announce' => $this->request->getVar('org_date_announce'),
+		];
+
+		if ($this->organizeProfileModel->save($params)){
+			$new_id = $this->organizeProfileModel->insertID;
+			$profileData = $this->organizeModel->where(array('org_profile_id'=>$id))->get()->getResultArray();
+			
+			if (!empty($profileData)) {
+				$this->organizeModel->transBegin();
+				foreach ($profileData as $key => $value) {
+					// $value['org_profile_id'] = $new_id;
+					$params = [
+						'org_profile_id' => $new_id,
+						'org_id' => $value['org_id'],
+						'org_name' => $value['org_name'],
+						'org_profile_year' => $value['org_profile_year'],
+						'org_short_name' => $value['org_short_name'],
+						'org_parent' => $value['org_parent'],
+						'profileType' => $value['profileType']
+					];
+					
+					$saveData = $this->organizeModel->insert($params);
+					echo "<pre>";
+					print_r($params);
+					print_r($saveData);
+					die();
+				}
+
+				if ($this->organizeModel->transStatus() === false) {
+					$this->organizeModel->transRollback();
+					echo 'fail';
+				} else {
+					$this->organizeModel->transCommit();
+					echo 'success';
+				}
+			} else {
+				echo 'success';
+			}
+		} else {
+			echo 'fail';
+		}
+	}
 
 }

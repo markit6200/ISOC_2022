@@ -1,5 +1,5 @@
 <?php 
-    $action = isset($save_data['org_id'])?base_url('OrganizeProfile/updateStructure/'.$save_data['org_id']):base_url('OrganizeProfile/saveStructure');
+    $action = isset($save_data['org_id'])?base_url('OrganizeProfile/updateOrganize/'.$save_data['org_id']):base_url('OrganizeProfile/saveOrganize');
     $prefix = isset($save_data['org_id'])?'แก้ไข':'เพิ่ม';
 ?>
 <?= $this->extend('theme/admin') ?>
