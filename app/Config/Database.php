@@ -32,9 +32,9 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
+        'hostname' => 'db',
         'username' => 'root',
-        'password' => 'rootroot',
+        'password' => 'pass',
         'database' => 'isoc_data',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
@@ -52,9 +52,9 @@ class Database extends Config
 
     public $usermanager = [
         'DSN'      => '',
-        'hostname' => 'localhost',
+        'hostname' => 'db',
         'username' => 'root',
-        'password' => 'rootroot',
+        'password' => 'pass',
         'database' => 'isoc_usermanager',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
@@ -72,9 +72,9 @@ class Database extends Config
 
     public $master = [
         'DSN'      => '',
-        'hostname' => 'localhost',
+        'hostname' => 'db',
         'username' => 'root',
-        'password' => 'rootroot',
+        'password' => 'pass',
         'database' => 'isoc_master',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
