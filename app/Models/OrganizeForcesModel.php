@@ -45,11 +45,11 @@ class OrganizeForcesModel extends Model
 		if(count($result)>0){
 			foreach( $result as $key => $value ){
 				$this->num++;
-				$positionTxt = $position[$value->positionID];
-                $personalTypeTxt = $personalType[$value->positionType];
-				$positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
-				$positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
-				$positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
+				$positionTxt = !empty($position[$value->positionID])?$position[$value->positionID]:'';
+                $personalTypeTxt = !empty($personalType[$value->positionType])?$personalType[$value->positionType]:'';
+				// $positionGroupTxt = !empty($positionGroup[$value->positionGroupID])?$positionGroup[$value->positionGroupID]:'-';
+				// $positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
+				// $positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
 				$rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
 				$rankToTxt = !empty($value->rankIDTo)?' - '.$rankShort[$value->rankIDTo]:'';
 				$positionNumberTxt = $value->positionNumber;
@@ -375,13 +375,13 @@ class OrganizeForcesModel extends Model
         if(count($result)>0){
             foreach( $result as $key => $value ){
                 $this->num++;
-                $positionTxt = $position[$value->positionID];
-                $personalTypeTxt = $personalType[$value->positionType];
-                $positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
-                $positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
-                $positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
-                $rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
-                $rankToTxt = !empty($value->rankIDTo)?' - '.$rankShort[$value->rankIDTo]:'';
+                $positionTxt = !empty($position[$value->positionID])?$position[$value->positionID]:'';
+                $personalTypeTxt = !empty($personalType[$value->positionType])?$personalType[$value->positionType]:'-';
+                // $positionGroupTxt = !empty($positionGroup[$value->positionGroupID])?$positionGroup[$value->positionGroupID]:'-';
+                // $positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
+                // $positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
+                // $rankTxt = !empty($value->rankID)?$rankShort[$value->rankID]:'-';
+                // $rankToTxt = !empty($value->rankIDTo)?' - '.$rankShort[$value->rankIDTo]:'';
                 $positionNumberTxt = $value->positionNumber;
                 $fullName = $value->firstName.' '.$value->lastName;
                 $personalPositionCivilianTxt = !empty($value->personalPositionCivilianID)?$positionCivilian[$value->personalPositionCivilianID]:'';
