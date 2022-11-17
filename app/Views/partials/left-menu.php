@@ -5,10 +5,10 @@
     <div class="navbar-brand-box">
         <a href="/" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="<?php echo base_url() ?>assets/images/logo-sm.png" alt="" height="22">
+                <img src="<?php echo base_url() ?>/assets/images/logo-sm.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo base_url() ?>assets/images/logo-dark.png" alt="" height="20">
+                <img src="<?php echo base_url() ?>/assets/images/logo-dark.png" alt="" height="20">
                 
             </span>
         </a>
@@ -217,10 +217,10 @@
                         <span>ข้อมูลข้าราชการพลเรือน ลูกจ้างชั่วคราว พนักงานราชการ</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#">ระบบทำเนียบรายชื่อข้าราชการพลเรือน/ลูกจ้างชั่วคราว/พนักงานราชการ</a></li>
-                        <li><a href="#">ข้อมูลข้าราชการพลเรือน</a></li>
-                        <li><a href="#">ข้อมูลลูกจ้างชั่วคราว</a></li>
-                        <li><a href="#">ข้อมูลพนักงานราชการ</a></li>
+                        <li><a href="<?php echo base_url('OfficerRecords') ?>">ระบบทำเนียบรายชื่อข้าราชการพลเรือน/ลูกจ้างชั่วคราว/พนักงานราชการ</a></li>
+                        <li><a href="<?php echo base_url('OfficerManagement') ?>">ข้อมูลข้าราชการพลเรือน</a></li>
+                        <li><a href="<?php echo base_url('OfficerManagement') ?>">ข้อมูลลูกจ้างชั่วคราว</a></li>
+                        <li><a href="<?php echo base_url('OfficerManagement') ?>">ข้อมูลพนักงานราชการ</a></li>
                     </ul>
                 </li>
 
