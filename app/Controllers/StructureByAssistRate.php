@@ -295,15 +295,15 @@ class StructureByAssistRate extends BaseController
 						return redirect()->to('StructureByAssistRate/import');
 					} else {
 						$this->DataPositionMapOrganizeModel->transCommit();
-						$previewData = $this->OrganizeModel->importToDB($uploadId,2);
-						if ($previewData) {
-							return redirect()->to('StructureByAssistRate/view/'.$profileId);
-						}else{
-							$this->session->setFlashdata('errors', 'import fail');
-							return redirect()->to('StructureByAssistRate/import');
-						}
+						// $previewData = $this->OrganizeModel->importToDB($uploadId,$profileId);
+						// if ($previewData) {
+						// 	return redirect()->to('StructureByAssistRate/view/'.$profileId);
+						// }else{
+						// 	$this->session->setFlashdata('errors', 'import fail');
+						// 	return redirect()->to('StructureByAssistRate/import');
+						// }
 						// echo 'success';
-						// return redirect()->to('StructureByAssistRate/preview/1');
+						return redirect()->to('StructureByAssistRate/preview/'.$profileId.'/'.$uploadId);
 					}
 				}
 				
@@ -370,18 +370,28 @@ class StructureByAssistRate extends BaseController
 		// return redirect()->route('/');
 	}
 	
-	public function preview($id)
+	public function preview($profileId,$id)
 	{
-		$previewData = $this->OrganizeModel->importToDB($id,2);
-		die();
 		$previewData = $this->OrganizeModel->getTempImport($id);
 		$data = [
 			'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
 			'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'pagetitle' => 'Minible']),
-			'previewData' => $previewData
+			'previewData' => $previewData,
+			'profileId' => $profileId,
+			'uploadId' => $id,
 		];
 		
 		return view('structureByAsRate/preview', $data);
+	}
+
+	public function ajaxImportData($profileId,$uploadId)
+	{
+		$previewData = $this->OrganizeModel->importToDB($uploadId,$profileId);
+		if ($previewData) {
+			echo 'success';
+		}else{
+			echo 'fail';
+		}
 	}
 
 	public function ajaxGetRank($id)

@@ -58,8 +58,8 @@ class OrganizeModel extends Model
 				
 				$this->num++;
 				$positionTxt = !empty($position[$value->positionID]) ? $position[$value->positionID] : '';
-				$personalTypeTxt = $personalType[$value->positionType];
-				$positionGroupTxt = !empty($value->positionGroupID)?$positionGroup[$value->positionGroupID]:'-';
+				$personalTypeTxt = !empty($personalType[$value->positionType]) ? $personalType[$value->positionType] : '';
+				$positionGroupTxt = !empty($value->positionGroupID) && isset($positionGroup[$value->positionGroupID])?$positionGroup[$value->positionGroupID]:'-';
 				$positionCivilianTxt = !empty($value->positionCivilianID)?$positionCivilian[$value->positionCivilianID]:'-- --';
 				$positionCivilianGroupTxt = !empty($value->positionCivilianGroupID)?$positionCivilianGroup[$value->positionCivilianGroupID]:'-';
 				$rankTxt = !empty($value->rankID) && !empty($rank[$value->rankID])?$rank[$value->rankID]:'-';
@@ -273,6 +273,7 @@ class OrganizeModel extends Model
 		// print_r($result);
 		// die();
 		$db->transBegin();
+		$tempPositionMapId = array();
 			foreach($result as $key => $value){
 				$prefix_original = addslashes(trim($value['prename']));//ตัด html tag ออก
 				$transfrom_prefix = $this->translateOcrPrefix($prefix_original);//แปลงคำนำหน้าให้เป็น code
@@ -325,6 +326,20 @@ class OrganizeModel extends Model
 					$rankIDTo = '';
 				}
 				$org_id = $this->findOrgByText(explode('|', $allOrg));
+				if ($key == 0) {
+					// $builder = $db->table('DataPositionMapOrganize');
+					// $builder->where('org_id',$org_id);
+					// $builder->where('profileID',$profileId);
+					// $tmpMapPosition = $builder->select()->get()->getCustomRowObject(0,'positionMapID');
+					// echo "<pre>";
+					// print_r($tmpMapPosition);
+					// die();
+					// Delete date
+					$builder = $db->table('DataPositionMapOrganize');
+					$builder->where('org_id',$org_id);
+					$builder->where('profileID',$profileId);
+					$builder->delete();
+				}
 				$data['positionID'] = $positionID ;
 				$data['positionGroupID'] = $positionGroupID ;
 				$data['positionCivilianID'] = $positionCivilianID ;
@@ -337,8 +352,9 @@ class OrganizeModel extends Model
 				$data['ordering'] = '0';
 				$data['activeStatus'] = '1';
 				$data['profileType'] = $value['profileType'];
-				$data['profileId'] = $profileId;
-				$positionMapID = $this->dataPositionMapOrganizeModel->save($data);
+				$data['profileID'] = $profileId;
+				$this->dataPositionMapOrganizeModel->insert($data);
+				$positionMapID = $this->dataPositionMapOrganizeModel->insertID();
 
 				// 
 				$pid = $this->matchDataPersonal(trim($value['cardId']), trim($fname), trim($lastname));
@@ -353,24 +369,24 @@ class OrganizeModel extends Model
 				} else {//========== เพิ่มข้อมูลใหม่ใน data_personal กรณีที่ไม่พบข้อมูลใน personal
 					
 					$builderPerson = $db->table($this->dataPersonal);
-					$builderPerson->set('cardID',trim($value['cardId']));
-					$builderPerson->set('hrTypeID',$positionType);
-					$builderPerson->set('codePrefix',$transfrom_prefix);
-					$builderPerson->set('firstName',$fname);
-					$builderPerson->set('lastName',$lastname);
-					$builderPerson->set('originPosition',$allOrg);
-					$builderPerson->set('orgID',$org_id);
-					$builderPerson->set('positionID',$positionID);
-					$builderPerson->set('positionGroupID',$positionGroupID);
-					$builderPerson->set('positionCivilianID',$positionCivilianID);
-					$builderPerson->set('positionCivilianGroupID',$positionCivilianGroupID);
-					$builderPerson->set('isocPosition',$allIsocPosition);
-					$builderPerson->set('belongTo',addslashes(trim($value['orgId1'])));
-					$builderPerson->set('createDate','NOW()');
-					$builderPerson->set('updateTime','NOW()');
-					$builderPerson->set('refID','');
-					$builderPerson->set('profileType',$value['profileType']);
-					$pid = $builderPerson->insert();
+					$personDdata = [
+						'cardID' => trim($value['cardId']),
+						'hrTypeID' => $positionType,
+						'codePrefix' => $transfrom_prefix,
+						'firstName' => $fname,
+						'lastName' => $lastname,
+						'originPosition' => $allOrg,
+						'orgID' => $org_id,
+						'isocPosition' => $allIsocPosition,
+						'belongTo' => addslashes(trim($value['orgId1'])),
+						'createDate' => 'NOW()',
+						'updateTime' => 'NOW()',
+						'refID' => '',
+						'profileType' => $value['profileType']
+					];
+					$builderPerson->insert($personDdata);
+					$pid =  $db->insertID();
+					
 				}
 
 				$fid = $this->matchDataPersonalForce(trim($value['cardId']), trim($fname), trim($lastname));
@@ -397,15 +413,17 @@ class OrganizeModel extends Model
 					$personalDataForce['isocPosition'] = $allIsocPosition;
 					$personalDataForce['status'] = '0';
 					$personalDataForce['profileType'] = $value['profileType'];
-					$fid = $this->dataPersonalForcesModel->save($personalDataForce);
-
+					$this->dataPersonalForcesModel->insert($personalDataForce);
+					$fid = $this->dataPersonalForcesModel->insertID();
 				}
-
+				if ($key == 0) {
+					# deleteForceMap
+				}
 				// 
 				$personalMap['fId'] = $fid;
 				$personalMap['typeForce'] = $positionType;
 				$personalMap['positionMapID'] = $positionMapID;
-				$personalMap['statusPackingRate'] = '0';
+				$personalMap['statusPackingRate'] = '1';
 				$personalMap['dateBegin'] = '';
 				$personalMap['dateEnd'] = '';
 				$personalMap['createDate'] = 'NOW()';

@@ -7,5 +7,5 @@ class DataPersonalForcesModel extends Model
 {
     protected $table      = 'DataPersonalForces';
 	protected $primaryKey = 'fid';
-    protected $allowedFields = ['fid','cardID','codePrefix','firstName','lastName','positionCivilianID'];
+    protected $allowedFields = ['fid','pid','cardID','hrTypeID','codePrefix','firstName','lastName','positionCivilianID','orgID','positionID','positionGroupID','positionCivilianGroupID','isocPosition','status','profileType'];
 }
