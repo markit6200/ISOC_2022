@@ -39,6 +39,7 @@ $routes->get('/ReportPalaceByAssist', 'ReportPalaceByAssist::index', ['filter' =
 $routes->get('/StructureByAssistRatePRMN', 'StructureByAssistRatePRMN::index', ['filter' => 'authGuard']);
 $routes->get('/PalaceByAssistPRMN', 'PalaceByAssistPRMN::index', ['filter' => 'authGuard']);
 $routes->get('/PersonalManagementPRMN', 'PersonalManagementPRMN::index', ['filter' => 'authGuard']);
+$routes->get('/PersonalWaitrecruit', 'PersonalWaitrecruit::index', ['filter' => 'authGuard']);
 
 $routes->get('/lang/{locale}', 'Language::index');
 // example

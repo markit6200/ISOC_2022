@@ -235,7 +235,7 @@
                 <li ><a href="javascript: void(0);" class="waves-effect">บันทึกเครื่องราชอิสริยาภรณ์ของข้าราชการพลเรือน และพนักงานราชการ</a></li>
                 <li ><a href="javascript: void(0);" class="waves-effect">ขอรับสิทธิตามระเบียบ บ.ท.ช.</a></li>
                 <li ><a href="javascript: void(0);" class="waves-effect">บันทึกเหรียญพิทักษ์เสรีชน</a></li>
-                <li ><a href="javascript: void(0);" class="waves-effect">บันทึกรายชื่อผู้รอบรรจุ</a></li>
+                <li ><a href="<?php echo base_url('PersonalWaitrecruit') ?>" class="waves-effect">บันทึกรายชื่อผู้รอบรรจุ</a></li>
                 <li ><a href="javascript: void(0);" class="waves-effect">บันทึกการทำบัตรผ่าน (สขว.กอ.รมน.)</a></li>
 
                 <li class="menu-title"><i class="fas fa-layer-group"></i> บริหารจัดการระบบ</li>
